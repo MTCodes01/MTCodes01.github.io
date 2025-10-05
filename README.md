@@ -1,29 +1,35 @@
-# MTCodes01.github.io
-<h1 align="center">Hello World! 👋 I'm SREEDEV, aka MT! <img src="https://media.giphy.com/media/WUlplcMpOCEmTGBtBW/giphy.gif" width="40"></h1>
-<h3 align="center">Coding Enthusiast | Redstoner | Content Creator</h3>
-
+<h1 align="center">Hello World! 👋 I'm SREEDEV, aka MT!</h1>
+<div align="center">
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=50&duration=2000&pause=500&center=true&vCenter=true&width=435&lines=-+I+am+a+Developer;I+am+a+Designer;I+am+an+Editor" alt="Typing SVG" /></a>
+</div>
 <p align="center">
   <img src="https://github-profile-trophy.vercel.app/?username=mtcodes01&theme=radical" alt="mtcodes01" />
 </p>
 
-- 🔭 **Currently Brewing:** Updating the Alchemy CEAL [Website](https://github.com/MTCodes01/alchemyiedc).
+- 🔭 **Currently Brewing:** Working on Internship.
 
-- 🌱 **Diving Deep:** Exploring the realms of **Python, C, Java, HTML, CSS, JS, and Flutter**.
+- 🌱 **Diving Deep:** Exploring the realms of **Python, Django, C, Java, HTML, CSS, JS, and React along with Docker**.
 
 - 👯 **Open Source Quests:** Looking for fellow adventurers for epic coding collaborations.
 
 - 💬 **Let's Talk:** Always up for a chat about **Python** or **Minecraft**!
 
-- 📫 **Reach Out:** Catch me on Discord as **mt_yt**.
+- 📫 **Reach Out:** Catch me on Discord as **`_mt_yt_`**.
 
 ## Recent Projects
 
-1. [HVH : Hybrid-Vision-Hub](https://github.com/MTCodes01/HVH) : A project made for the Arcane Hackathon.
-2. [The-Solsticers](https://github.com/MTCodes01/The-Solsticers) : A project made for the NASA Space Apps Challege.
-3. [Spotlet](https://github.com/MTCodes01/Spotlet) : A website for new comers to view nearby hostels easily.
-4. [Parasseri-Techies](https://github.com/MTCodes01/Parasseri-Techies) : A ML project made for a project expo.
-5. [Matrix-Calculator](https://github.com/MTCodes01/Matrix-Calculator) : A python project I made 2 years back, and it got a huge update a few months back.
-</p>
+1. [Inspetto](https://github.com/MTCodes01/Inspetto-team-7) : A project made for the HACKON2.0, 48hr Hackathon at MCET, Anad
+2. [IEEE-CEAL Website](https://github.com/MTCodes01/IEEE-CEAL) : A Website for IEEE in my college.
+3. [IEEE-Event-Calender](https://github.com/MTCodes01/IEEE-Event-Calender) : A Website to avoid Collision for Event Day booking.
+4. [To-Do-Tasks-Template](https://github.com/MTCodes01/To-Do-Tasks-Template) : A Template Repo for a website to add and view tasks.
+5. [Discord-Bot](https://github.com/MTCodes01/Discord-Bot) : A Template for start making a discord bot in Python.
+6. [Riotz](https://github.com/MTCodes01/Riotz) : A project made for FOSSathon _(Hackathon conducted by FOSS @CEAL)_ during the college fest Daksha Yanthra '25.
+7. [ClauseWise](https://github.com/MTCodes01/ClauseWise) : A project made for the FOSS HACK 2025 Hackathon.
+8. [Ecox](https://github.com/MTCodes01/Pattona-Pattans) : A project made for the Hacktopia Hackathon.
+9. [HVH : Health-Vigilance-Hub](https://github.com/MTCodes01/HVH-Health-Vigilance-Hub) : A project made for the Hack4Good Hackathon.
+10. [HVH : Hybrid-Vision-Hub](https://github.com/MTCodes01/HVH) : A project made for the Arcane Hackathon.
+11. [The-Solsticers](https://github.com/MTCodes01/The-Solsticers) : A project made for the NASA Space Apps Challege.
+</p> 
 
 <h3 align="center" class="title">Connect with Me</h3>
 <p align="center">
@@ -91,8 +97,13 @@
   <img src="https://github-readme-stats.vercel.app/api?username=mtcodes01&theme=dark&show_icons=true&locale=en" alt="mtcodes01" />
 </p>
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=mtcodes01&theme=dark&" alt="mtcodes01" />
+  <img src="https://streak-stats.demolab.com?user=mtcodes01&theme=dark&exclude_days=Sun%2CSat" alt="GitHub Streak" />
 </p>
+<p align="center">
+<img src="https://raw.githubusercontent.com/mtcodes01/mtcodes01/output/snake.svg" alt="Snake animation" />
+</p>
+
+###
 
 <div align="center">
   Every line of code is a step forward, unlocking new possibilities. The journey of innovation and discovery never truly ends. Let's keep pushing the boundaries! 🚀✨
