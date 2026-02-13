@@ -1,32 +1,33 @@
 import React, { useState, useRef, useEffect } from 'react';
 
 const COMMANDS: Record<string, () => string> = {
-  whoami: () => `John Doe - Full Stack Developer
-Location: San Francisco, CA
-Passion: Building amazing web experiences`,
+  whoami: () => `Sreedev S S — Developer, Designer, Editor
+Location: Thiruvananthapuram, India
+Education: B.Tech in CSE, College of Engineering, Attingal
+Passion: Building impactful digital experiences`,
   
   skills: () => `Technical Skills:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Frontend:  React, TypeScript, Next.js, Tailwind CSS
-Backend:   Node.js, Express, PostgreSQL, MongoDB
-DevOps:    Docker, AWS, CI/CD, Git
-Tools:     VS Code, Figma, Postman`,
+Design:    Figma, Photoshop
+Frontend:  HTML, CSS, JS (React), TypeScript
+Backend:   Python (Django, Flask)
+Editing:   After Effects, Da Vinci
+Database:  MySQL, Postgres, SQLite`,
 
   projects: () => `Featured Projects:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. E-Commerce Platform - Full-stack shopping solution
-2. Task Manager - Collaborative productivity app
-3. Weather Dashboard - Real-time weather tracking
-4. Analytics Tool - Social media insights
+Check out my work on GitHub:
+github.com/MTCodes01
 
 Type 'open projects' to view details`,
 
   contact: () => `Contact Information:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Email:    john.doe@example.com
-GitHub:   github.com/johndoe
-LinkedIn: linkedin.com/in/johndoe
-Twitter:  @johndoe`,
+Email:     sreedevss05@gmail.com
+GitHub:    github.com/MTCodes01
+LinkedIn:  linkedin.com/in/sreedevss
+Instagram: @_mt_yt_
+YouTube:   @MT_yt`,
 
   help: () => `Available Commands:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

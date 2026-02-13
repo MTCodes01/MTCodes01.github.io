@@ -45,23 +45,24 @@ const ContactApp: React.FC = () => {
                 <span className="text-[#00f0ff] text-xl font-bold">@</span>
                 <h3 className="font-bold text-sm uppercase tracking-wider">Email</h3>
               </div>
-              <p className="text-white/70 text-sm font-mono pl-8">john.doe@example.com</p>
+              <p className="text-white/70 text-sm font-mono pl-8">sreedevss05@gmail.com</p>
             </div>
 
             <div className="border border-white/10 p-6 bg-black/40 hover:border-[#00f0ff] transition-colors relative group">
                <div className="absolute top-0 right-0 w-2 h-2 bg-white/10 group-hover:bg-[#00f0ff] transition-colors" />
               <div className="flex items-center gap-4 mb-2">
                 <span className="text-[#00f0ff] text-xl font-bold">#</span>
-                <h3 className="font-bold text-sm uppercase tracking-wider">Phone</h3>
+                <h3 className="font-bold text-sm uppercase tracking-wider">Location</h3>
               </div>
-              <p className="text-white/70 text-sm font-mono pl-8">+1 (555) 123-4567</p>
+              <p className="text-white/70 text-sm font-mono pl-8">Thiruvananthapuram, India</p>
             </div>
 
             <div className="flex gap-4 justify-center pt-6">
               {[
-                { label: 'GH', url: 'https://github.com' },
-                { label: 'LI', url: 'https://linkedin.com' },
-                { label: 'X', url: 'https://twitter.com' }
+                { label: 'GH', url: 'https://github.com/MTCodes01' },
+                { label: 'LI', url: 'https://www.linkedin.com/in/sreedevss/' },
+                { label: 'IG', url: 'https://www.instagram.com/_mt_yt_' },
+                { label: 'YT', url: 'https://www.youtube.com/@MT_yt' }
               ].map(social => (
                 <a 
                   key={social.url}

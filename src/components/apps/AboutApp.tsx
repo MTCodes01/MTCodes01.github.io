@@ -31,7 +31,7 @@ const AboutApp: React.FC = () => {
 
         <div className="border-l-2 border-[#ff003c]/30 pl-6 text-white/80 leading-relaxed max-w-lg mb-12 font-mono text-sm md:text-base">
           <p>
-            <span className="text-[#ff003c]">{">>"}</span> Computer Science student and <span className="text-white bg-[#ff003c]/20 px-1">Python developer</span> blending technical logic with creative design. From engineering complex redstone circuits to digital design, I'm dedicated to building impactful solutions and constantly exploring new technological frontiers.
+            <span className="text-[#ff003c]">{">>"}</span> I am a <span className="text-white bg-[#ff003c]/20 px-1">Developer</span>, a <span className="text-white bg-[#ff003c]/20 px-1">Designer</span>, and an <span className="text-white bg-[#ff003c]/20 px-1">Editor</span>. B.Tech CSE student skilled in web design, frontend & backend development, and video editing. Passionate about building impactful digital experiences with clean code and creative vision.
           </p>
         </div>
 
