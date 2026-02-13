@@ -1,0 +1,263 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Checkpoint Theme Colors */
+  --bg-primary: #050505;
+  --bg-secondary: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+
+  /* Neon Accents */
+  --checkpoint-cyan: #00f0ff;
+  --checkpoint-pink: #ff003c;
+  --checkpoint-orange: #ffaa00;
+  --checkpoint-yellow: #fcee0a;
+
+  --accent: var(--checkpoint-pink);
+  /* Main accent shifted to Pink for that retro vibe */
+
+  /* UI Variables */
+  --border-color: rgba(255, 255, 255, 0.15);
+  --border-active: var(--checkpoint-pink);
+  --grid-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] {
+  /* We might want to keep light mode as a 'inverted' high contrast or just disable it */
+  --bg-primary: #e0e0e0;
+  --bg-secondary: #f5f5f5;
+  --text-primary: #050505;
+  --text-secondary: #404040;
+  --border-color: rgba(0, 0, 0, 0.15);
+  --grid-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Cross Matrix Pattern - denser and sharper */
+.bg-matrix-pattern {
+  background-color: #030303;
+  background-image:
+    radial-gradient(var(--grid-color) 1px, transparent 1px),
+    radial-gradient(var(--grid-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Alternative: Dot Matrix if radial doesn't look like crosses enough,
+   but for CSS only, small dots at offset positions create a nice dense field.
+   To get true crosses, we'd need a more complex gradient or SVG.
+   Let's try a linear gradient approach for crosses. */
+.bg-cross-pattern {
+  background-color: #020202;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: center center;
+  /* Add a second layer for density if needed, but simple grid is often best for "matrix" look */
+}
+
+/* Mac Window Controls */
+.mac-btn {
+  @apply w-3 h-3 rounded-full border border-black/10 transition-all duration-200;
+}
+
+.mac-btn-close {
+  @apply bg-[#ff5f56] hover:bg-[#ff5f56]/80 text-[8px] flex items-center justify-center text-black/50 opacity-0 hover:opacity-100;
+}
+
+.mac-btn-minimize {
+  @apply bg-[#ffbd2e] hover:bg-[#ffbd2e]/80 text-[8px] flex items-center justify-center text-black/50 opacity-0 hover:opacity-100;
+}
+
+.mac-btn-maximize {
+  @apply bg-[#27c93f] hover:bg-[#27c93f]/80 text-[8px] flex items-center justify-center text-black/50 opacity-0 hover:opacity-100;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Space Grotesk', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+code,
+pre,
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+  border-left: 1px solid var(--border-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border: 1px solid var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Selection */
+::selection {
+  background: var(--checkpoint-pink);
+  color: white;
+}
+
+/* Checkpoint Utilities */
+.bg-grid-pattern {
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(var(--grid-color) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Wireframe Panel */
+.wireframe-panel {
+  background: rgba(10, 10, 15, 0.95);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* Corner Accents */
+.corner-accent::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+  z-index: 10;
+}
+
+.corner-accent::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 8px;
+  height: 8px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+  z-index: 10;
+}
+
+/* Scanline Effect */
+.scanlines::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Glitch Text Utility */
+.glitch-hover:hover {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: var(--checkpoint-pink);
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0)
+  }
+
+  20% {
+    transform: translate(-2px, 2px)
+  }
+
+  40% {
+    transform: translate(-2px, -2px)
+  }
+
+  60% {
+    transform: translate(2px, 2px)
+  }
+
+  80% {
+    transform: translate(2px, -2px)
+  }
+
+  100% {
+    transform: translate(0)
+  }
+}
+
+/* Window Chrome - Checkpoint Style */
+.window-chrome {
+  @apply wireframe-panel;
+  border: 1px solid var(--border-color);
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.window-chrome:active,
+.window-chrome:focus-within {
+  border-color: var(--border-active);
+  box-shadow: 4px 4px 0 var(--border-active);
+  z-index: 50;
+}
+
+/* Dock styling - Checkpoint Style */
+.dock-container {
+  @apply wireframe-panel px-4 py-3 border border-white/10;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  background: rgba(5, 5, 5, 0.9);
+}
+
+/* Utility for text readability */
+.text-shadow-neon {
+  text-shadow: 0 0 5px var(--accent);
+}
+
+/* Fix for iframe trapping mouse events during drag */
+body.window-dragging iframe {
+  pointer-events: none;
+}
