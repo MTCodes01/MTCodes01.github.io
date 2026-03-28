@@ -4,6 +4,24 @@ import { useMusic } from '../contexts/MusicContext';
 const Visualizer: React.FC = () => {
   const { musicState } = useMusic();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [showVisualizer, setShowVisualizer] = React.useState(musicState.isPlaying);
+  
+  // Persist the physical bar heights across re-renders (like pausing)
+  const numBars = 100;
+  const barHeightsRef = useRef(new Array(numBars).fill(0));
+  const targetHeightsRef = useRef(new Array(numBars).fill(0));
+
+  // Synchronize internal visibility with music state, but with a "settling" delay
+  useEffect(() => {
+    if (musicState.isPlaying) {
+      setShowVisualizer(true);
+    } else {
+      const timer = setTimeout(() => {
+        setShowVisualizer(false);
+      }, 2000); // 2 second grace period for bars to fall
+      return () => clearTimeout(timer);
+    }
+  }, [musicState.isPlaying]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -22,11 +40,11 @@ const Visualizer: React.FC = () => {
 
     let animationId: number;
     // Map across a much wider array for full-width fidelity
-    const numBars = 100;
-    const barHeights = new Array(numBars).fill(2);
-    const targetHeights = new Array(numBars).fill(2);
+    const barHeights = barHeightsRef.current;
+    const targetHeights = targetHeightsRef.current;
 
     let dataArray: Uint8Array | null = null;
+    let maxPeak = 120; // Starts with a sensible default for normalization
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -36,34 +54,47 @@ const Visualizer: React.FC = () => {
         if (!dataArray || dataArray.length !== musicState.analyserNode.frequencyBinCount) {
           dataArray = new Uint8Array(musicState.analyserNode.frequencyBinCount);
         }
-        // Physically pull the active byte frequency data from the audio buffer
         musicState.analyserNode.getByteFrequencyData(dataArray as any);
 
-        // Focus solely on the lower-mid energy chunk for spanning width
+        // Calculate the current frame's peak to dynamically adjust the visual "limit"
+        let currentFrameMax = 0;
+        for (let i = 0; i < dataArray.length; i++) {
+          if (dataArray[i] > currentFrameMax) currentFrameMax = dataArray[i];
+        }
+
+        // Smoothly adjust the maxPeak ceiling (Auto-Gain Control)
+        // This ensures quiet songs boost up and loud songs don't clip harshly.
+        if (currentFrameMax > maxPeak) {
+          maxPeak = currentFrameMax; // React quickly to peaks
+        } else {
+          maxPeak = Math.max(80, maxPeak * 0.995); // Slowly decay to keep it dynamic
+        }
+
+        // Map across the spectrum
         for (let i = 0; i < numBars; i++) {
           const dataIndex = Math.floor(i * (70 / numBars)); 
           const value = dataArray[dataIndex] || 0;
           
-          const visualGain = 1 + (i / numBars) * 2.5; 
+          // Higher frequencies naturally have lower amplitude
+          const frequencyWeight = 1 + (i / numBars) * 2.5 * 0.6; 
           
-          // Pump the math: amplify the raw volume/amplitude reading globally by 1.6x 
-          // to make the bars physically skyrocket higher up the new massive canvas boundary
-          targetHeights[i] = Math.min(1, (value / 255) * visualGain * 0.6) * canvas.height * 0.75;
+          // Use dynamic maxPeak for perfect normalization (No fixed limit!)
+          const intensity = (value / maxPeak) * frequencyWeight;
+          targetHeights[i] = Math.min(1.1, intensity) * canvas.height * 0.75;
         }
       } else {
+        // When paused, target the floor (0) but the damping will handle the "slow descend"
         for (let i = 0; i < numBars; i++) {
-          targetHeights[i] = 2;
+          targetHeights[i] = 0; 
         }
       }
 
       for (let i = 0; i < numBars; i++) {
         const diff = targetHeights[i] - barHeights[i];
         if (diff > 0) {
-          // Rise quickly
-          barHeights[i] += diff * 0.4;
+          barHeights[i] += diff * 0.35; // Responsive snap up
         } else {
-          // Fall slower (decay)
-          barHeights[i] += diff * 0.15;
+          barHeights[i] += diff * 0.08; // Buttery smooth decay down
         }
 
         // Draw the bar
@@ -95,8 +126,8 @@ const Visualizer: React.FC = () => {
 
   return (
     <div 
-      className={`absolute bottom-0 left-0 w-full transition-all duration-[1200ms] ease-out pointer-events-none z-0 ${
-        musicState.isPlaying ? 'opacity-90 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-105'
+      className={`absolute bottom-0 left-0 w-full transition-all duration-[1200ms] ease-in-out pointer-events-none z-0 ${
+        showVisualizer ? 'opacity-90 translate-y-0 scale-100' : 'opacity-0 translate-y-12 scale-105'
       }`}
       style={{ 
         filter: `drop-shadow(0 -8px 24px ${musicState.trackColor}40)`,
