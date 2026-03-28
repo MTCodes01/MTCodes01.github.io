@@ -66,6 +66,182 @@ const PLAYLIST = [
     cover: 'https://picsum.photos/seed/vibrant8/400/400',
     color: '#60a5fa'
   },
+  { 
+    id: 9, 
+    title: 'Fade', 
+    artist: 'NCS: Alan Walker', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
+    cover: 'https://picsum.photos/seed/ncsfade9/400/400',
+    color: '#0ea5e9'
+  },
+  { 
+    id: 10, 
+    title: 'Blank', 
+    artist: 'NCS: Disfigure', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',
+    cover: 'https://picsum.photos/seed/ncsblank10/400/400',
+    color: '#10b981'
+  },
+  { 
+    id: 11, 
+    title: 'Hope', 
+    artist: 'NCS: Tobu', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
+    cover: 'https://picsum.photos/seed/ncstobu11/400/400',
+    color: '#f59e0b'
+  },
+  { 
+    id: 12, 
+    title: 'Sky High', 
+    artist: 'NCS: Elektronomia', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3',
+    cover: 'https://picsum.photos/seed/ncssky12/400/400',
+    color: '#6366f1'
+  },
+  { 
+    id: 13, 
+    title: 'Neon Skyline', 
+    artist: 'Cyber Runner', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3',
+    cover: 'https://picsum.photos/seed/track13/400/400',
+    color: '#a855f7'
+  },
+  { 
+    id: 14, 
+    title: 'Autumn Rain', 
+    artist: 'Chill City', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
+    cover: 'https://picsum.photos/seed/track14/400/400',
+    color: '#eab308'
+  },
+  { 
+    id: 15, 
+    title: 'Ocean Breeze', 
+    artist: 'Coastal Sounds', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3',
+    cover: 'https://picsum.photos/seed/track15/400/400',
+    color: '#06b6d4'
+  },
+  { 
+    id: 16, 
+    title: 'Electric Dreams', 
+    artist: 'Retro Synth', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3',
+    cover: 'https://picsum.photos/seed/track16/400/400',
+    color: '#ec4899'
+  },
+  { 
+    id: 17, 
+    title: 'Morning Light', 
+    artist: 'Acoustic Vibes', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    cover: 'https://picsum.photos/seed/track17/400/400',
+    color: '#f87171'
+  },
+  { 
+    id: 18, 
+    title: 'Data Stream', 
+    artist: 'Hacker FM', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+    cover: 'https://picsum.photos/seed/track18/400/400',
+    color: '#10b981'
+  },
+  { 
+    id: 19, 
+    title: 'Cosmic Journey', 
+    artist: 'Space Age', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+    cover: 'https://picsum.photos/seed/track19/400/400',
+    color: '#8b5cf6'
+  },
+  { 
+    id: 20, 
+    title: 'Urban Explorer', 
+    artist: 'Cityscape Beats', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+    cover: 'https://picsum.photos/seed/track20/400/400',
+    color: '#64748b'
+  },
+  { 
+    id: 21, 
+    title: 'Sunset Boulevard', 
+    artist: 'Retrograde', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+    cover: 'https://picsum.photos/seed/track21/400/400',
+    color: '#f97316'
+  },
+  { 
+    id: 22, 
+    title: 'Digital Love', 
+    artist: 'Pixel Pushers', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+    cover: 'https://picsum.photos/seed/track22/400/400',
+    color: '#c026d3'
+  },
+  { 
+    id: 23, 
+    title: 'Cloud Nine', 
+    artist: 'Atmospheric', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
+    cover: 'https://picsum.photos/seed/track23/400/400',
+    color: '#3b82f6'
+  },
+  { 
+    id: 24, 
+    title: 'Velvet Room', 
+    artist: 'Midnight Jazz', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+    cover: 'https://picsum.photos/seed/track24/400/400',
+    color: '#dc2626'
+  },
+  { 
+    id: 25, 
+    title: 'Quantum Leap', 
+    artist: 'Future Sounds', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
+    cover: 'https://picsum.photos/seed/track25/400/400',
+    color: '#14b8a6'
+  },
+  { 
+    id: 26, 
+    title: 'Late Night Study', 
+    artist: 'Lofi Girl', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3',
+    cover: 'https://picsum.photos/seed/track26/400/400',
+    color: '#fb923c'
+  },
+  { 
+    id: 27, 
+    title: 'Neon Noir', 
+    artist: 'Dark Synth', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3',
+    cover: 'https://picsum.photos/seed/track27/400/400',
+    color: '#f43f5e'
+  },
+  { 
+    id: 28, 
+    title: 'Forest Walk', 
+    artist: 'Nature Tones', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3',
+    cover: 'https://picsum.photos/seed/track28/400/400',
+    color: '#22c55e'
+  },
+  { 
+    id: 29, 
+    title: 'Galactic Empire', 
+    artist: 'Space Synth', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3',
+    cover: 'https://picsum.photos/seed/track29/400/400',
+    color: '#7c3aed'
+  },
+  { 
+    id: 30, 
+    title: 'Endless Horizon', 
+    artist: 'Outrun FM', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3',
+    cover: 'https://picsum.photos/seed/track30/400/400',
+    color: '#e879f9'
+  },
 ];
 
 // SVG Icons
