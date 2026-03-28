@@ -19,6 +19,7 @@
     "vite": "^7.3.1"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "@types/node": "^25.2.3",
     "framer-motion": "^12.34.0",
     "react": "^19.2.4",

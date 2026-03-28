@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Replace YOUR_FORM_ID with your Formspree form ID
-// Get one free at https://formspree.io
-const FORMSPREE_ID = 'YOUR_FORM_ID';
+import emailjs from '@emailjs/browser';
+
+const EMAILJS_SERVICE_ID = 'service_llj9ec5';
+const EMAILJS_TEMPLATE_ID = 'kgg_5CeC9iLmez-Ck';
+const EMAILJS_PUBLIC_KEY = 'kgg_5CeC9iLmez-Ck';
 
 const SOCIALS = [
   { label: 'GitHub',    short: 'GH', url: 'https://github.com/MTCodes01' },
@@ -24,12 +26,14 @@ const ContactApp: React.FC = () => {
     e.preventDefault();
     setStatus('sending');
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      if (res.ok) {
+      const res = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        formData,
+        EMAILJS_PUBLIC_KEY
+      );
+
+      if (res.status === 200) {
         setStatus('success');
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setStatus('idle'), 4000);
@@ -228,11 +232,6 @@ const ContactApp: React.FC = () => {
                         'Send Message'
                       )}
                     </button>
-                    {FORMSPREE_ID === 'YOUR_FORM_ID' && (
-                      <p className="font-jetbrains text-[9px] text-[#ffaa00]/60 text-center">
-                        ⚠ Set FORMSPREE_ID in ContactApp.tsx to enable email submissions.
-                      </p>
-                    )}
                   </motion.form>
                 )}
               </AnimatePresence>
