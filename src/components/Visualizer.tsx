@@ -11,8 +11,18 @@ const Visualizer: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Handle responsive fullscreen canvas sizing
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      // Fixed height roughly ~25vh
+      canvas.height = window.innerHeight * 0.25;
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
     let animationId: number;
-    const numBars = 48; // Dense, realistic visualizer
+    // Map across a much wider array for full-width fidelity
+    const numBars = 100;
     const barHeights = new Array(numBars).fill(2);
     const targetHeights = new Array(numBars).fill(2);
 
@@ -29,17 +39,12 @@ const Visualizer: React.FC = () => {
         // Physically pull the active byte frequency data from the audio buffer
         musicState.analyserNode.getByteFrequencyData(dataArray as any);
 
-        // Most musical energy lives in the lower half of the frequency spectrum (bins 0-60).
-        // If we map past bin ~60, the visualizer looks empty on the right side.
+        // Focus solely on the lower-mid energy chunk for spanning width
         for (let i = 0; i < numBars; i++) {
-          // Extract the relevant bin (focusing on the first 65 bins for MP3 compression)
-          const dataIndex = Math.floor(i * (65 / numBars)); 
+          const dataIndex = Math.floor(i * (70 / numBars)); 
           const value = dataArray[dataIndex] || 0;
           
-          // Structurally, higher frequencies have less raw amplitude. 
-          // We apply a gentle ascending multiplier (gain) moving left to right 
-          // so the visualizer looks perfectly balanced across the board.
-          const visualGain = 1 + (i / numBars) * 1.8; 
+          const visualGain = 1 + (i / numBars) * 2.5; 
           
           targetHeights[i] = Math.min(1, (value / 255) * visualGain) * canvas.height;
         }
@@ -64,13 +69,15 @@ const Visualizer: React.FC = () => {
         const x = i * barWidth;
         const y = canvas.height - h;
         
-        // Slightly rounded top pseudo-look
+        // Draw the bar slightly thicker and lower opacity for ambient desktop look
         ctx.fillStyle = musicState.trackColor;
-        ctx.globalAlpha = 0.8;
-        ctx.fillRect(x, y, barWidth - 1, h);
-        ctx.globalAlpha = 1.0;
+        ctx.globalAlpha = 0.55; // Semi-transparent to act as a background element
+        ctx.fillRect(x, y, barWidth - 2, h);
+        
+        // Bright solid top cap
+        ctx.globalAlpha = 0.9;
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(x, y, barWidth - 1, Math.min(2, h)); // White cap effect
+        ctx.fillRect(x, y, barWidth - 2, Math.min(2, h)); 
       }
 
       animationId = requestAnimationFrame(draw);
@@ -78,21 +85,27 @@ const Visualizer: React.FC = () => {
 
     draw();
 
-    return () => cancelAnimationFrame(animationId);
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', handleResize);
+    };
   }, [musicState.isPlaying, musicState.trackColor, musicState.analyserNode]);
 
   return (
     <div 
-      className={`absolute bottom-24 right-10 flex items-end transition-all duration-700 pointer-events-none z-0 ${
-        musicState.isPlaying ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-4 scale-95'
+      className={`absolute bottom-0 left-0 w-full transition-all duration-[1200ms] ease-out pointer-events-none z-0 ${
+        musicState.isPlaying ? 'opacity-80 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-105'
       }`}
-      style={{ filter: `drop-shadow(0 0 12px ${musicState.trackColor}40)` }}
+      style={{ 
+        // Adding a gradient mask makes it "fade in" visually from the bottom up to the desktop
+        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black)',
+        maskImage: 'linear-gradient(to bottom, transparent, black 15%, black)',
+        filter: `drop-shadow(0 0 16px ${musicState.trackColor}60)` 
+      }}
     >
       <canvas 
         ref={canvasRef} 
-        width={240} 
-        height={60} 
-        className="block"
+        className="block w-full"
       />
     </div>
   );
