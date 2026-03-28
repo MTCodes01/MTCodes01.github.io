@@ -14,8 +14,8 @@ const Visualizer: React.FC = () => {
     // Handle responsive fullscreen canvas sizing
     const handleResize = () => {
       canvas.width = window.innerWidth;
-      // Fixed height roughly ~25vh
-      canvas.height = window.innerHeight * 0.25;
+      // Expanded runway so the visualizer takes up ~35% of the screen 
+      canvas.height = window.innerHeight * 0.35;
     };
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -46,7 +46,9 @@ const Visualizer: React.FC = () => {
           
           const visualGain = 1 + (i / numBars) * 2.5; 
           
-          targetHeights[i] = Math.min(1, (value / 255) * visualGain) * canvas.height;
+          // Pump the math: amplify the raw volume/amplitude reading globally by 1.6x 
+          // to make the bars physically skyrocket higher up the new massive canvas boundary
+          targetHeights[i] = Math.min(1, (value / 255) * visualGain * 0.6) * canvas.height * 0.75;
         }
       } else {
         for (let i = 0; i < numBars; i++) {
