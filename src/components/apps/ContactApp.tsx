@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import emailjs from '@emailjs/browser';
 
-const EMAILJS_SERVICE_ID = 'service_llj9ec5';
-const EMAILJS_TEMPLATE_ID = 'kgg_5CeC9iLmez-Ck';
+const EMAILJS_SERVICE_ID = 'default_service';
+const EMAILJS_TEMPLATE_ID = 'template_353rb2n';
 const EMAILJS_PUBLIC_KEY = 'kgg_5CeC9iLmez-Ck';
 
 const SOCIALS = [
