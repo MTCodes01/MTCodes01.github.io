@@ -28,7 +28,7 @@ const DEFAULT_WINDOWS: Record<string, Partial<WindowState>> = {
   about:    { size: { width: 680, height: 580 }, position: { x: 100, y: 60 } },
   projects:  { size: { width: 860, height: 620 }, position: { x: 150, y: 70 } },
   terminal:  { size: { width: 700, height: 460 }, position: { x: 200, y: 100 } },
-  music:     { size: { width: 420, height: 540 }, position: { x: 250, y: 80 } },
+  music:     { size: { width: 840, height: 580 }, position: { x: 250, y: 80 } },
   resume:    { size: { width: 760, height: 820 }, position: { x: 120, y: 50 } },
   contact:   { size: { width: 760, height: 600 }, position: { x: 160, y: 70 } },
   browser:   { size: { width: 960, height: 700 }, position: { x: 80, y: 45 } },
