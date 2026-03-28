@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useMusic } from '../../contexts/MusicContext';
 
 const PLAYLIST = [
   { 
@@ -277,7 +278,32 @@ const MusicApp: React.FC = () => {
   const [isShuffle, setIsShuffle] = useState(false);
   const [isRepeat, setIsRepeat] = useState(false);
   
+  const { setMusicState } = useMusic();
   const audioRef = useRef<HTMLAudioElement>(null);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+
+  const initAudio = () => {
+    // Only init once on user interaction
+    if (!audioRef.current || audioCtxRef.current) return;
+    
+    const Ctx = window.AudioContext || (window as any).webkitAudioContext;
+    const ctx = new Ctx();
+    audioCtxRef.current = ctx;
+
+    const analyser = ctx.createAnalyser();
+    analyser.fftSize = 256; // Provides 128 fluid frequency bins
+    analyser.smoothingTimeConstant = 0.85;
+    analyserRef.current = analyser;
+
+    // Bridge the audio element strictly into the Web Audio API pipeline
+    const source = ctx.createMediaElementSource(audioRef.current);
+    source.connect(analyser);
+    analyser.connect(ctx.destination);
+
+    // Blast the analyser reference globally so the OS visualizer can read it
+    setMusicState(prev => ({ ...prev, analyserNode: analyser }));
+  };
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -310,14 +336,36 @@ const MusicApp: React.FC = () => {
   // Handle play/pause sync when track changes
   useEffect(() => {
     if (isPlaying && audioRef.current) {
-      // Small timeout prevents play interruption bugs in some browsers
-      setTimeout(() => audioRef.current?.play().catch(() => setIsPlaying(false)), 50);
+      setTimeout(() => {
+        initAudio();
+        if (audioCtxRef.current?.state === 'suspended') audioCtxRef.current.resume();
+        audioRef.current?.play().catch(() => setIsPlaying(false));
+      }, 50);
     }
   }, [currentTrack]);
 
+  // Sync state to global context
+  useEffect(() => {
+    setMusicState(prev => ({ ...prev, isPlaying, trackColor: PLAYLIST[currentTrack].color }));
+  }, [isPlaying, currentTrack, setMusicState]);
+
+  // Clean up global state on unmount
+  useEffect(() => {
+    return () => setMusicState({ isPlaying: false, trackColor: '#ff003c', analyserNode: null });
+  }, [setMusicState]);
+
   const togglePlay = () => {
     if (!audioRef.current) return;
-    if (isPlaying) { audioRef.current.pause(); } else { audioRef.current.play(); }
+    initAudio();
+    if (audioCtxRef.current?.state === 'suspended') {
+      audioCtxRef.current.resume();
+    }
+
+    if (isPlaying) { 
+      audioRef.current.pause(); 
+    } else { 
+      audioRef.current.play(); 
+    }
     setIsPlaying(!isPlaying);
   };
 
@@ -356,9 +404,19 @@ const MusicApp: React.FC = () => {
   const track = PLAYLIST[currentTrack];
   const pct = duration > 0 ? (progress / duration) * 100 : 0;
 
+  // We dynamically override the SoundHelix URLs with a reliable Github Raw repository
+  // capable of securely serving CORS bypass headers required for the Web Audio visualizer.
+  // This physically bypasses the corsproxy.io 403 blocks completely.
+  const proxyBypassUrl = `https://raw.githubusercontent.com/muhammederdem/mini-player/master/mp3/${(currentTrack % 9) + 1}.mp3`;
+
   return (
     <div className="h-full bg-[#0a0a0c] text-white font-inter flex flex-col md:flex-row overflow-hidden relative select-none">
-      <audio ref={audioRef} src={track.url} />
+      {/* Proxy the audio stream tightly with anonymous crossOrigin to permit full Web Audio API ingestion */}
+      <audio 
+        ref={audioRef} 
+        src={proxyBypassUrl} 
+        crossOrigin="anonymous" 
+      />
 
       {/* Dynamic ambient backdrop */}
       <div className="absolute inset-0 opacity-20 pointer-events-none transition-colors duration-1000 blur-[80px]" style={{ backgroundColor: track.color }} />

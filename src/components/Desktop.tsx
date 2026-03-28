@@ -1,6 +1,8 @@
 import React from 'react';
 import { useWindows } from '../contexts/WindowContext';
+import { useMusic } from '../contexts/MusicContext';
 import Window from './Window';
+import Visualizer from './Visualizer';
 import Dock from './Dock';
 import TopBar from './TopBar';
 
@@ -24,28 +26,44 @@ const APP_COMPONENTS: Record<string, React.FC> = {
 
 const Desktop: React.FC = () => {
   const { windows } = useWindows();
+  const { musicState } = useMusic();
+
+  // If music isn't playing, fallback to standard neutral aurora colors
+  const primaryColor = musicState.isPlaying ? musicState.trackColor : '#ff003c';
+  const secondaryColor = musicState.isPlaying ? musicState.trackColor : '#00f0ff';
 
   return (
-    <div className="fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none">
+    <div className="fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none transition-colors duration-[2000ms]">
+      <style>{`
+        @keyframes eq-bounce {
+          0% { height: 15%; }
+          100% { height: 100%; }
+        }
+      `}</style>
+
       {/* Grid background */}
       <div className="absolute inset-0 bg-grid-pattern opacity-100 pointer-events-none" />
 
-      {/* Aurora blobs */}
+      {/* Aurora blobs - OPTION A (VISUALIZER) */}
       <div
-        className="absolute pointer-events-none opacity-[0.07] animate-aurora"
+        className="absolute pointer-events-none animate-aurora transition-all duration-1000 ease-in-out"
         style={{
           top: '-30%', left: '-20%', width: '70%', height: '70%',
-          background: 'radial-gradient(circle, #ff003c 0%, transparent 70%)',
+          background: `radial-gradient(circle, ${primaryColor} 0%, transparent 70%)`,
           filter: 'blur(60px)',
+          opacity: musicState.isPlaying ? 0.15 : 0.07,
+          transform: musicState.isPlaying ? 'scale(1.1)' : 'scale(1)'
         }}
       />
       <div
-        className="absolute pointer-events-none opacity-[0.05]"
+        className="absolute pointer-events-none transition-all duration-[1500ms] ease-in-out"
         style={{
           bottom: '-20%', right: '-15%', width: '60%', height: '60%',
-          background: 'radial-gradient(circle, #00f0ff 0%, transparent 70%)',
+          background: `radial-gradient(circle, ${secondaryColor} 0%, transparent 70%)`,
           filter: 'blur(80px)',
+          opacity: musicState.isPlaying ? 0.12 : 0.05,
           animation: 'aurora 20s linear infinite reverse',
+          transform: musicState.isPlaying ? 'scale(1.15)' : 'scale(1)'
         }}
       />
 
@@ -71,6 +89,9 @@ const Desktop: React.FC = () => {
           );
         })}
       </div>
+
+      {/* HTML5 Canvas Visualizer Component */}
+      <Visualizer />
 
       <Dock />
     </div>
