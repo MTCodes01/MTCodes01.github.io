@@ -29,7 +29,6 @@ const TopBar: React.FC = () => {
 
         {focusedWindowData ? (
           <div className="flex items-center gap-1.5 text-white/60 font-inter">
-            <span className="text-sm leading-none">{focusedWindowData.icon}</span>
             <span className="font-medium text-white/80">{focusedWindowData.title}</span>
           </div>
         ) : (

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useWindows } from '../contexts/WindowContext';
 import { useWindowDrag } from '../hooks/useWindowDrag';
 import { useWindowResize } from '../hooks/useWindowResize';
+import { Icons } from './Icons';
 
 interface WindowProps {
   windowState: {
@@ -121,7 +122,11 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
           {/* Centred title */}
           <div className="absolute left-0 right-0 flex justify-center pointer-events-none">
             <div className={`flex items-center gap-2 window-titlebar-text transition-opacity duration-200 ${isFocused ? 'opacity-75' : 'opacity-30'}`}>
-              <span className="text-sm leading-none">{windowState.icon}</span>
+              {Icons[windowState.icon] ? (
+                React.createElement(Icons[windowState.icon], { size: 14, className: "text-white/60" })
+              ) : (
+                <span className="text-sm leading-none">{windowState.icon}</span>
+              )}
               <span className="font-space-grotesk font-medium text-[11px] tracking-widest uppercase text-white/80">
                 {windowState.title}
               </span>
