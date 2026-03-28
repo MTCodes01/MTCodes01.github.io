@@ -1,146 +1,243 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Replace YOUR_FORM_ID with your Formspree form ID
+// Get one free at https://formspree.io
+const FORMSPREE_ID = 'YOUR_FORM_ID';
+
+const SOCIALS = [
+  { label: 'GitHub',    short: 'GH', url: 'https://github.com/MTCodes01' },
+  { label: 'LinkedIn',  short: 'LI', url: 'https://www.linkedin.com/in/sreedevss/' },
+  { label: 'Instagram', short: 'IG', url: 'https://www.instagram.com/_mt_yt_' },
+  { label: 'YouTube',   short: 'YT', url: 'https://www.youtube.com/@MT_yt' },
+];
 
 const ContactApp: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', message: '' });
-    }, 3000);
-  };
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('sending');
+    try {
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      if (res.ok) {
+        setStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+        setTimeout(() => setStatus('idle'), 4000);
+      } else {
+        setStatus('error');
+        setTimeout(() => setStatus('idle'), 4000);
+      }
+    } catch {
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 4000);
+    }
+  };
+
+  const inputClass = "w-full px-4 py-3 bg-black/40 border border-white/10 focus:border-[#00f0ff] text-white focus:outline-none transition-all font-inter text-sm placeholder-white/20 focus:bg-black/60 focus:shadow-[0_0_0_1px_rgba(0,240,255,0.15)]";
+
   return (
-    <div className="h-full overflow-auto p-8 text-white font-mono bg-grid-pattern">
+    <div className="h-full overflow-auto p-6 text-white font-inter bg-dot-pattern">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12 border-b border-white/10 pb-8">
-          <h2 className="text-5xl font-space-grotesk font-bold mb-4 text-white uppercase tracking-tight">
-            Initiate Contact
+
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-7 border-b border-white/8 pb-5"
+        >
+          <h2 className="text-3xl font-space-grotesk font-bold mb-1.5 text-white uppercase tracking-tight">
+            Get In Touch
           </h2>
-          <p className="text-[#00f0ff] text-sm tracking-widest uppercase animate-pulse">
-            {">>"} Awaiting Transmission...
+          <p className="font-jetbrains text-[10px] text-[#00f0ff]/60 uppercase tracking-widest">
+            Open to freelance · collaboration · full-time
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid md:grid-cols-5 gap-8">
-          {/* Contact Info Sidebar */}
-          <div className="md:col-span-2 space-y-6">
-            <div className="border border-white/10 p-6 bg-black/40 hover:border-[#00f0ff] transition-colors relative group">
-              <div className="absolute top-0 right-0 w-2 h-2 bg-white/10 group-hover:bg-[#00f0ff] transition-colors" />
-              <div className="flex items-center gap-4 mb-2">
-                <span className="text-[#00f0ff] text-xl font-bold">@</span>
-                <h3 className="font-bold text-sm uppercase tracking-wider">Email</h3>
+          {/* Sidebar */}
+          <motion.div
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="md:col-span-2 space-y-4"
+          >
+            {[
+              {
+                icon: '@',
+                label: 'Email',
+                value: 'sreedevss05@gmail.com',
+                href: 'mailto:sreedevss05@gmail.com',
+              },
+              {
+                icon: '#',
+                label: 'Location',
+                value: 'Thiruvananthapuram, Kerala, India',
+                href: null,
+              },
+            ].map(item => (
+              <div
+                key={item.label}
+                className="border border-white/8 p-5 bg-black/20 hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/[0.02] transition-all group relative"
+              >
+                <div className="absolute top-0 right-0 w-2 h-2 bg-white/8 group-hover:bg-[#00f0ff]/40 transition-colors" />
+                <div className="flex items-center gap-3 mb-1.5">
+                  <span className="text-[#00f0ff] font-jetbrains font-bold text-lg leading-none">{item.icon}</span>
+                  <h3 className="font-space-grotesk font-bold text-[11px] uppercase tracking-widest text-white/60">
+                    {item.label}
+                  </h3>
+                </div>
+                {item.href ? (
+                  <a href={item.href} className="font-inter text-sm text-white/70 hover:text-[#00f0ff] transition-colors pl-7 break-all block">
+                    {item.value}
+                  </a>
+                ) : (
+                  <p className="font-inter text-sm text-white/50 pl-7 break-words">{item.value}</p>
+                )}
               </div>
-              <p className="text-white/70 text-sm font-mono pl-8">sreedevss05@gmail.com</p>
-            </div>
+            ))}
 
-            <div className="border border-white/10 p-6 bg-black/40 hover:border-[#00f0ff] transition-colors relative group">
-               <div className="absolute top-0 right-0 w-2 h-2 bg-white/10 group-hover:bg-[#00f0ff] transition-colors" />
-              <div className="flex items-center gap-4 mb-2">
-                <span className="text-[#00f0ff] text-xl font-bold">#</span>
-                <h3 className="font-bold text-sm uppercase tracking-wider">Location</h3>
+            {/* Social links */}
+            <div className="pt-2">
+              <p className="font-jetbrains text-[9px] text-white/25 uppercase tracking-widest mb-3">Socials</p>
+              <div className="grid grid-cols-2 gap-2">
+                {SOCIALS.map(s => (
+                  <a
+                    key={s.short}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-1.5 py-2.5 border border-white/8 bg-white/[0.03] hover:bg-[#00f0ff]/8 hover:border-[#00f0ff]/30 text-white/40 hover:text-[#00f0ff] transition-all font-jetbrains text-xs uppercase tracking-wider"
+                  >
+                    <span className="font-bold">{s.short}</span>
+                    <span className="text-white/25 text-[9px]">↗</span>
+                  </a>
+                ))}
               </div>
-              <p className="text-white/70 text-sm font-mono pl-8">Thiruvananthapuram, India</p>
             </div>
-
-            <div className="flex gap-4 justify-center pt-6">
-              {[
-                { label: 'GH', url: 'https://github.com/MTCodes01' },
-                { label: 'LI', url: 'https://www.linkedin.com/in/sreedevss/' },
-                { label: 'IG', url: 'https://www.instagram.com/_mt_yt_' },
-                { label: 'YT', url: 'https://www.youtube.com/@MT_yt' }
-              ].map(social => (
-                <a 
-                  key={social.url}
-                  href={social.url} 
-                  className="w-12 h-12 border border-white/10 bg-white/5 hover:bg-[#00f0ff] hover:text-black hover:border-[#00f0ff] flex items-center justify-center font-bold transition-all"
-                >
-                  {social.label}
-                </a>
-              ))}
-            </div>
-          </div>
+          </motion.div>
 
           {/* Form */}
-          <div className="md:col-span-3">
-            <div className="border border-white/10 p-8 bg-black/60 relative">
-              <div className="absolute -top-1 -left-1 w-4 h-4 border-t-2 border-l-2 border-[#00f0ff]" />
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 border-b-2 border-r-2 border-[#00f0ff]" />
-              
-              <h3 className="text-xl font-bold mb-6 font-space-grotesk uppercase border-b border-white/10 pb-4">
-                Transmission Form
+          <motion.div
+            initial={{ opacity: 0, x: 8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.15 }}
+            className="md:col-span-3"
+          >
+            <div className="border border-white/8 p-7 bg-black/30 relative">
+              {/* Corner accents */}
+              <div className="absolute -top-px -left-px w-5 h-5 border-t-2 border-l-2 border-[#00f0ff]" />
+              <div className="absolute -bottom-px -right-px w-5 h-5 border-b-2 border-r-2 border-[#00f0ff]" />
+
+              <h3 className="font-space-grotesk text-sm font-bold uppercase tracking-widest text-white/70 border-b border-white/8 pb-4 mb-6">
+                Send a Message
               </h3>
-              
-              {submitted ? (
-                <div className="py-12 text-center border border-[#33ff00]/30 bg-[#33ff00]/5">
-                  <div className="text-[#33ff00] text-6xl mb-4 text-shadow-neon">✓</div>
-                  <h4 className="text-2xl font-bold mb-2 uppercase text-[#33ff00] tracking-widest">Sent</h4>
-                  <p className="text-white/60 text-xs font-mono">TRANSMISSION COMPLETE</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-xs font-bold text-[#00f0ff] uppercase ml-1 block">Identity_Name</label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-black border border-white/20 focus:border-[#00f0ff] text-white focus:outline-none focus:shadow-[0_0_10px_rgba(0,240,255,0.2)] transition-all font-mono text-sm placeholder-white/10"
-                        placeholder="ENTER NAME..."
-                      />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-xs font-bold text-[#00f0ff] uppercase ml-1 block">Identity_Email</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="w-full px-4 py-3 bg-black border border-white/20 focus:border-[#00f0ff] text-white focus:outline-none focus:shadow-[0_0_10px_rgba(0,240,255,0.2)] transition-all font-mono text-sm placeholder-white/10"
-                        placeholder="ENTER EMAIL..."
-                      />
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-xs font-bold text-[#00f0ff] uppercase ml-1 block">Message_Data</label>
-                    <textarea
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      required
-                      rows={5}
-                      className="w-full px-4 py-3 bg-black border border-white/20 focus:border-[#00f0ff] text-white focus:outline-none focus:shadow-[0_0_10px_rgba(0,240,255,0.2)] transition-all font-mono text-sm placeholder-white/10 resize-none"
-                      placeholder="INPUT MESSAGE SEQUENCE..."
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full px-8 py-4 bg-[#00f0ff] text-black font-bold text-lg uppercase tracking-widest hover:bg-white hover:text-black transition-all shadow-[4px_4px_0_rgba(0,0,0,1)] hover:shadow-none hover:translate-x-1 hover:translate-y-1 block"
+
+              <AnimatePresence mode="wait">
+                {status === 'success' ? (
+                  <motion.div
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="py-12 text-center border border-[#00f0ff]/20 bg-[#00f0ff]/5"
                   >
-                    Execute Send
-                  </button>
-                </form>
-              )}
+                    <div className="text-[#00f0ff] text-5xl mb-4">✓</div>
+                    <h4 className="text-xl font-space-grotesk font-bold text-[#00f0ff] uppercase tracking-widest mb-1">
+                      Message Sent!
+                    </h4>
+                    <p className="font-jetbrains text-[11px] text-white/40">I'll get back to you soon.</p>
+                  </motion.div>
+                ) : status === 'error' ? (
+                  <motion.div
+                    key="error"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="py-8 text-center border border-[#ff003c]/20 bg-[#ff003c]/5"
+                  >
+                    <div className="text-[#ff003c] text-4xl mb-3">✕</div>
+                    <p className="font-jetbrains text-sm text-[#ff003c]">Failed to send. Try again or email directly.</p>
+                  </motion.div>
+                ) : (
+                  <motion.form key="form" onSubmit={handleSubmit} className="space-y-5">
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1.5">
+                        <label className="font-jetbrains text-[10px] text-white/40 uppercase tracking-widest block">
+                          Name
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className={inputClass}
+                          placeholder="Your name"
+                        />
+                      </div>
+                      <div className="space-y-1.5">
+                        <label className="font-jetbrains text-[10px] text-white/40 uppercase tracking-widest block">
+                          Email
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className={inputClass}
+                          placeholder="your@email.com"
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="font-jetbrains text-[10px] text-white/40 uppercase tracking-widest block">
+                        Message
+                      </label>
+                      <textarea
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        required
+                        rows={5}
+                        className={`${inputClass} resize-none`}
+                        placeholder="What's on your mind?"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={status === 'sending'}
+                      className="w-full py-3.5 bg-[#00f0ff] text-black font-space-grotesk font-bold text-sm uppercase tracking-widest hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {status === 'sending' ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                          Sending…
+                        </span>
+                      ) : (
+                        'Send Message'
+                      )}
+                    </button>
+                    {FORMSPREE_ID === 'YOUR_FORM_ID' && (
+                      <p className="font-jetbrains text-[9px] text-[#ffaa00]/60 text-center">
+                        ⚠ Set FORMSPREE_ID in ContactApp.tsx to enable email submissions.
+                      </p>
+                    )}
+                  </motion.form>
+                )}
+              </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

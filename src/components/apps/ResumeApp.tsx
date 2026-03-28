@@ -1,187 +1,242 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+
+const EXPERIENCE = [
+  {
+    role: 'Intern',
+    org: 'Logixmotion Pvt Ltd',
+    period: 'Jun 2024 – Aug 2024',
+    primary: true,
+    bullets: ['Built internal tooling with React & Python', 'Worked on UI/UX design systems'],
+  },
+  {
+    role: 'Technical Team Lead',
+    org: 'Alchemy IEDC · CEAL',
+    period: '2023 – Present',
+    primary: false,
+    bullets: ['Led development of club web platforms', 'Mentored junior developers in the team'],
+  },
+  {
+    role: 'Web Master',
+    org: 'IEEE SB · CEAL',
+    period: '2024 – Present',
+    primary: false,
+    bullets: ['Maintained and redesigned the IEEE student branch website'],
+  },
+  {
+    role: 'Design Lead',
+    org: 'ISTE · CEAL',
+    period: '2023 – 2024',
+    primary: false,
+    bullets: ['Created brand assets, event posters, and social media graphics'],
+  },
+  {
+    role: 'Deputy CFA',
+    org: 'FOSS · CEAL',
+    period: '2023 – 2024',
+    primary: false,
+    bullets: ['Promoted open-source culture through workshops and events'],
+  },
+  {
+    role: 'CREATE101 Lead',
+    org: 'Chambers FOSS · CEAL',
+    period: '2023 – 2024',
+    primary: false,
+    bullets: ['Ran beginner-level tech workshops for first-year students'],
+  },
+  {
+    role: 'TRAIN303 Lead',
+    org: 'Chambers FOSS · CEAL',
+    period: '2024 – Present',
+    primary: false,
+    bullets: ['Organised intermediate training sessions on web dev & Linux'],
+  },
+  {
+    role: 'DEPLOY505 Lead',
+    org: 'Chambers FOSS · CEAL',
+    period: '2024 – Present',
+    primary: false,
+    bullets: ['Oversaw server deployment workshops and cloud fundamentals'],
+  },
+];
+
+const SKILLS_MAP: Record<string, { items: string[]; accent: string }> = {
+  'Web Design':  { items: ['Figma', 'Photoshop'], accent: '#ff003c' },
+  'Frontend':    { items: ['HTML', 'CSS', 'JavaScript', 'React', 'TypeScript'], accent: '#00f0ff' },
+  'Backend':     { items: ['Python', 'Django', 'Flask'], accent: '#ffaa00' },
+  'Video Edit':  { items: ['After Effects', 'DaVinci'], accent: '#9333ea' },
+  'Database':    { items: ['MySQL', 'PostgreSQL', 'SQLite'], accent: '#00f0ff' },
+};
 
 const ResumeApp: React.FC = () => {
+  const handlePrint = () => window.print();
+
   return (
-    <div className="h-full overflow-auto bg-[#0a0a0f] text-white p-8 font-mono">
-      <div className="max-w-4xl mx-auto border border-white/10 p-12 min-h-full relative bg-grid-pattern">
-         {/* Decorative Corner Borders */}
-        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-white/20" />
-        <div className="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-white/20" />
-        <div className="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-white/20" />
-        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-white/20" />
-
-        <header className="flex justify-between items-start border-b-2 border-white/10 pb-8 mb-10">
+    <div className="h-full overflow-auto bg-[#08080d] text-white p-8 font-inter">
+      <div className="max-w-4xl mx-auto min-h-full relative">
+        {/* Header */}
+        <motion.header
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+          className="flex flex-col md:flex-row justify-between md:items-start border-b border-white/8 pb-8 mb-10 gap-6"
+        >
           <div>
-            <h1 className="text-5xl font-space-grotesk font-bold mb-2 uppercase tracking-tight text-white">Sreedev S S</h1>
-            <p className="text-xl text-[#00f0ff] font-medium tracking-widest uppercase">Developer | Designer | Editor</p>
+            <h1 className="text-5xl font-space-grotesk font-bold mb-1 uppercase tracking-tighter text-white">
+              Sreedev S S
+            </h1>
+            <p className="text-[#00f0ff] font-jetbrains text-sm tracking-widest uppercase">
+              Developer · Designer · Editor
+            </p>
           </div>
-          <div className="text-right text-xs text-white/40 space-y-1 font-mono">
+          <div className="text-right text-[11px] text-white/35 space-y-1.5 font-jetbrains">
             <div className="flex items-center justify-end gap-2">
-              <span>sreedevss05@gmail.com</span>
-              <span className="text-[#00f0ff]">::EMAIL</span>
+              <span className="text-white/50">sreedevss05@gmail.com</span>
+              <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Email</span>
             </div>
             <div className="flex items-center justify-end gap-2">
-              <span>MTCodes01.github.io</span>
-              <span className="text-[#00f0ff]">::WEB</span>
+              <span className="text-white/50">MTCodes01.github.io</span>
+              <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Web</span>
             </div>
             <div className="flex items-center justify-end gap-2">
-              <span>Thiruvananthapuram, India</span>
-              <span className="text-[#00f0ff]">::LOC</span>
+              <span className="text-white/50">Thiruvananthapuram, Kerala</span>
+              <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Location</span>
             </div>
           </div>
-        </header>
+        </motion.header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Main Content */}
-          <div className="md:col-span-2 space-y-12">
-            <section>
-              <h2 className="text-sm font-bold uppercase tracking-widest text-[#00f0ff] mb-6 flex items-center gap-2 border-b border-[#00f0ff]/20 pb-2">
-                <span className="text-lg">01.</span> Experience
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {/* Main — Experience + Education */}
+          <div className="md:col-span-2 space-y-10">
+
+            {/* Experience */}
+            <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
+              <h2 className="font-space-grotesk text-[11px] font-bold uppercase tracking-[0.2em] text-[#00f0ff] mb-6 flex items-center gap-3 border-b border-[#00f0ff]/15 pb-2">
+                <span className="text-base opacity-50">01.</span> Experience
               </h2>
-              <div className="space-y-10">
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1.5 top-0 w-3 h-3 bg-[#00f0ff] rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">Intern</h3>
-                  <p className="text-[#00f0ff]/80 text-xs mb-4 uppercase">Logixmotion Pvt Ltd</p>
-                </div>
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1 top-0 w-2 h-2 bg-white/50 rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">Technical Team Lead</h3>
-                  <p className="text-white/50 text-xs mb-4 uppercase">Alchemy IEDC CEAL</p>
-                </div>
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1 top-0 w-2 h-2 bg-white/50 rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">Web Master</h3>
-                  <p className="text-white/50 text-xs mb-4 uppercase">IEEE SB CEAL</p>
-                </div>
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1 top-0 w-2 h-2 bg-white/50 rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">Design Lead</h3>
-                  <p className="text-white/50 text-xs mb-4 uppercase">ISTE CEAL</p>
-                </div>
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1 top-0 w-2 h-2 bg-white/50 rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">Deputy CFA</h3>
-                  <p className="text-white/50 text-xs mb-4 uppercase">FOSS CEAL</p>
-                </div>
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1 top-0 w-2 h-2 bg-white/50 rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">CREATE101 Lead</h3>
-                  <p className="text-white/50 text-xs mb-4 uppercase">Chambers FOSS CEAL</p>
-                </div>
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1 top-0 w-2 h-2 bg-white/50 rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">TRAIN303 Lead</h3>
-                  <p className="text-white/50 text-xs mb-4 uppercase">Chambers FOSS CEAL</p>
-                </div>
-                <div className="relative pl-6 border-l border-dashed border-white/20">
-                  <div className="absolute -left-1 top-0 w-2 h-2 bg-white/50 rounded-none rotate-45"></div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">DEPLOY505 Lead</h3>
-                  <p className="text-white/50 text-xs mb-4 uppercase">Chambers FOSS CEAL</p>
+              <div className="relative">
+                {/* Timeline line */}
+                <div className="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-[#00f0ff]/40 via-white/10 to-transparent" />
+
+                <div className="space-y-7 pl-6">
+                  {EXPERIENCE.map((exp, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -8 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.05 * i + 0.15 }}
+                      className="relative group"
+                    >
+                      {/* Timeline dot */}
+                      <div className={`absolute -left-6 top-1.5 w-2.5 h-2.5 rotate-45 ${exp.primary ? 'bg-[#00f0ff]' : 'bg-white/20 group-hover:bg-white/40'} transition-colors`} />
+
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-1">
+                        <h3 className="font-space-grotesk font-bold text-base text-white group-hover:text-[#00f0ff] transition-colors">
+                          {exp.role}
+                        </h3>
+                        <span className="font-jetbrains text-[10px] text-white/25 uppercase tracking-widest whitespace-nowrap">
+                          {exp.period}
+                        </span>
+                      </div>
+                      <p className={`font-jetbrains text-[11px] mb-2 uppercase tracking-wider ${exp.primary ? 'text-[#00f0ff]/80' : 'text-white/35'}`}>
+                        {exp.org}
+                      </p>
+                      {exp.bullets && (
+                        <ul className="space-y-0.5">
+                          {exp.bullets.map((b, j) => (
+                            <li key={j} className="flex items-start gap-2 text-xs text-white/45 font-inter">
+                              <span className="text-[#00f0ff]/40 mt-0.5 shrink-0">–</span>
+                              {b}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </motion.div>
+                  ))}
                 </div>
               </div>
-            </section>
+            </motion.section>
 
-            <section>
-              <h2 className="text-sm font-bold uppercase tracking-widest text-[#00f0ff] mb-6 flex items-center gap-2 border-b border-[#00f0ff]/20 pb-2">
-                <span className="text-lg">02.</span> Education
+            {/* Education */}
+            <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+              <h2 className="font-space-grotesk text-[11px] font-bold uppercase tracking-[0.2em] text-[#00f0ff] mb-6 flex items-center gap-3 border-b border-[#00f0ff]/15 pb-2">
+                <span className="text-base opacity-50">02.</span> Education
               </h2>
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">B.Tech in Computer Science & Engineering</h3>
-                  <p className="text-[#00f0ff]/80 text-xs mt-1 uppercase">College of Engineering, Attingal (CEAL), Thiruvananthapuram • 2023 - Present</p>
+                  <h3 className="font-space-grotesk font-bold text-base text-white">
+                    B.Tech in Computer Science &amp; Engineering
+                  </h3>
+                  <p className="font-jetbrains text-[11px] text-[#00f0ff]/70 uppercase tracking-wider mt-1">
+                    College of Engineering, Attingal (CEAL)
+                  </p>
+                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2023 – Present · Thiruvananthapuram</p>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">Secondary Education</h3>
-                  <p className="text-white/50 text-xs mt-1 uppercase">Dr. GR Public School, Neyyattinkara, Thiruvananthapuram • 2021 - 2023</p>
+                  <h3 className="font-space-grotesk font-bold text-base text-white">
+                    Secondary Education (Class XII)
+                  </h3>
+                  <p className="font-jetbrains text-[11px] text-white/35 uppercase tracking-wider mt-1">
+                    Dr. GR Public School, Neyyattinkara
+                  </p>
+                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2021 – 2023 · Thiruvananthapuram</p>
                 </div>
               </div>
-            </section>
+            </motion.section>
           </div>
 
-          {/* Sidebar */}
-          <div className="space-y-10">
-            <section>
-              <h2 className="text-sm font-bold uppercase tracking-widest text-[#00f0ff] mb-6 border-b border-[#00f0ff]/20 pb-2">
-                <span className="text-lg">03.</span> Skills
+          {/* Sidebar — Skills + Languages + Download */}
+          <div className="space-y-8">
+            <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}>
+              <h2 className="font-space-grotesk text-[11px] font-bold uppercase tracking-[0.2em] text-[#00f0ff] mb-6 border-b border-[#00f0ff]/15 pb-2">
+                <span className="text-base opacity-50 mr-2">03.</span> Skills
               </h2>
-              <div className="space-y-8">
-                <div>
-                  <h4 className="font-bold text-white mb-3 text-xs uppercase opacity-70">Web Designing</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Figma', 'Photoshop'].map(skill => (
-                      <span key={skill} className="px-2 py-1 bg-white/5 border border-white/10 text-[#00f0ff] text-xs">
-                        {skill}
-                      </span>
-                    ))}
+              <div className="space-y-6">
+                {Object.entries(SKILLS_MAP).map(([category, { items, accent }]) => (
+                  <div key={category}>
+                    <h4 className="font-jetbrains font-bold text-[10px] uppercase tracking-widest text-white/30 mb-2">
+                      {category}
+                    </h4>
+                    <div className="flex flex-wrap gap-1.5">
+                      {items.map(skill => (
+                        <span
+                          key={skill}
+                          className="px-2 py-0.5 bg-white/[0.04] border border-white/8 text-white/60 text-[11px] font-jetbrains hover:text-white hover:bg-white/8 transition-all cursor-default"
+                          style={{ borderLeftColor: accent, borderLeftWidth: 2 }}
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <h4 className="font-bold text-white mb-3 text-xs uppercase opacity-70">Frontend</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['HTML', 'CSS', 'JavaScript', 'React', 'TypeScript'].map(skill => (
-                      <span key={skill} className="px-2 py-1 bg-white/5 border border-white/10 text-[#00f0ff] text-xs">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-bold text-white mb-3 text-xs uppercase opacity-70">Backend</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['Python', 'Django', 'Flask'].map(skill => (
-                      <span key={skill} className="px-2 py-1 bg-white/5 border border-white/10 text-white/70 text-xs">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-bold text-white mb-3 text-xs uppercase opacity-70">Video Editing</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['After Effects', 'Da Vinci'].map(skill => (
-                      <span key={skill} className="px-2 py-1 bg-white/5 border border-white/10 text-white/70 text-xs">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-bold text-white mb-3 text-xs uppercase opacity-70">Database</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {['MySQL', 'Postgres', 'SQLite'].map(skill => (
-                      <span key={skill} className="px-2 py-1 bg-white/5 border border-white/10 text-white/70 text-xs">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                ))}
               </div>
-            </section>
+            </motion.section>
 
-            <section>
-              <h2 className="text-sm font-bold uppercase tracking-widest text-[#00f0ff] mb-6 border-b border-[#00f0ff]/20 pb-2">
-                <span className="text-lg">04.</span> Languages
+            <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
+              <h2 className="font-space-grotesk text-[11px] font-bold uppercase tracking-[0.2em] text-[#00f0ff] mb-4 border-b border-[#00f0ff]/15 pb-2">
+                <span className="text-base opacity-50 mr-2">04.</span> Languages
               </h2>
               <div className="flex flex-wrap gap-2">
                 {['English', 'Malayalam'].map(lang => (
-                  <span key={lang} className="px-2 py-1 bg-white/5 border border-white/10 text-white/70 text-xs">
+                  <span key={lang} className="px-2.5 py-1 bg-white/[0.04] border border-white/8 text-white/50 text-xs font-jetbrains">
                     {lang}
                   </span>
                 ))}
               </div>
-            </section>
+            </motion.section>
 
-            <div className="pt-8 border-t-2 border-white/10">
-              <a
-                href="#"
-                className="block w-full py-4 bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff] hover:bg-[#00f0ff] hover:text-black transition-all text-center font-bold text-sm uppercase tracking-wider group"
+            {/* Download / Print */}
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}>
+              <button
+                onClick={handlePrint}
+                className="w-full py-3.5 bg-[#00f0ff]/8 text-[#00f0ff] border border-[#00f0ff]/40 hover:bg-[#00f0ff] hover:text-black transition-all text-center font-space-grotesk font-bold text-xs uppercase tracking-widest group"
               >
-                <span className="group-hover:translate-x-1 inline-block transition-transform duration-200">
-                  [ Download PDF ]
+                <span className="group-hover:translate-x-0.5 inline-block transition-transform">
+                  ↓ Print / Save PDF
                 </span>
-              </a>
-            </div>
+              </button>
+            </motion.div>
           </div>
         </div>
       </div>

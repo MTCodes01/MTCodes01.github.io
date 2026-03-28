@@ -4,7 +4,6 @@ import Window from './Window';
 import Dock from './Dock';
 import TopBar from './TopBar';
 
-// Import app components
 import AboutApp from './apps/AboutApp';
 import ProjectsApp from './apps/ProjectsApp';
 import TerminalApp from './apps/TerminalApp';
@@ -27,18 +26,38 @@ const Desktop: React.FC = () => {
   const { windows } = useWindows();
 
   return (
-    <div className="fixed inset-0 bg-[#020202] overflow-hidden font-inter text-white selection:bg-[#ff003c] selection:text-white">
-      {/* Checkpoint Matrix Background */}
-      <div className="absolute inset-0 bg-matrix-pattern opacity-30 pointer-events-none" />
-      {/* Overlay gradient for depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-transparent to-blue-900/10 pointer-events-none" />
-      
+    <div className="fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none">
+      {/* Grid background */}
+      <div className="absolute inset-0 bg-grid-pattern opacity-100 pointer-events-none" />
+
+      {/* Aurora blobs */}
+      <div
+        className="absolute pointer-events-none opacity-[0.07] animate-aurora"
+        style={{
+          top: '-30%', left: '-20%', width: '70%', height: '70%',
+          background: 'radial-gradient(circle, #ff003c 0%, transparent 70%)',
+          filter: 'blur(60px)',
+        }}
+      />
+      <div
+        className="absolute pointer-events-none opacity-[0.05]"
+        style={{
+          bottom: '-20%', right: '-15%', width: '60%', height: '60%',
+          background: 'radial-gradient(circle, #00f0ff 0%, transparent 70%)',
+          filter: 'blur(80px)',
+          animation: 'aurora 20s linear infinite reverse',
+        }}
+      />
+
       {/* Vignette */}
-      <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/20 to-black/90 pointer-events-none" />
-      
-      {/* Scanlines Overlay - subtle */}
-      <div className="absolute inset-0 scanlines opacity-20 pointer-events-none" />
-      
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%)' }}
+      />
+
+      {/* Scanlines — very subtle */}
+      <div className="absolute inset-0 scanlines opacity-10 pointer-events-none" />
+
       <TopBar />
 
       {/* Windows */}
@@ -47,7 +66,7 @@ const Desktop: React.FC = () => {
           const AppComponent = APP_COMPONENTS[window.id];
           return (
             <Window key={window.id} windowState={window}>
-              {AppComponent ? <AppComponent /> : <div>App not found</div>}
+              {AppComponent ? <AppComponent /> : <div className="p-4 text-white/40">App not found</div>}
             </Window>
           );
         })}

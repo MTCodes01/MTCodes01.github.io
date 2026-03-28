@@ -25,13 +25,13 @@ interface WindowContextType {
 const WindowContext = createContext<WindowContextType | undefined>(undefined);
 
 const DEFAULT_WINDOWS: Record<string, Partial<WindowState>> = {
-  about: { size: { width: 600, height: 500 }, position: { x: 100, y: 100 } },
-  projects: { size: { width: 800, height: 600 }, position: { x: 150, y: 80 } },
-  terminal: { size: { width: 700, height: 450 }, position: { x: 200, y: 120 } },
-  music: { size: { width: 400, height: 500 }, position: { x: 250, y: 100 } },
-  resume: { size: { width: 700, height: 800 }, position: { x: 120, y: 60 } },
-  contact: { size: { width: 500, height: 600 }, position: { x: 180, y: 90 } },
-  browser: { size: { width: 900, height: 700 }, position: { x: 80, y: 50 } },
+  about:    { size: { width: 680, height: 580 }, position: { x: 100, y: 60 } },
+  projects:  { size: { width: 860, height: 620 }, position: { x: 150, y: 70 } },
+  terminal:  { size: { width: 700, height: 460 }, position: { x: 200, y: 100 } },
+  music:     { size: { width: 420, height: 540 }, position: { x: 250, y: 80 } },
+  resume:    { size: { width: 760, height: 820 }, position: { x: 120, y: 50 } },
+  contact:   { size: { width: 760, height: 600 }, position: { x: 160, y: 70 } },
+  browser:   { size: { width: 960, height: 700 }, position: { x: 80, y: 45 } },
 };
 
 export const WindowProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
