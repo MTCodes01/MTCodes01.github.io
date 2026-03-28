@@ -5,66 +5,66 @@ const EXPERIENCE = [
   {
     role: 'Intern',
     org: 'Logixmotion Pvt Ltd',
-    period: 'Jun 2024 – Aug 2024',
+    period: 'Nov 2024 - Present',
     primary: true,
-    bullets: ['Built internal tooling with React & Python', 'Worked on UI/UX design systems'],
-  },
-  {
-    role: 'Technical Team Lead',
-    org: 'Alchemy IEDC · CEAL',
-    period: '2023 – Present',
-    primary: false,
-    bullets: ['Led development of club web platforms', 'Mentored junior developers in the team'],
-  },
-  {
-    role: 'Web Master',
-    org: 'IEEE SB · CEAL',
-    period: '2024 – Present',
-    primary: false,
-    bullets: ['Maintained and redesigned the IEEE student branch website'],
-  },
-  {
-    role: 'Design Lead',
-    org: 'ISTE · CEAL',
-    period: '2023 – 2024',
-    primary: false,
-    bullets: ['Created brand assets, event posters, and social media graphics'],
+    bullets: ['Worked on Initial UI/UX design', 'Frontend Development', 'Gained real-world experience in software development'],
   },
   {
     role: 'Deputy CFA',
-    org: 'FOSS · CEAL',
-    period: '2023 – 2024',
-    primary: false,
-    bullets: ['Promoted open-source culture through workshops and events'],
+    org: 'FOSS CEAL',
+    period: 'Jul 2025 - Present',
+    primary: true,
+    bullets: ['Promoted open-source culture through workshops and events', 'Coordinated with the team to organise events', 'Part of planning most of the events'],
   },
   {
     role: 'CREATE101 Lead',
-    org: 'Chambers FOSS · CEAL',
-    period: '2023 – 2024',
+    org: 'Chambers of FOSS CEAL',
+    period: 'Sep 2024 - Aug 2025',
     primary: false,
-    bullets: ['Ran beginner-level tech workshops for first-year students'],
+    bullets: ['Designed posters, videos, grids, and other materials', 'Organised workshops to teach designing', 'Maintained a team of students for Poster Works'],
   },
   {
     role: 'TRAIN303 Lead',
-    org: 'Chambers FOSS · CEAL',
-    period: '2024 – Present',
+    org: 'Chambers of FOSS CEAL',
+    period: 'Aug 2025 - Dec 2025',
     primary: false,
-    bullets: ['Organised intermediate training sessions on web dev & Linux'],
+    bullets: ['Build Websites for College Clubs', 'Contributed in making open-source projects', 'Formed a team to continue building websites and gaining experience'],
   },
   {
     role: 'DEPLOY505 Lead',
-    org: 'Chambers FOSS · CEAL',
-    period: '2024 – Present',
+    org: 'Chambers of FOSS CEAL',
+    period: 'Dec 2025 - Present',
+    primary: true,
+    bullets: ['Deployed a lot of websites for Clubs, Events, and other purposes', 'Gained experience in server deployment and cloud fundamentals', 'Maintained all the domains and hosting for most of the websites'],
+  },
+  {
+    role: 'Technical Team Lead',
+    org: 'Alchemy IEDC CEAL',
+    period: 'Feb 2025 - Mar 2026',
     primary: false,
-    bullets: ['Oversaw server deployment workshops and cloud fundamentals'],
+    bullets: ['Updated the website for Alchemy IEDC CEAL', 'Gave technical support during events'],
+  },
+  {
+    role: 'Web Master',
+    org: 'IEEE SB CEAL',
+    period: 'Feb 2025 - Mar 2026',
+    primary: false,
+    bullets: ['Designed and developed the IEEE student branch CEAL website', 'Technical Support for events', 'Made the initial websites for event proporsals'],
+  },
+  {
+    role: 'Design Lead',
+    org: 'ISTE CEAL',
+    period: 'Apr 2025 - Mar 2026',
+    primary: false,
+    bullets: ['Guided my team to work on posters and other materials', 'Helped in some designing works'],
   },
 ];
 
 const SKILLS_MAP: Record<string, { items: string[]; accent: string }> = {
-  'Web Design':  { items: ['Figma', 'Photoshop'], accent: '#ff003c' },
+  'Designing':  { items: ['Figma', 'Photoshop'], accent: '#ff003c' },
   'Frontend':    { items: ['HTML', 'CSS', 'JavaScript', 'React', 'TypeScript'], accent: '#00f0ff' },
   'Backend':     { items: ['Python', 'Django', 'Flask'], accent: '#ffaa00' },
-  'Video Edit':  { items: ['After Effects', 'DaVinci'], accent: '#9333ea' },
+  'Video Edit':  { items: ['After Effects', 'DaVinci Resolve'], accent: '#9333ea' },
   'Database':    { items: ['MySQL', 'PostgreSQL', 'SQLite'], accent: '#00f0ff' },
 };
 
@@ -218,7 +218,7 @@ const ResumeApp: React.FC = () => {
                 <span className="text-base opacity-50 mr-2">04.</span> Languages
               </h2>
               <div className="flex flex-wrap gap-2">
-                {['English', 'Malayalam'].map(lang => (
+                {['English', 'Malayalam', 'Hindi'].map(lang => (
                   <span key={lang} className="px-2.5 py-1 bg-white/[0.04] border border-white/8 text-white/50 text-xs font-jetbrains">
                     {lang}
                   </span>
