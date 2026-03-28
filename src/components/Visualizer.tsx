@@ -29,18 +29,19 @@ const Visualizer: React.FC = () => {
         // Physically pull the active byte frequency data from the audio buffer
         musicState.analyserNode.getByteFrequencyData(dataArray as any);
 
-        // We have 128 frequency bins, matching them closely to our 48 screen bars.
-        // Frequencies above bin ~96 are typically ultra-highs not hit by standard MP3 compression.
-        const step = Math.max(1, Math.floor(96 / numBars));
-        
+        // Most musical energy lives in the lower half of the frequency spectrum (bins 0-60).
+        // If we map past bin ~60, the visualizer looks empty on the right side.
         for (let i = 0; i < numBars; i++) {
-          let sum = 0;
-          for (let j = 0; j < step; j++) {
-            sum += dataArray[i * step + j] || 0;
-          }
-          const avg = sum / step;
-          // Map raw 0-255 frequency amplitude bytes directly to canvas pixels
-          targetHeights[i] = (avg / 255) * canvas.height;
+          // Extract the relevant bin (focusing on the first 65 bins for MP3 compression)
+          const dataIndex = Math.floor(i * (65 / numBars)); 
+          const value = dataArray[dataIndex] || 0;
+          
+          // Structurally, higher frequencies have less raw amplitude. 
+          // We apply a gentle ascending multiplier (gain) moving left to right 
+          // so the visualizer looks perfectly balanced across the board.
+          const visualGain = 1 + (i / numBars) * 1.8; 
+          
+          targetHeights[i] = Math.min(1, (value / 255) * visualGain) * canvas.height;
         }
       } else {
         for (let i = 0; i < numBars; i++) {
