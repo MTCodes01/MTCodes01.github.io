@@ -91,16 +91,16 @@ const ResumeApp: React.FC = () => {
           </div>
           <div className="text-right text-[11px] text-white/35 space-y-1.5 font-jetbrains">
             <div className="flex items-center justify-end gap-2">
-              <span className="text-white/50">sreedevss05@gmail.com</span>
               <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Email</span>
+              <span className="text-white/50">sreedevss05@gmail.com</span>
             </div>
             <div className="flex items-center justify-end gap-2">
-              <span className="text-white/50">MTCodes01.github.io</span>
               <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Web</span>
+              <span className="text-white/50">sreedevss.in</span>
             </div>
             <div className="flex items-center justify-end gap-2">
-              <span className="text-white/50">Thiruvananthapuram, Kerala</span>
               <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Location</span>
+              <span className="text-white/50">Thiruvananthapuram, Kerala</span>
             </div>
           </div>
         </motion.header>
