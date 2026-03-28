@@ -88,8 +88,8 @@ const ResumeApp: React.FC = () => {
               </h2>
               <div className="space-y-8">
                 <div>
-                  <h3 className="text-xl font-bold text-white font-space-grotesk">B.Tech in CSE</h3>
-                  <p className="text-[#00f0ff]/80 text-xs mt-1 uppercase">College of Engineering, Attingal, Thiruvananthapuram • 2023 - Present</p>
+                  <h3 className="text-xl font-bold text-white font-space-grotesk">B.Tech in Computer Science & Engineering</h3>
+                  <p className="text-[#00f0ff]/80 text-xs mt-1 uppercase">College of Engineering, Attingal (CEAL), Thiruvananthapuram • 2023 - Present</p>
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-white font-space-grotesk">Secondary Education</h3>
