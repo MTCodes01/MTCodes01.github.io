@@ -69,15 +69,15 @@ const Visualizer: React.FC = () => {
         const x = i * barWidth;
         const y = canvas.height - h;
         
-        // Draw the bar slightly thicker and lower opacity for ambient desktop look
+        // Remove heavy canvas gradients, simply draw solidly and let CSS handle the mask
         ctx.fillStyle = musicState.trackColor;
-        ctx.globalAlpha = 0.55; // Semi-transparent to act as a background element
-        ctx.fillRect(x, y, barWidth - 2, h);
+        ctx.globalAlpha = 0.85; 
+        ctx.fillRect(x, y, barWidth - 1, h);
         
         // Bright solid top cap
-        ctx.globalAlpha = 0.9;
+        ctx.globalAlpha = 1.0;
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(x, y, barWidth - 2, Math.min(2, h)); 
+        ctx.fillRect(x, y, barWidth - 1, Math.min(2, h)); 
       }
 
       animationId = requestAnimationFrame(draw);
@@ -94,13 +94,13 @@ const Visualizer: React.FC = () => {
   return (
     <div 
       className={`absolute bottom-0 left-0 w-full transition-all duration-[1200ms] ease-out pointer-events-none z-0 ${
-        musicState.isPlaying ? 'opacity-80 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-105'
+        musicState.isPlaying ? 'opacity-90 translate-y-0 scale-100' : 'opacity-0 translate-y-16 scale-105'
       }`}
       style={{ 
-        // Adding a gradient mask makes it "fade in" visually from the bottom up to the desktop
-        WebkitMaskImage: 'linear-gradient(to bottom, transparent, black 15%, black)',
-        maskImage: 'linear-gradient(to bottom, transparent, black 15%, black)',
-        filter: `drop-shadow(0 0 16px ${musicState.trackColor}60)` 
+        filter: `drop-shadow(0 -8px 24px ${musicState.trackColor}40)`,
+        // CSS Mask smoothly dissolves the solid bars into the desktop at the bottom
+        WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 20%, transparent 100%)',
+        maskImage: 'linear-gradient(to bottom, black 0%, black 20%, transparent 100%)'
       }}
     >
       <canvas 
