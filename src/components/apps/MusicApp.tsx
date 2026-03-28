@@ -34,6 +34,38 @@ const PLAYLIST = [
     cover: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=400&q=80',
     color: '#9d00ff'
   },
+  { 
+    id: 5, 
+    title: 'Midnight Drive', 
+    artist: 'Synthwave FM', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+    cover: 'https://picsum.photos/seed/midnight5/400/400',
+    color: '#2dd4bf'
+  },
+  { 
+    id: 6, 
+    title: 'Starlight', 
+    artist: 'Galactic Radio', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+    cover: 'https://picsum.photos/seed/starlight6/400/400',
+    color: '#fbbf24'
+  },
+  { 
+    id: 7, 
+    title: 'Coffee Beans', 
+    artist: 'Morning Routine', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
+    cover: 'https://picsum.photos/seed/coffee7/400/400',
+    color: '#f472b6'
+  },
+  { 
+    id: 8, 
+    title: 'Vibrant Flow', 
+    artist: 'Creative Mind', 
+    url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+    cover: 'https://picsum.photos/seed/vibrant8/400/400',
+    color: '#60a5fa'
+  },
 ];
 
 // SVG Icons
