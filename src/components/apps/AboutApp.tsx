@@ -114,7 +114,7 @@ const AboutApp: React.FC = () => {
               {/* Scan line */}
               <div className="absolute inset-x-0 h-12 bg-gradient-to-b from-transparent via-[#ff003c]/15 to-transparent animate-scan pointer-events-none" />
               {/* Initials */}
-              <span className="font-space-grotesk font-bold text-4xl text-white/90 tracking-tight select-none z-10">SS</span>
+              <span className="font-space-grotesk font-bold text-4xl text-white/90 tracking-tight select-none z-10">MT</span>
               {/* Corner marks */}
               <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff003c]" />
               <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-[#ff003c]" />
