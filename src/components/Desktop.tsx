@@ -13,6 +13,7 @@ import MusicApp from './apps/MusicApp';
 import ResumeApp from './apps/ResumeApp';
 import ContactApp from './apps/ContactApp';
 import BrowserApp from './apps/BrowserApp';
+import VSCodeApp from './apps/VSCodeApp';
 
 const APP_COMPONENTS: Record<string, React.FC> = {
   about: AboutApp,
@@ -22,6 +23,7 @@ const APP_COMPONENTS: Record<string, React.FC> = {
   resume: ResumeApp,
   contact: ContactApp,
   browser: BrowserApp,
+  vscode: VSCodeApp,
 };
 
 const Desktop: React.FC = () => {

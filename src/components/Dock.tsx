@@ -6,13 +6,14 @@ import { useTheme } from '../contexts/ThemeContext';
 import { Icons } from './Icons';
 
 const DOCK_APPS = [
-  { id: 'about',    title: 'About Me',  icon: 'about',    emoji: '👤' },
-  { id: 'projects', title: 'Projects',  icon: 'projects', emoji: '💼' },
-  { id: 'terminal', title: 'Terminal',  icon: 'terminal', emoji: '⌨️' },
-  { id: 'music',    title: 'Music',     icon: 'music',    emoji: '🎵' },
-  { id: 'resume',   title: 'Resume',    icon: 'resume',   emoji: '📄' },
-  { id: 'contact',  title: 'Contact',   icon: 'contact',  emoji: '📧' },
-  { id: 'browser',  title: 'Browser',   icon: 'browser',  emoji: '🌐' },
+  { id: 'about',    title: 'About Me',  icon: 'about'},
+  { id: 'projects', title: 'Projects',  icon: 'projects'},
+  { id: 'terminal', title: 'Terminal',  icon: 'terminal'},
+  { id: 'music',    title: 'Music',     icon: 'music'},
+  { id: 'resume',   title: 'Resume',    icon: 'resume'},
+  { id: 'contact',  title: 'Contact',   icon: 'contact'},
+  { id: 'browser',  title: 'Browser',   icon: 'browser'},
+  { id: 'vscode',   title: 'VS Code',   icon: 'vscode'},
 ];
 
 const Dock: React.FC = () => {

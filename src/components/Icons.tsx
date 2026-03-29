@@ -59,4 +59,9 @@ export const Icons: Record<string, React.FC<{ size?: number; className?: string 
       <path d="M23 11v2M5 11h6" />
     </svg>
   ),
+  vscode: ({ size = 20, className = '' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M16.5 3L8 9.5L4 7.5L3 8.5L6.5 12L3 15.5L4 16.5L8 14.5L16.5 21L21 19V5L16.5 3ZM16.5 15.5L11 12L16.5 8.5V15.5Z" />
+    </svg>
+  ),
 };
