@@ -41,6 +41,7 @@ const RENDER_LOGS = [
 const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
   const [logLines, setLogLines] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [timeStamp, setTimeStamp] = useState<string[]>([]);
 
   const complete = useCallback(() => onComplete(), [onComplete]);
 
@@ -58,8 +59,16 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
 
     // Generate static timestamp strings based on initial load so they look realistic
 
+    // Real-ish timestamp offset generator
+    const getTimestamp = () => {
+      const now = new Date();
+      return now.toISOString();
+    };
+
     const addLine = () => {
       if (idx < RENDER_LOGS.length) {
+        const newTimeStamp = getTimestamp();
+        setTimeStamp(prev => [...prev, newTimeStamp]);
         const newLine = RENDER_LOGS[idx];
         setLogLines(prev => [...prev, newLine]);
         idx++;
@@ -84,14 +93,6 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
 
     return () => clearTimeout(timeoutId);
   }, [complete]);
-
-  // Real-ish timestamp offset generator
-  const getTimestamp = () => {
-    const now = new Date();
-    // artifically offset milliseconds for effect
-    now.setMilliseconds(Math.floor(Math.random() * 999));
-    return now.toISOString();
-  };
 
   return (
     <AnimatePresence>
@@ -127,7 +128,7 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
                 className="flex gap-4 mb-1"
               >
                 <span className="text-white/30 shrink-0 select-none hidden sm:inline-block w-52 truncate">
-                  {getTimestamp()}
+                  {timeStamp[i]}
                 </span>
                 <span className={`break-all ${color}`}>{line}</span>
               </motion.div>
