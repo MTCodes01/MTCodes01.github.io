@@ -1,6 +1,25 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useWindows } from '../../contexts/WindowContext';
+import { projectService } from '../../services/projectService';
 
-const COMMANDS: Record<string, () => string> = {
+const APPS_METADATA: Record<string, { title: string; icon: string }> = {
+  about: { title: 'About Me', icon: 'about' },
+  projects: { title: 'Projects', icon: 'projects' },
+  music: { title: 'Music Player', icon: 'music' },
+  resume: { title: 'Resume', icon: 'resume' },
+  contact: { title: 'Contact', icon: 'contact' },
+  browser: { title: 'Web Browser', icon: 'browser' },
+  vscode: { title: 'VS Code', icon: 'vscode' },
+  terminal: { title: 'Terminal', icon: 'terminal' },
+};
+
+const FILESYSTEM: Record<string, string[]> = {
+  '~': ['about/', 'projects/', 'apps/', 'contact/', 'resume/', 'README.md', 'secret.txt'],
+  '~/apps': ['browser.app', 'music.app', 'vscode.app', 'terminal.app'],
+  '~/projects': ['MTCodes01.github.io', 'Portfolio-V1', 'Music-Visualizer', 'Checkpoint-OS'],
+};
+
+const COMMANDS: Record<string, (args: string[], extra?: any) => string | void> = {
   whoami: () => `Sreedev S S — Developer · Designer · Editor
 Location  : Thiruvananthapuram, Kerala, India
 Education : B.Tech CSE — College of Engineering, Attingal
@@ -31,11 +50,19 @@ YouTube   : @MT_yt`,
 
   date: () => new Date().toLocaleString('en-IN', { dateStyle: 'full', timeStyle: 'medium' }),
 
-  ls: () => `Applications
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-about/       projects/    terminal/
-music/       resume/      contact/
-browser/`,
+  ls: (_args, { currentPath }) => {
+    if (currentPath === '~/projects') {
+      const cached = projectService.getCachedProjects();
+      if (cached && cached.length > 0) {
+        return cached.map(p => p.name + '/').join('    ');
+      }
+    }
+    const contents = FILESYSTEM[currentPath] || [];
+    if (contents.length === 0) return 'Directory is empty.';
+    return contents.join('    ');
+  },
+
+  pwd: (_args, { currentPath }) => currentPath,
 
   neofetch: () => `    ██████████    Sreedev S S
    ██  ██  ████   ─────────────────────
@@ -51,12 +78,57 @@ whoami    — About me
 skills    — Technical skills
 projects  — Featured projects
 contact   — Contact information
-date      — Current date & time
-ls        — List applications
+open <app>— Open an application
+cd <dir>  — Change directory
+ls        — List files
+pwd       — Current path
 neofetch  — System info
-clear     — Clear terminal`,
+socials   — My social links
+clear     — Clear terminal
+exit      — Close terminal`,
 
-  clear: () => 'CLEAR',
+  socials: () => `Connect with me:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GitHub    : https://github.com/MTCodes01
+LinkedIn  : https://linkedin.com/in/sreedevss
+Instagram : https://instagram.com/_mt_yt_
+YouTube   : https://youtube.com/@MT_yt`,
+
+  sudo: () => "Nice try, but you don't have root privileges. This incident will be reported... to no one.",
+
+  coffee: () => `
+       (      (
+        )  (   )
+       (   )  (
+     .───────────.
+     |           |──.
+     |  COFFEE   |  |
+     |           |──'
+     '───────────'
+      '─────────'`,
+
+  beer: () => `
+     .─────────.
+     |         |
+     |         |──.
+     |  BEER   |  |
+     |         |  |
+     |         |──'
+     '─────────'`,
+
+  matrix: () => `Scanning for anomalies...
+System override initiated.
+Follow the white rabbit.
+Wake up, Neo...
+Knock, knock.`,
+
+  cat: (args) => {
+    if (args.length === 0) return "cat: missing operand";
+    const file = args[0];
+    if (file === 'README.md') return "Checkpoint OS - A high-fidelity portfolio operating system.";
+    if (file === 'secret.txt') return "Easter egg found! Use 'matrix' for more.";
+    return `cat: ${file}: No such file or directory`;
+  },
 };
 
 interface HistoryEntry {
@@ -65,11 +137,13 @@ interface HistoryEntry {
 }
 
 const TerminalApp: React.FC = () => {
+  const { openWindow, closeWindow } = useWindows();
   const [history, setHistory] = useState<HistoryEntry[]>([
     { type: 'output', text: 'CheckTerm v1.0.0 — Checkpoint OS' },
     { type: 'output', text: 'Type "help" for available commands.\n' },
   ]);
   const [input, setInput] = useState('');
+  const [currentPath, setCurrentPath] = useState('~');
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const historyIdxRef = useRef(-1);
 
@@ -80,29 +154,104 @@ const TerminalApp: React.FC = () => {
     terminalRef.current?.scrollTo({ top: terminalRef.current.scrollHeight, behavior: 'smooth' });
   }, [history]);
 
-  const runCommand = useCallback((cmd: string) => {
-    const trimmed = cmd.trim().toLowerCase();
-    setHistory(prev => [...prev, { type: 'input', text: `$ ${cmd}` }]);
+  const runCommand = useCallback((cmdLine: string) => {
+    const trimmed = cmdLine.trim();
+    setHistory(prev => [...prev, { type: 'input', text: `${currentPath} $ ${cmdLine}` }]);
     if (!trimmed) return;
 
-    setCmdHistory(prev => [cmd, ...prev]);
+    setCmdHistory(prev => [cmdLine, ...prev]);
     historyIdxRef.current = -1;
 
-    if (trimmed === 'clear') {
+    const [cmd, ...args] = trimmed.split(' ');
+
+    if (cmd === 'clear') {
       setHistory([]);
       return;
     }
 
-    const fn = COMMANDS[trimmed];
+    if (cmd === 'exit') {
+      closeWindow('terminal');
+      return;
+    }
+
+    if (cmd === 'cd') {
+      const target = args[0];
+      if (!target || target === '~' || target === '/') {
+        setCurrentPath('~');
+        setHistory(prev => [...prev, { type: 'output', text: '\n' }]);
+      } else if (target === '..') {
+        const parts = currentPath.split('/');
+        if (parts.length > 1) {
+          setCurrentPath(parts.slice(0, -1).join('/'));
+        }
+        setHistory(prev => [...prev, { type: 'output', text: '\n' }]);
+      } else {
+        const potential = `${currentPath}/${target.replace(/\/$/, '')}`;
+        if (FILESYSTEM[potential]) {
+          setCurrentPath(potential);
+          setHistory(prev => [...prev, { type: 'output', text: '\n' }]);
+        } else {
+          setHistory(prev => [...prev, { type: 'error', text: `cd: no such directory: ${target}\n` }]);
+        }
+      }
+      return;
+    }
+
+    if (cmd === 'open') {
+      const target = args[0];
+      if (!target) {
+        setHistory(prev => [...prev, { type: 'error', text: "Usage: open <appName|projectName>\n" }]);
+        return;
+      }
+
+      // Check for projects if in projects folder
+      if (currentPath === '~/projects') {
+        const cached = projectService.getCachedProjects();
+        const normalizedTarget = target.toLowerCase().replace(/\/$/, '');
+        
+        // Try to find in cache first
+        const project = cached?.find(p => p.name.toLowerCase() === normalizedTarget);
+        if (project) {
+          window.open(project.html_url, '_blank');
+          setHistory(prev => [...prev, { type: 'output', text: `Opening ${project.name} on GitHub...\n` }]);
+          return;
+        }
+
+        // Fallback: Check if it's one of the dummy projects in FILESYSTEM
+        const fallbackProjects = FILESYSTEM['~/projects'];
+        const fallback = fallbackProjects.find(p => p.toLowerCase().replace(/\/$/, '') === normalizedTarget);
+        if (fallback) {
+          const repoName = fallback.replace(/\/$/, '');
+          const url = `https://github.com/mtcodes01/${repoName}`;
+          window.open(url, '_blank');
+          setHistory(prev => [...prev, { type: 'output', text: `Opening ${repoName} on GitHub...\n` }]);
+          return;
+        }
+      }
+
+      const metadata = APPS_METADATA[target];
+      if (metadata) {
+        openWindow(target, metadata.title, metadata.icon);
+        setHistory(prev => [...prev, { type: 'output', text: `Launching ${metadata.title}...\n` }]);
+      } else {
+        setHistory(prev => [...prev, { type: 'error', text: `open: target not found: ${target}\n` }]);
+      }
+      return;
+    }
+
+    const fn = COMMANDS[cmd];
     if (fn) {
-      setHistory(prev => [...prev, { type: 'output', text: fn() + '\n' }]);
+      const result = fn(args, { currentPath });
+      if (result) {
+        setHistory(prev => [...prev, { type: 'output', text: result + '\n' }]);
+      }
     } else {
       setHistory(prev => [...prev, {
         type: 'error',
-        text: `Command not found: "${trimmed}"\nType "help" for available commands.\n`,
+        text: `Command not found: "${cmd}"\nType "help" for available commands.\n`,
       }]);
     }
-  }, []);
+  }, [currentPath, openWindow, closeWindow]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -157,8 +306,8 @@ const TerminalApp: React.FC = () => {
       </div>
 
       {/* Quick-command buttons */}
-      <div className="border-t border-[#33ff00]/10 px-4 py-2 flex flex-wrap gap-1.5">
-        {Object.keys(COMMANDS).filter(c => c !== 'clear').map(cmd => (
+      <div className="border-t border-[#33ff00]/10 px-4 py-2 flex flex-wrap gap-1.5 bg-black/40">
+        {['whoami', 'skills', 'projects', 'ls', 'neofetch', 'help'].map(cmd => (
           <button
             key={cmd}
             onClick={() => runCommand(cmd)}
@@ -170,20 +319,24 @@ const TerminalApp: React.FC = () => {
       </div>
 
       {/* Input */}
-      <div className="border-t border-[#33ff00]/15 px-4 py-3 relative z-20">
+      <div className="border-t border-[#33ff00]/15 px-4 py-3 relative z-20 bg-black/20">
         <form onSubmit={handleSubmit} className="flex items-center gap-2">
-          <span className="text-[#33ff00] opacity-60 font-bold shrink-0">›</span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[#33ff00] font-bold shrink-0">guest@checkpoint:</span>
+            <span className="text-[#ffaa00] font-mono shrink-0">{currentPath}</span>
+            <span className="text-[#33ff00] font-bold shrink-0">$</span>
+          </div>
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            className="flex-1 bg-transparent outline-none text-white placeholder-[#33ff00]/20 caret-[#33ff00]"
+            className="flex-1 bg-transparent outline-none text-white placeholder-[#33ff00]/10 caret-[#33ff00]"
             style={{ fontFamily: "'JetBrains Mono', monospace" }}
             autoFocus
             spellCheck={false}
-            placeholder="enter command…"
+            autoComplete="off"
           />
           <span className="w-[7px] h-[1em] bg-[#33ff00] animate-blink opacity-80" />
         </form>
