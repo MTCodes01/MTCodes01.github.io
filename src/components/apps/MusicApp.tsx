@@ -292,7 +292,7 @@ const MusicApp: React.FC = () => {
     audioCtxRef.current = ctx;
 
     const analyser = ctx.createAnalyser();
-    analyser.fftSize = 256; // Provides 128 fluid frequency bins
+    analyser.fftSize = 1024; // Provides 512 high-fidelity frequency bins
     analyser.smoothingTimeConstant = 0.85;
     analyserRef.current = analyser;
 

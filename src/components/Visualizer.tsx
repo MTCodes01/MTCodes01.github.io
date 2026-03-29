@@ -56,31 +56,61 @@ const Visualizer: React.FC = () => {
         }
         musicState.analyserNode.getByteFrequencyData(dataArray as any);
 
-        // Calculate the current frame's peak to dynamically adjust the visual "limit"
+        // Calculate current maximum peak and average energy
         let currentFrameMax = 0;
+        let averageEnergy = 0;
         for (let i = 0; i < dataArray.length; i++) {
           if (dataArray[i] > currentFrameMax) currentFrameMax = dataArray[i];
+          averageEnergy += dataArray[i];
         }
-
-        // Smoothly adjust the maxPeak ceiling (Auto-Gain Control)
-        // This ensures quiet songs boost up and loud songs don't clip harshly.
+        averageEnergy /= dataArray.length;
+        
+        // Auto-Gain Control (AGC): Dynamically scale the normalization ceiling
+        // maxPeak tracks the loudest signal; slowly decays to stay responsive
         if (currentFrameMax > maxPeak) {
-          maxPeak = currentFrameMax; // React quickly to peaks
+          maxPeak = currentFrameMax; 
         } else {
-          maxPeak = Math.max(80, maxPeak * 0.995); // Slowly decay to keep it dynamic
+          maxPeak = Math.max(100, maxPeak * 0.99); // Slightly faster decay for better agility
+        }
+        
+        // Group frequency bins with a hybrid mapping to spread out the bass and mids
+        const binCount = dataArray.length;
+        const tempTargets = new Array(numBars).fill(0);
+
+        for (let i = 0; i < numBars; i++) {
+          // Hybrid Indexing: ensures bass bars are unique while maintaining mid/high energy
+          // Part linear offset + part power curve for an organic "audio profile" look
+          const fraction = i / numBars;
+          const index = (i * 0.45) + Math.pow(fraction, 2.8) * (binCount * 0.6);
+          
+          const lowIdx = Math.max(0, Math.floor(index));
+          const highIdx = Math.min(binCount - 1, lowIdx + 1);
+          const interp = index - lowIdx;
+          
+          // Smoothed linear interpolation between bins
+          let value = (dataArray[lowIdx] * (1 - interp)) + (dataArray[highIdx] * interp);
+          
+          // Frequency-specific weighting: compensative but not overbearing
+          // We boost the highs slightly more than the bass to keep the whole wall active
+          const frequencyWeight = 1.0 + (i / numBars) * 1.8; 
+          
+          // Calculate intensity with a slightly softer curve
+          let intensity = (value / maxPeak) * frequencyWeight;
+          
+          // Add a tiny floor (1.5%) so the visualizer never feels "dead" when music is on
+          const floor = musicState.isPlaying ? 0.015 : 0;
+          tempTargets[i] = (Math.min(1.1, intensity) + floor) * canvas.height * 0.65;
         }
 
-        // Map across the spectrum
+        // Lateral Smoothing (Spatial Blur) for a fluid, wave-like appearance
+        // This prevents the "jagged" or "sawtooth" edges shown in the previous attempt
         for (let i = 0; i < numBars; i++) {
-          const dataIndex = Math.floor(i * (70 / numBars)); 
-          const value = dataArray[dataIndex] || 0;
+          const prev = i > 0 ? tempTargets[i - 1] : tempTargets[i];
+          const next = i < numBars - 1 ? tempTargets[i + 1] : tempTargets[i];
+          const curr = tempTargets[i];
           
-          // Higher frequencies naturally have lower amplitude
-          const frequencyWeight = 1 + (i / numBars) * 2.5 * 0.6; 
-          
-          // Use dynamic maxPeak for perfect normalization (No fixed limit!)
-          const intensity = (value / maxPeak) * frequencyWeight;
-          targetHeights[i] = Math.min(1.1, intensity) * canvas.height * 0.75;
+          // Weighted average (20% neighbors, 60% self)
+          targetHeights[i] = (prev * 0.2) + (curr * 0.6) + (next * 0.2);
         }
       } else {
         // When paused, target the floor (0) but the damping will handle the "slow descend"
