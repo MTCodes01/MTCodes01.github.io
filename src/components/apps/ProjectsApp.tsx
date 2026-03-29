@@ -32,6 +32,15 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
   React.useEffect(() => {
     async function fetchLanguages() {
       try {
+        const cacheRaw = localStorage.getItem('portfolio_languages_cache');
+        const cache = cacheRaw ? JSON.parse(cacheRaw) : {};
+        
+        if (cache[repo.name]) {
+          setLanguages(cache[repo.name]);
+          setLoading(false);
+          return;
+        }
+
         const response = await fetch(repo.languages_url, {
           headers: { "Accept": "application/vnd.github.v3+json" }
         });
@@ -44,6 +53,12 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
           percentage: totalBytes > 0 ? Number(((bytes as number) / totalBytes * 100).toFixed(1)) : 0,
           color: LANGUAGE_COLORS[name] || `hsl(${Math.random() * 360}, 70%, 60%)`,
         })).sort((a, b) => b.percentage - a.percentage);
+
+        // Re-read cache to prevent race conditions during concurrent component mounting
+        const latestCacheRaw = localStorage.getItem('portfolio_languages_cache');
+        const latestCache = latestCacheRaw ? JSON.parse(latestCacheRaw) : {};
+        latestCache[repo.name] = processed;
+        localStorage.setItem('portfolio_languages_cache', JSON.stringify(latestCache));
 
         setLanguages(processed);
       } catch (err) {
@@ -172,6 +187,9 @@ const ProjectsApp: React.FC = () => {
 
   const loadRepos = React.useCallback(async (force = false) => {
     setLoading(true);
+    if (force) {
+      localStorage.removeItem('portfolio_languages_cache');
+    }
     try {
       const data = await projectService.fetchProjects(force);
       setRepos(data);
