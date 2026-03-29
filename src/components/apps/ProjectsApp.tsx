@@ -1,21 +1,10 @@
 import React from 'react';
-
-const username = "mtcodes01";
+import { projectService, ProjectData } from '../../services/projectService';
 
 interface Language {
   name: string;
   percentage: number;
   color: string;
-}
-
-interface ProjectData {
-  id: number;
-  name: string;
-  description: string | null;
-  html_url: string;
-  homepage: string | null;
-  languages_url: string;
-  topics: string[];
 }
 
 const LANGUAGE_COLORS: Record<string, string> = {
@@ -181,26 +170,21 @@ const ProjectsApp: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
-  React.useEffect(() => {
-    async function loadRepos() {
-      try {
-        const response = await fetch(`https://api.github.com/users/${username}/repos?sort=pushed&direction=desc&per_page=100`, {
-          headers: { "Accept": "application/vnd.github.v3+json" }
-        });
-        if (!response.ok) return;
-        const data = await response.json();
-        const filtered = data.filter((repo: any) => 
-          repo.topics && repo.topics.some((t: string) => t.toLowerCase() === 'portfolio')
-        );
-        setRepos(filtered);
-      } catch (error) {
-        console.error("Failed to load repositories:", error);
-      } finally {
-        setLoading(false);
-      }
+  const loadRepos = React.useCallback(async (force = false) => {
+    setLoading(true);
+    try {
+      const data = await projectService.fetchProjects(force);
+      setRepos(data);
+    } catch (error) {
+      console.error("Failed to load repositories:", error);
+    } finally {
+      setLoading(false);
     }
-    loadRepos();
   }, []);
+
+  React.useEffect(() => {
+    loadRepos();
+  }, [loadRepos]);
 
   const gridColsClass = 
     columns === 1 ? 'grid-cols-1' : 
@@ -213,15 +197,33 @@ const ProjectsApp: React.FC = () => {
   return (
     <div ref={containerRef} className="p-8 h-full overflow-auto bg-grid-pattern bg-fixed">
       <div className={`${containerMaxWidth} mx-auto transition-all duration-500`}>
-        <header className="mb-12 border-b border-white/10 pb-6 flex items-end justify-between">
+        <header className="mb-12 border-b border-white/10 pb-6 flex items-end justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-4xl font-space-grotesk font-bold text-white mb-2 uppercase tracking-tight">
               Projects <span className="text-[#ffaa00]">_</span>
             </h2>
             <p className="text-white/50 font-mono text-sm">Select a module to view details</p>
           </div>
-          <div className="text-[#ffaa00] font-mono text-xs border border-[#ffaa00]/30 px-2 py-1 bg-[#ffaa00]/10">
-            {loading ? 'ANALYZING...' : `${repos.length} MODULES DETECTED`}
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={() => loadRepos(true)}
+              disabled={loading}
+              className="group flex items-center gap-2 px-3 py-1.5 border border-white/20 hover:border-[#ffaa00] bg-white/5 hover:bg-[#ffaa00]/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Force Refresh Data"
+            >
+              <svg 
+                className={`w-3.5 h-3.5 text-[#ffaa00] ${loading ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span className="text-[10px] font-mono text-white/70 group-hover:text-white uppercase tracking-wider">Refresh</span>
+            </button>
+            <div className="text-[#ffaa00] font-mono text-xs border border-[#ffaa00]/30 px-2 py-1 bg-[#ffaa00]/10 h-fit">
+              {loading ? 'ANALYZING...' : `${repos.length} MODULES DETECTED`}
+            </div>
           </div>
         </header>
 

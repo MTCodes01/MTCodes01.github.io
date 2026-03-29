@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { projectService } from '../services/projectService';
 
 interface BootScreenProps {
   onComplete: () => void;
@@ -25,6 +26,9 @@ const RENDER_LOGS = [
   '✓ built in 1.42s',
   '==> Build successful 🎉',
   '==> Deploying...',
+  '==> Synchronizing remote modules...',
+  '[INFO] Fetching metadata from GitHub API...',
+  '✓ Metadata synchronized.',
   '==> Starting service with "npm run preview"...',
   '> portfolio@1.0.0 preview',
   '> vite preview --port 5173',
@@ -51,6 +55,11 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [complete]);
+
+  // Pre-fetch project data
+  useEffect(() => {
+    projectService.fetchProjects().catch(console.error);
+  }, []);
 
   // Boot message spewing
   useEffect(() => {
