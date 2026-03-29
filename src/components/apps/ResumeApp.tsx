@@ -128,7 +128,7 @@ const ResumeApp: React.FC = () => {
                       className="relative group"
                     >
                       {/* Timeline dot */}
-                      <div className={`absolute -left-6 top-1.5 w-2.5 h-2.5 rotate-45 ${exp.primary ? 'bg-[#00f0ff]' : 'bg-white/20 group-hover:bg-white/40'} transition-colors`} />
+                      <div className={`absolute -left-7 top-1.5 w-2.5 h-2.5 rotate-45 ${exp.primary ? 'bg-[#00f0ff]' : 'bg-white/20 group-hover:bg-white/40'} transition-colors`} />
 
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-1">
                         <h3 className="font-space-grotesk font-bold text-base text-white group-hover:text-[#00f0ff] transition-colors">
@@ -145,7 +145,7 @@ const ResumeApp: React.FC = () => {
                         <ul className="space-y-0.5">
                           {exp.bullets.map((b, j) => (
                             <li key={j} className="flex items-start gap-2 text-xs text-white/45 font-inter">
-                              <span className="text-[#00f0ff]/40 mt-0.5 shrink-0">–</span>
+                              <span className="text-[#00f0ff]/40 mt-0.5 shrink-0">-</span>
                               {b}
                             </li>
                           ))}
@@ -170,16 +170,16 @@ const ResumeApp: React.FC = () => {
                   <p className="font-jetbrains text-[11px] text-[#00f0ff]/70 uppercase tracking-wider mt-1">
                     College of Engineering, Attingal (CEAL)
                   </p>
-                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2023 – Present · Thiruvananthapuram</p>
+                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2023 - Present · Thiruvananthapuram</p>
                 </div>
                 <div>
                   <h3 className="font-space-grotesk font-bold text-base text-white">
-                    Secondary Education (Class XII)
+                    Secondary Education
                   </h3>
                   <p className="font-jetbrains text-[11px] text-white/35 uppercase tracking-wider mt-1">
                     Dr. GR Public School, Neyyattinkara
                   </p>
-                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2021 – 2023 · Thiruvananthapuram</p>
+                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2021 - 2023 · Thiruvananthapuram</p>
                 </div>
               </div>
             </motion.section>
