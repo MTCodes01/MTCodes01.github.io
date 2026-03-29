@@ -161,6 +161,25 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
 const ProjectsApp: React.FC = () => {
   const [repos, setRepos] = React.useState<ProjectData[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [columns, setColumns] = React.useState(2);
+
+  React.useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
+        if (width < 550) setColumns(1);
+        else if (width < 950) setColumns(2);
+        else if (width < 1450) setColumns(3);
+        else setColumns(4);
+      }
+    });
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   React.useEffect(() => {
     async function loadRepos() {
@@ -183,9 +202,17 @@ const ProjectsApp: React.FC = () => {
     loadRepos();
   }, []);
 
+  const gridColsClass = 
+    columns === 1 ? 'grid-cols-1' : 
+    columns === 2 ? 'grid-cols-2' : 
+    columns === 3 ? 'grid-cols-3' : 
+    'grid-cols-4';
+
+  const containerMaxWidth = columns >= 4 ? 'max-w-[1600px]' : columns === 3 ? 'max-w-7xl' : 'max-w-6xl';
+
   return (
-    <div className="p-8 h-full overflow-auto bg-grid-pattern bg-fixed">
-      <div className="max-w-6xl mx-auto">
+    <div ref={containerRef} className="p-8 h-full overflow-auto bg-grid-pattern bg-fixed">
+      <div className={`${containerMaxWidth} mx-auto transition-all duration-500`}>
         <header className="mb-12 border-b border-white/10 pb-6 flex items-end justify-between">
           <div>
             <h2 className="text-4xl font-space-grotesk font-bold text-white mb-2 uppercase tracking-tight">
@@ -199,13 +226,13 @@ const ProjectsApp: React.FC = () => {
         </header>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 opacity-50">
-            {[1, 2, 3, 4].map(i => (
+          <div className={`grid ${gridColsClass} gap-6 opacity-50`}>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
               <div key={i} className="h-[320px] bg-white/5 border border-white/10 animate-pulse" />
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className={`grid ${gridColsClass} gap-6`}>
             {repos.map((repo, index) => (
               <ProjectCard key={repo.id} repo={repo} index={index} />
             ))}
