@@ -37,6 +37,7 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
 
   const handleMaximize = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
+    if (windowState.id === 'resume') return;
     if (isMaximized && preMaxState) {
       updatePosition(windowState.id, preMaxState.pos.x, preMaxState.pos.y);
       updateSize(windowState.id, preMaxState.size.width, preMaxState.size.height);
@@ -110,11 +111,12 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
             </button>
             <button
               onClick={handleMaximize}
-              className="w-3 h-3 rounded-full bg-[#27c93f] flex items-center justify-center border border-black/20 hover:brightness-110 active:brightness-75 transition-all"
-              title={isMaximized ? 'Restore' : 'Maximize'}
+              disabled={windowState.id === 'resume'}
+              className={`w-3 h-3 rounded-full bg-[#27c93f] flex items-center justify-center border border-black/20 hover:brightness-110 active:brightness-75 transition-all ${windowState.id === 'resume' ? 'opacity-30 cursor-not-allowed' : ''}`}
+              title={windowState.id === 'resume' ? 'Fixed Size' : (isMaximized ? 'Restore' : 'Maximize')}
             >
               <span className="opacity-0 group-hover/controls:opacity-100 text-[6px] font-bold text-black/60 leading-none">
-                {isMaximized ? '⊙' : '+'}
+                {windowState.id === 'resume' ? '' : (isMaximized ? '⊙' : '+')}
               </span>
             </button>
           </div>
@@ -143,13 +145,13 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
           {children}
         </div>
 
-        {/* Resize handle — hidden when maximized */}
-        {!isMaximized && (
+        {/* Resize handle — hidden when maximized or for resume app */}
+        {!isMaximized && windowState.id !== 'resume' && (
           <div
-            className="resize-handle absolute bottom-0 right-0 w-5 h-5 cursor-se-resize flex items-end justify-end p-1 opacity-40 hover:opacity-100 transition-opacity"
+            className="resize-handle absolute bottom-0 right-0 w-5 h-5 cursor-se-resize flex items-end justify-end p-1 opacity-40 hover:opacity-100 transition-opacity z-50"
             onMouseDown={handleResizeMouseDown}
           >
-            <div className="w-2 h-2 border-b border-r border-white/60" />
+            <div className="w-2 h-2 border-b border-r border-white/60 pointer-events-none" />
           </div>
         )}
       </motion.div>

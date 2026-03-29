@@ -10,16 +10,14 @@ export const useWindowResize = (
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).classList.contains('resize-handle')) {
-      e.preventDefault();
-      setIsResizing(true);
-      setResizeStart({
-        x: e.clientX,
-        y: e.clientY,
-        width: initialSize.width,
-        height: initialSize.height,
-      });
-    }
+    e.preventDefault();
+    setIsResizing(true);
+    setResizeStart({
+      x: e.clientX,
+      y: e.clientY,
+      width: initialSize.width,
+      height: initialSize.height,
+    });
   }, [initialSize]);
 
   useEffect(() => {
