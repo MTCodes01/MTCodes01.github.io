@@ -129,8 +129,8 @@ cd <dir>  — Change dir        touch     — Create file
 rm <file> — Remove file       rmdir     — Remove dir
 date      — Current time       echo      — Print text
 socials   — My social links   fortune   — Wisdom
-cowsay    — Moo!              matrix    — ???
-rickroll  — ???               clear     — Clear screen
+cowsay    — Moo!              clear     — Clear screen
+rickroll  — ???               
 exit      — Close term`,
 
     socials: () => `Connect with me:
