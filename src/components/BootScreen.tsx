@@ -47,11 +47,36 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [timeStamp, setTimeStamp] = useState<string[]>([]);
 
-  const complete = useCallback(() => onComplete(), [onComplete]);
+  const skipReady = useRef(false);
+  const logCounter = useRef(0);
 
-  // Keyboard / click skip
+  // Store onComplete in a ref so it's always up-to-date
+  const onCompleteRef = useRef(onComplete);
+  useEffect(() => { onCompleteRef.current = onComplete; }, [onComplete]);
+
+  const complete = useCallback((reason: string) => {
+    console.log(`[BootScreen] Completing boot sequence. Reason: ${reason}`);
+    onCompleteRef.current();
+  }, []);
+
+  // Allow skipping only after it's actually "ready" (e.g. 30 lines have printed)
   useEffect(() => {
-    const handler = () => complete();
+    const checkReady = setInterval(() => {
+      if (logCounter.current >= 30) {
+        skipReady.current = true;
+        clearInterval(checkReady);
+      }
+    }, 100);
+    return () => clearInterval(checkReady);
+  }, []);
+
+  // Keyboard skip
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => { 
+      if (skipReady.current) {
+        complete(`keyboard (${e.key})`); 
+      }
+    };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [complete]);
@@ -63,26 +88,16 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
 
   // Boot message spewing
   useEffect(() => {
-    let idx = 0;
     let timeoutId: ReturnType<typeof setTimeout>;
 
-    // Generate static timestamp strings based on initial load so they look realistic
-
-    // Real-ish timestamp offset generator
-    const getTimestamp = () => {
-      const now = new Date();
-      return now.toISOString();
-    };
-
     const addLine = () => {
+      const idx = logCounter.current;
       if (idx < RENDER_LOGS.length) {
-        const newTimeStamp = getTimestamp();
+        const newTimeStamp = new Date().toISOString();
         setTimeStamp(prev => [...prev, newTimeStamp]);
-        const newLine = RENDER_LOGS[idx];
-        setLogLines(prev => [...prev, newLine]);
-        idx++;
-        
-        // Auto-scroll
+        setLogLines(prev => [...prev, RENDER_LOGS[idx]]);
+        logCounter.current = idx + 1;
+
         if (containerRef.current) {
           containerRef.current.scrollTop = containerRef.current.scrollHeight;
         }
@@ -94,7 +109,7 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
         timeoutId = setTimeout(addLine, delay);
       } else {
         // Finished
-        timeoutId = setTimeout(() => complete(), 800);
+        timeoutId = setTimeout(() => complete('finished_sequence'), 1000);
       }
     };
 
@@ -110,7 +125,7 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0, transition: { duration: 0.4 } }}
         className="fixed inset-0 bg-[#0a0a0c] z-[9999] overflow-hidden cursor-pointer p-4 md:p-8"
-        onClick={complete}
+        onClick={() => { if (skipReady.current) complete('click'); }}
       >
         <div 
           ref={containerRef}
