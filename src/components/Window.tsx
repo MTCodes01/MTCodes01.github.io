@@ -24,12 +24,12 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
   const [isMaximized, setIsMaximized] = useState(false);
   const [preMaxState, setPreMaxState] = useState<{ pos: { x: number; y: number }; size: { width: number; height: number } } | null>(null);
 
-  const { handleMouseDown: handleDragMouseDown } = useWindowDrag(
+  const { handlePointerDown: handleDragPointerDown } = useWindowDrag(
     windowState.id,
     updatePosition,
     windowState.position
   );
-  const { handleMouseDown: handleResizeMouseDown } = useWindowResize(
+  const { handlePointerDown: handleResizePointerDown } = useWindowResize(
     windowState.id,
     updateSize,
     windowState.size
@@ -74,7 +74,7 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
           zIndex: windowState.zIndex,
           transition: 'border-color 0.2s, box-shadow 0.2s',
         }}
-        onMouseDown={() => {
+        onPointerDown={() => {
           if (!windowState.minimized) focusWindow(windowState.id);
         }}
       >
@@ -88,10 +88,10 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
               ? 'bg-os-surface border-white/8'
               : 'bg-os-window border-white/[0.04]'
           }`}
-          onMouseDown={(e) => {
+          onPointerDown={(e) => {
             if (isMaximized) return;
             focusWindow(windowState.id);
-            handleDragMouseDown(e);
+            handleDragPointerDown(e);
           }}
           onDoubleClick={handleMaximize}
         >
@@ -151,7 +151,7 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
         {!isMaximized && windowState.id !== 'resume' && (
           <div
             className="resize-handle absolute bottom-0 right-0 w-5 h-5 cursor-se-resize flex items-end justify-end p-1 opacity-40 hover:opacity-100 transition-opacity z-50"
-            onMouseDown={handleResizeMouseDown}
+            onPointerDown={handleResizePointerDown}
           >
             <div className="w-2 h-2 border-b border-r border-white/60 pointer-events-none" />
           </div>

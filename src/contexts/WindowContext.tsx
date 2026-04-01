@@ -81,12 +81,17 @@ export const WindowProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       }
 
       const defaults = DEFAULT_WINDOWS[id] || { size: { width: 600, height: 500 }, position: { x: 100, y: 100 } };
+      
+      const isMobile = window.innerWidth <= 768;
+      const initialPos = isMobile ? { x: 0, y: 32 } : defaults.position!;
+      const initialSize = isMobile ? { width: window.innerWidth, height: window.innerHeight - 32 - 80 } : defaults.size!;
+
       const newWindow: WindowState = {
         id,
         title,
         icon,
-        position: defaults.position!,
-        size: defaults.size!,
+        position: initialPos,
+        size: initialSize,
         minimized: false,
         focused: true,
         zIndex: nextZIndex,

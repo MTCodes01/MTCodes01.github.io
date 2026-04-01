@@ -9,7 +9,7 @@ export const useWindowResize = (
   const [isResizing, setIsResizing] = useState(false);
   const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
     e.preventDefault();
     setIsResizing(true);
     setResizeStart({
@@ -23,7 +23,7 @@ export const useWindowResize = (
   useEffect(() => {
     if (!isResizing) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handlePointerMove = (e: PointerEvent) => {
       const deltaX = e.clientX - resizeStart.x;
       const deltaY = e.clientY - resizeStart.y;
       
@@ -33,18 +33,20 @@ export const useWindowResize = (
       updateSize(windowId, newWidth, newHeight);
     };
 
-    const handleMouseUp = () => {
+    const handlePointerUp = () => {
       setIsResizing(false);
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('pointermove', handlePointerMove);
+    document.addEventListener('pointerup', handlePointerUp);
+    document.addEventListener('pointercancel', handlePointerUp);
 
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('pointermove', handlePointerMove);
+      document.removeEventListener('pointerup', handlePointerUp);
+      document.removeEventListener('pointercancel', handlePointerUp);
     };
   }, [isResizing, resizeStart, windowId, updateSize, minSize]);
 
-  return { handleMouseDown, isResizing };
+  return { handlePointerDown, isResizing };
 };

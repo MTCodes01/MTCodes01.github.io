@@ -8,7 +8,7 @@ export const useWindowDrag = (
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
     // Only drag from title bar
     if ((e.target as HTMLElement).closest('.window-title-bar')) {
       e.preventDefault();
@@ -34,37 +34,39 @@ export const useWindowDrag = (
     overlay.style.zIndex = '99999';
     overlay.style.cursor = 'move';
     overlay.style.backgroundColor = 'transparent';
+    overlay.style.touchAction = 'none'; // Prevents mobile scrolling while dragging
     overlay.style.pointerEvents = 'all';
     document.body.appendChild(overlay);
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handlePointerMove = (e: PointerEvent) => {
       e.preventDefault();
       e.stopPropagation();
-      const newX = Math.max(0, Math.min(e.clientX - dragStart.x, window.innerWidth - 200));
-      const newY = Math.max(0, Math.min(e.clientY - dragStart.y, window.innerHeight - 100));
+      const newX = Math.max(0, Math.min(e.clientX - dragStart.x, window.innerWidth - 100));
+      const newY = Math.max(0, Math.min(e.clientY - dragStart.y, window.innerHeight - 50));
       updatePosition(windowId, newX, newY);
     };
 
-    const handleMouseUp = (e: MouseEvent) => {
+    const handlePointerUp = (e: PointerEvent) => {
       e.preventDefault();
       e.stopPropagation();
       setIsDragging(false);
     };
 
-    overlay.addEventListener('mousemove', handleMouseMove);
-    overlay.addEventListener('mouseup', handleMouseUp);
-    // Also listen for mouseleave in case cursor leaves the window
-    overlay.addEventListener('mouseleave', handleMouseUp);
+    overlay.addEventListener('pointermove', handlePointerMove);
+    overlay.addEventListener('pointerup', handlePointerUp);
+    overlay.addEventListener('pointercancel', handlePointerUp);
+    overlay.addEventListener('pointerleave', handlePointerUp);
 
     return () => {
-      overlay.removeEventListener('mousemove', handleMouseMove);
-      overlay.removeEventListener('mouseup', handleMouseUp);
-      overlay.removeEventListener('mouseleave', handleMouseUp);
+      overlay.removeEventListener('pointermove', handlePointerMove);
+      overlay.removeEventListener('pointerup', handlePointerUp);
+      overlay.removeEventListener('pointercancel', handlePointerUp);
+      overlay.removeEventListener('pointerleave', handlePointerUp);
       if (document.body.contains(overlay)) {
         document.body.removeChild(overlay);
       }
     };
   }, [isDragging, dragStart, windowId, updatePosition]);
 
-  return { handleMouseDown, isDragging };
+  return { handlePointerDown, isDragging };
 };
