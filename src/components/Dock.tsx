@@ -68,7 +68,7 @@ const Dock: React.FC = () => {
         </div>
 
         {/* App icons */}
-        <div className="flex items-center gap-1 flex-1 justify-center">
+        <div className="flex items-center gap-1 sm:gap-1.5 flex-1 justify-center overflow-x-auto scrollbar-hide px-1">
           {DOCK_APPS.map(app => {
             const IconComponent = Icons[app.icon];
             const windowState = getWindowState(app.id);
@@ -91,14 +91,14 @@ const Dock: React.FC = () => {
                   onPointerUp={cancelPress}
                   onPointerLeave={cancelPress}
                   onClick={(e) => handleClick(e, app.id, app.title, app.icon)}
-                  className={`relative w-11 h-11 flex items-center justify-center transition-colors duration-200 ${
+                  className={`relative w-9 h-9 flex-shrink-0 sm:w-11 sm:h-11 flex items-center justify-center transition-colors duration-200 ${
                     isOpen && !isMinimized
                       ? 'text-os-main bg-os-element border border-os-muted'
                       : 'text-os-muted hover:text-os-main border border-transparent hover:border-os-muted hover:bg-os-element'
                   }`}
                   title={app.title}
                 >
-                  {IconComponent && <IconComponent size={18} />}
+                  {IconComponent && <IconComponent size={window.innerWidth <= 768 ? 16 : 18} />}
                 </motion.button>
 
                 {/* Active dot */}

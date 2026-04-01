@@ -45,7 +45,7 @@ const TopBar: React.FC = () => {
             <span className="font-medium text-os-main">{focusedWindowData.title}</span>
           </div>
         ) : (
-          <span className="text-os-muted font-jetbrains text-[10px] tracking-wider">
+          <span className="text-os-muted font-jetbrains text-[10px] tracking-wider hidden sm:inline">
             No active window
           </span>
         )}
@@ -89,8 +89,8 @@ const TopBar: React.FC = () => {
 
             <div className="h-3 w-px bg-os-muted" />
 
-            <div className="flex items-center gap-3 font-jetbrains text-[10px] text-os-main">
-              <span className="text-os-muted">{dateStr}</span>
+            <div className="flex items-center gap-2 sm:gap-3 font-jetbrains text-[10px] text-os-main">
+              <span className="hidden sm:inline text-os-muted">{dateStr}</span>
               <span className="text-os-main font-medium tracking-widest">{timeStr}</span>
             </div>
           </>
