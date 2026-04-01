@@ -110,7 +110,7 @@ const AboutApp: React.FC = () => {
           >
             {/* Outer glow ring */}
             <div className="absolute -inset-2 rounded-none opacity-30 blur-md bg-[#ff003c]" />
-            <div className="relative w-36 h-36 border border-[#ff003c]/40 bg-gradient-to-br from-[#1a0008] to-[#0a0a0f] flex items-center justify-center overflow-hidden group">
+            <div role="img" aria-label="Sreedev SS avatar" className="relative w-36 h-36 border border-[#ff003c]/40 bg-gradient-to-br from-[#1a0008] to-[#0a0a0f] flex items-center justify-center overflow-hidden group">
               {/* Scan line */}
               <div className="absolute inset-x-0 h-12 bg-gradient-to-b from-transparent via-[#ff003c]/15 to-transparent animate-scan pointer-events-none" />
               {/* Initials */}

@@ -92,11 +92,11 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
             </h3>
           </div>
           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="p-1.5 border border-os-muted hover:bg-os-element hover:border-os-muted text-os-muted hover:text-os-main transition-colors" title="View Code">
+            <a href={repo.html_url} target="_blank" rel="noopener noreferrer" aria-label={`View source code for ${title} on GitHub`} className="p-1.5 border border-os-muted hover:bg-os-element hover:border-os-muted text-os-muted hover:text-os-main transition-colors" title="View Code">
               <span className="text-xs font-mono">[CODE]</span>
             </a>
             {demoUrl && (
-              <a href={demoUrl} target="_blank" rel="noopener noreferrer" className="p-1.5 border border-[#ffaa00]/50 bg-[#ffaa00]/10 hover:bg-[#ffaa00]/20 text-[#ffaa00] transition-colors" title="Live Demo">
+              <a href={demoUrl} target="_blank" rel="noopener noreferrer" aria-label={`Live demo for ${title}`} className="p-1.5 border border-[#ffaa00]/50 bg-[#ffaa00]/10 hover:bg-[#ffaa00]/20 text-[#ffaa00] transition-colors" title="Live Demo">
                 <span className="text-xs font-mono">[RUN]</span>
               </a>
             )}
