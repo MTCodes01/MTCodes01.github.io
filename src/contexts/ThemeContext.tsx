@@ -34,7 +34,17 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   }, [batterySaver]);
 
   const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    if (theme === 'dark') {
+      const hasWarned = localStorage.getItem('lightModeWarned') === 'true';
+      if (!hasWarned) {
+        const proceed = window.confirm("WARNING: Brace yourself. Light mode is heavily contrasted and extremely bright! Are you sure you want to proceed?");
+        if (!proceed) return;
+        localStorage.setItem('lightModeWarned', 'true');
+      }
+      setTheme('light');
+    } else {
+      setTheme('dark');
+    }
   };
 
   const toggleBatterySaver = () => {

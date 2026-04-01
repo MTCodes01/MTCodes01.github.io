@@ -83,8 +83,8 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
         <div
           className={`window-title-bar h-9 flex items-center justify-between px-3 cursor-move select-none border-b transition-colors duration-200 ${
             isFocused
-              ? 'bg-[#141418] border-white/8'
-              : 'bg-[#0d0d10] border-white/[0.04]'
+              ? 'bg-os-surface border-white/8'
+              : 'bg-os-window border-white/[0.04]'
           }`}
           onMouseDown={(e) => {
             if (isMaximized) return;
@@ -140,7 +140,7 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
         </div>
 
         {/* Content */}
-        <div className="h-[calc(100%-2.25rem)] overflow-auto scroll-smooth relative bg-[#08080d]">
+        <div className="h-[calc(100%-2.25rem)] overflow-auto scroll-smooth relative bg-os-element">
           <div className="absolute inset-0 bg-dot-pattern opacity-[0.03] pointer-events-none" />
           {children}
         </div>

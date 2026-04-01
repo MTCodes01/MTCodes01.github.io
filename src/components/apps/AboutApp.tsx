@@ -96,7 +96,7 @@ const AboutApp: React.FC = () => {
   }, [charIndex, isDeleting, roleIndex]);
 
   return (
-    <div className="h-full overflow-auto px-8 pt-8 pb-6 text-white font-inter bg-dot-pattern">
+    <div className="h-full overflow-auto px-8 pt-8 pb-6 text-os-main font-inter bg-dot-pattern">
       <div className="max-w-2xl mx-auto w-full">
 
         {/* Hero row */}
@@ -114,7 +114,7 @@ const AboutApp: React.FC = () => {
               {/* Scan line */}
               <div className="absolute inset-x-0 h-12 bg-gradient-to-b from-transparent via-[#ff003c]/15 to-transparent animate-scan pointer-events-none" />
               {/* Initials */}
-              <span className="font-space-grotesk font-bold text-4xl text-white/90 tracking-tight select-none z-10">MT</span>
+              <span className="font-space-grotesk font-bold text-4xl text-os-muted tracking-tight select-none z-10">MT</span>
               {/* Corner marks */}
               <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff003c]" />
               <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-[#ff003c]" />
@@ -130,7 +130,7 @@ const AboutApp: React.FC = () => {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="text-center md:text-left flex-1"
           >
-            <h1 className="text-5xl font-space-grotesk font-bold mb-3 uppercase tracking-tighter text-white">
+            <h1 className="text-5xl font-space-grotesk font-bold mb-3 uppercase tracking-tighter text-os-main">
               Sreedev S S
             </h1>
 
@@ -144,11 +144,11 @@ const AboutApp: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <span className="font-jetbrains text-xs text-white/30 uppercase tracking-widest">B.Tech CSE</span>
-              <span className="w-1 h-1 bg-white/20 rounded-full" />
-              <span className="font-jetbrains text-xs text-white/30 uppercase tracking-widest">CEAL, Kerala</span>
-              <span className="w-1 h-1 bg-white/20 rounded-full" />
-              <span className="font-jetbrains text-xs text-white/30 uppercase tracking-widest">India</span>
+              <span className="font-jetbrains text-xs text-os-muted uppercase tracking-widest">B.Tech CSE</span>
+              <span className="w-1 h-1 bg-os-surface rounded-full" />
+              <span className="font-jetbrains text-xs text-os-muted uppercase tracking-widest">CEAL, Kerala</span>
+              <span className="w-1 h-1 bg-os-surface rounded-full" />
+              <span className="font-jetbrains text-xs text-os-muted uppercase tracking-widest">India</span>
             </div>
           </motion.div>
         </div>
@@ -160,18 +160,18 @@ const AboutApp: React.FC = () => {
           transition={{ duration: 0.4, delay: 0.2 }}
           className="border-l-2 border-[#ff003c]/40 pl-5 mb-8 space-y-3"
         >
-          <p className="text-white/70 leading-relaxed text-sm font-inter">
+          <p className="text-os-muted leading-relaxed text-sm font-inter">
             <span className="text-[#ff003c] font-jetbrains mr-1">&gt;&gt;</span>
             B.Tech CSE student at{' '}
-            <span className="text-white border-b border-white/20">College of Engineering Attingal</span>,
+            <span className="text-os-main border-b border-os-muted">College of Engineering Attingal</span>,
             skilled in web design, full-stack development, server management, and video editing.
           </p>
-          <p className="text-white/60 leading-relaxed text-sm font-inter">
+          <p className="text-os-muted leading-relaxed text-sm font-inter">
             <span className="text-[#ff003c] font-jetbrains mr-1">&gt;&gt;</span>
             Passionate about building impactful digital experiences. Beyond code, I'm a{' '}
             <span className="text-[#ff003c]">Minecraft Redstoner</span> and{' '}
             <span className="text-[#ff003c]">Content Creator</span>{' '}
-            <span className="text-white/30 italic">(sometimes)</span>.
+            <span className="text-os-muted italic">(sometimes)</span>.
           </p>
         </motion.div>
 
@@ -182,12 +182,12 @@ const AboutApp: React.FC = () => {
           transition={{ duration: 0.4, delay: 0.3 }}
           className="mb-8"
         >
-          <p className="font-jetbrains text-[10px] text-white/30 uppercase tracking-widest mb-3">Tech Stack</p>
+          <p className="font-jetbrains text-[10px] text-os-muted uppercase tracking-widest mb-3">Tech Stack</p>
           <div className="flex flex-wrap gap-2">
             {SKILLS.map(skill => (
               <span
                 key={skill.label}
-                className="px-2.5 py-1 bg-white/[0.04] border border-white/10 text-white/60 text-xs font-jetbrains hover:border-[#ff003c]/50 hover:text-white hover:bg-[#ff003c]/5 transition-all cursor-default"
+                className="px-2.5 py-1 bg-os-surface border border-os-muted text-os-muted text-xs font-jetbrains hover:border-[#ff003c]/50 hover:text-os-main hover:bg-[#ff003c]/5 transition-all cursor-default"
                 style={{ borderLeftColor: skill.color, borderLeftWidth: 2 }}
               >
                 {skill.label}
@@ -209,13 +209,13 @@ const AboutApp: React.FC = () => {
               href={s.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2 px-4 py-2.5 bg-white/[0.03] border border-white/10 hover:border-[#ff003c]/60 hover:bg-[#ff003c]/5 transition-all duration-200"
+              className="group flex items-center gap-2 px-4 py-2.5 bg-os-surface border border-os-muted hover:border-[#ff003c]/60 hover:bg-[#ff003c]/5 transition-all duration-200"
             >
-              <span className="text-white/40 group-hover:text-[#ff003c] transition-colors">{s.icon}</span>
-              <span className="font-jetbrains text-xs text-white/60 group-hover:text-white transition-colors uppercase tracking-wider">
+              <span className="text-os-muted group-hover:text-[#ff003c] transition-colors">{s.icon}</span>
+              <span className="font-jetbrains text-xs text-os-muted group-hover:text-os-main transition-colors uppercase tracking-wider">
                 {s.label}
               </span>
-              <span className="text-white/20 group-hover:text-[#ff003c]/60 transition-all opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 duration-200">
+              <span className="text-os-muted/50 group-hover:text-[#ff003c]/60 transition-all opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 duration-200">
                 →
               </span>
             </a>

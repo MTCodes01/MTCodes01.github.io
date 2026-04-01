@@ -72,35 +72,35 @@ const ResumeApp: React.FC = () => {
   const handlePrint = () => window.print();
 
   return (
-    <div className="h-full overflow-auto bg-[#08080d] text-white p-8 font-inter">
+    <div className="h-full overflow-auto bg-os-element text-os-main p-8 font-inter">
       <div className="max-w-4xl mx-auto min-h-full relative">
         {/* Header */}
         <motion.header
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="flex flex-col md:flex-row justify-between md:items-start border-b border-white/8 pb-8 mb-10 gap-6"
+          className="flex flex-col md:flex-row justify-between md:items-start border-b border-os-muted pb-8 mb-10 gap-6"
         >
           <div>
-            <h1 className="text-5xl font-space-grotesk font-bold mb-1 uppercase tracking-tighter text-white">
+            <h1 className="text-5xl font-space-grotesk font-bold mb-1 uppercase tracking-tighter text-os-main">
               Sreedev S S
             </h1>
             <p className="text-[#00f0ff] font-jetbrains text-sm tracking-widest uppercase">
               Developer · Designer · Editor
             </p>
           </div>
-          <div className="text-right text-[11px] text-white/35 space-y-1.5 font-jetbrains">
+          <div className="text-right text-[11px] text-os-muted space-y-1.5 font-jetbrains">
             <div className="flex items-center justify-end gap-2">
               <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Email</span>
-              <span className="text-white/50">sreedevss05@gmail.com</span>
+              <span className="text-os-muted">sreedevss05@gmail.com</span>
             </div>
             <div className="flex items-center justify-end gap-2">
               <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Web</span>
-              <span className="text-white/50">sreedevss.in</span>
+              <span className="text-os-muted">sreedevss.in</span>
             </div>
             <div className="flex items-center justify-end gap-2">
               <span className="text-[#00f0ff]/60 text-[9px] tracking-widest uppercase">Location</span>
-              <span className="text-white/50">Thiruvananthapuram, Kerala</span>
+              <span className="text-os-muted">Thiruvananthapuram, Kerala</span>
             </div>
           </div>
         </motion.header>
@@ -116,7 +116,7 @@ const ResumeApp: React.FC = () => {
               </h2>
               <div className="relative">
                 {/* Timeline line */}
-                <div className="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-[#00f0ff]/40 via-white/10 to-transparent" />
+                <div className="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-[#00f0ff]/40 via-os-muted/30 to-transparent" />
 
                 <div className="space-y-7 pl-6">
                   {EXPERIENCE.map((exp, i) => (
@@ -128,23 +128,23 @@ const ResumeApp: React.FC = () => {
                       className="relative group"
                     >
                       {/* Timeline dot */}
-                      <div className={`absolute -left-7 top-1.5 w-2.5 h-2.5 rotate-45 ${exp.primary ? 'bg-[#00f0ff]' : 'bg-white/20 group-hover:bg-white/40'} transition-colors`} />
+                      <div className={`absolute -left-7 top-1.5 w-2.5 h-2.5 rotate-45 ${exp.primary ? 'bg-[#00f0ff]' : 'bg-os-surface group-hover:bg-os-surface'} transition-colors`} />
 
                       <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 mb-1">
-                        <h3 className="font-space-grotesk font-bold text-base text-white group-hover:text-[#00f0ff] transition-colors">
+                        <h3 className="font-space-grotesk font-bold text-base text-os-main group-hover:text-[#00f0ff] transition-colors">
                           {exp.role}
                         </h3>
-                        <span className="font-jetbrains text-[10px] text-white/25 uppercase tracking-widest whitespace-nowrap">
+                        <span className="font-jetbrains text-[10px] text-os-muted uppercase tracking-widest whitespace-nowrap">
                           {exp.period}
                         </span>
                       </div>
-                      <p className={`font-jetbrains text-[11px] mb-2 uppercase tracking-wider ${exp.primary ? 'text-[#00f0ff]/80' : 'text-white/35'}`}>
+                      <p className={`font-jetbrains text-[11px] mb-2 uppercase tracking-wider ${exp.primary ? 'text-[#00f0ff]/80' : 'text-os-muted'}`}>
                         {exp.org}
                       </p>
                       {exp.bullets && (
                         <ul className="space-y-0.5">
                           {exp.bullets.map((b, j) => (
-                            <li key={j} className="flex items-start gap-2 text-xs text-white/45 font-inter">
+                            <li key={j} className="flex items-start gap-2 text-xs text-os-muted font-inter">
                               <span className="text-[#00f0ff]/40 mt-0.5 shrink-0">-</span>
                               {b}
                             </li>
@@ -164,22 +164,22 @@ const ResumeApp: React.FC = () => {
               </h2>
               <div className="space-y-6">
                 <div>
-                  <h3 className="font-space-grotesk font-bold text-base text-white">
+                  <h3 className="font-space-grotesk font-bold text-base text-os-main">
                     B.Tech in Computer Science &amp; Engineering
                   </h3>
                   <p className="font-jetbrains text-[11px] text-[#00f0ff]/70 uppercase tracking-wider mt-1">
                     College of Engineering, Attingal (CEAL)
                   </p>
-                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2023 - Present · Thiruvananthapuram</p>
+                  <p className="font-jetbrains text-[10px] text-os-muted mt-0.5">2023 - Present · Thiruvananthapuram</p>
                 </div>
                 <div>
-                  <h3 className="font-space-grotesk font-bold text-base text-white">
+                  <h3 className="font-space-grotesk font-bold text-base text-os-main">
                     Secondary Education
                   </h3>
-                  <p className="font-jetbrains text-[11px] text-white/35 uppercase tracking-wider mt-1">
+                  <p className="font-jetbrains text-[11px] text-os-muted uppercase tracking-wider mt-1">
                     Dr. GR Public School, Neyyattinkara
                   </p>
-                  <p className="font-jetbrains text-[10px] text-white/25 mt-0.5">2021 - 2023 · Thiruvananthapuram</p>
+                  <p className="font-jetbrains text-[10px] text-os-muted mt-0.5">2021 - 2023 · Thiruvananthapuram</p>
                 </div>
               </div>
             </motion.section>
@@ -194,14 +194,14 @@ const ResumeApp: React.FC = () => {
               <div className="space-y-6">
                 {Object.entries(SKILLS_MAP).map(([category, { items, accent }]) => (
                   <div key={category}>
-                    <h4 className="font-jetbrains font-bold text-[10px] uppercase tracking-widest text-white/30 mb-2">
+                    <h4 className="font-jetbrains font-bold text-[10px] uppercase tracking-widest text-os-muted mb-2">
                       {category}
                     </h4>
                     <div className="flex flex-wrap gap-1.5">
                       {items.map(skill => (
                         <span
                           key={skill}
-                          className="px-2 py-0.5 bg-white/[0.04] border border-white/8 text-white/60 text-[11px] font-jetbrains hover:text-white hover:bg-white/8 transition-all cursor-default"
+                          className="px-2 py-0.5 bg-os-surface border border-os-muted text-os-muted text-[11px] font-jetbrains hover:text-os-main hover:bg-os-element transition-all cursor-default"
                           style={{ borderLeftColor: accent, borderLeftWidth: 2 }}
                         >
                           {skill}
@@ -219,7 +219,7 @@ const ResumeApp: React.FC = () => {
               </h2>
               <div className="flex flex-wrap gap-2">
                 {['English', 'Malayalam', 'Hindi'].map(lang => (
-                  <span key={lang} className="px-2.5 py-1 bg-white/[0.04] border border-white/8 text-white/50 text-xs font-jetbrains">
+                  <span key={lang} className="px-2.5 py-1 bg-os-surface border border-os-muted text-os-muted text-xs font-jetbrains">
                     {lang}
                   </span>
                 ))}

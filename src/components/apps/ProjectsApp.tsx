@@ -76,23 +76,23 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
   const displayTopics = repo.topics ? repo.topics.filter(t => t !== 'portfolio') : [];
 
   return (
-    <div className="group relative bg-black/40 border border-white/10 hover:border-[#ffaa00] transition-colors overflow-hidden flex flex-col h-full min-h-[320px]">
+    <div className="group relative bg-os-surface border border-os-muted hover:border-[#ffaa00] transition-colors overflow-hidden flex flex-col h-full min-h-[320px]">
       {/* Corner Accents */}
-      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/30 group-hover:border-[#ffaa00] transition-colors" />
-      <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/30 group-hover:border-[#ffaa00] transition-colors" />
-      <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/30 group-hover:border-[#ffaa00] transition-colors" />
-      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/30 group-hover:border-[#ffaa00] transition-colors" />
+      <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-os-muted group-hover:border-[#ffaa00] transition-colors" />
+      <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-os-muted group-hover:border-[#ffaa00] transition-colors" />
+      <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-os-muted group-hover:border-[#ffaa00] transition-colors" />
+      <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-os-muted group-hover:border-[#ffaa00] transition-colors" />
 
       <div className="p-6 flex flex-col h-full">
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <span className="text-[#ffaa00]/50 font-mono text-xs">{(index + 1).toString().padStart(2, '0')}</span>
-            <h3 className="text-xl font-bold font-space-grotesk uppercase text-white group-hover:text-[#ffaa00] transition-colors truncate max-w-[200px]" title={title}>
+            <h3 className="text-xl font-bold font-space-grotesk uppercase text-os-main group-hover:text-[#ffaa00] transition-colors truncate max-w-[200px]" title={title}>
               {title}
             </h3>
           </div>
           <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-            <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="p-1.5 border border-white/20 hover:bg-white/10 hover:border-white/50 text-white/70 hover:text-white transition-colors" title="View Code">
+            <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="p-1.5 border border-os-muted hover:bg-os-element hover:border-os-muted text-os-muted hover:text-os-main transition-colors" title="View Code">
               <span className="text-xs font-mono">[CODE]</span>
             </a>
             {demoUrl && (
@@ -103,7 +103,7 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
           </div>
         </div>
         
-        <p className="text-white/60 text-sm mb-6 leading-relaxed font-mono custom-scrollbar line-clamp-3">
+        <p className="text-os-muted text-sm mb-6 leading-relaxed font-mono custom-scrollbar line-clamp-3">
           {repo.description || "Experimental module with dynamic parameters."}
         </p>
 
@@ -111,15 +111,15 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
         <div className="mb-6 flex-grow">
           {loading ? (
             <div className="space-y-3 animate-pulse">
-              <div className="h-2 w-full bg-white/5 rounded-full" />
+              <div className="h-2 w-full bg-os-surface rounded-full" />
               <div className="flex gap-4">
-                <div className="h-2 w-12 bg-white/5 rounded-full" />
-                <div className="h-2 w-16 bg-white/5 rounded-full" />
+                <div className="h-2 w-12 bg-os-surface rounded-full" />
+                <div className="h-2 w-16 bg-os-surface rounded-full" />
               </div>
             </div>
           ) : languages && languages.length > 0 ? (
             <>
-              <div className="flex h-2 w-full overflow-hidden rounded-full bg-white/5 mb-3">
+              <div className="flex h-2 w-full overflow-hidden rounded-full bg-os-surface mb-3">
                 {languages.map((lang) => (
                   <div key={lang.name} style={{ width: `${lang.percentage}%`, backgroundColor: lang.color }} className="h-full first:rounded-l-full last:rounded-r-full" title={`${lang.name}: ${lang.percentage}%`} />
                 ))}
@@ -128,22 +128,22 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
                 {languages.map((lang) => (
                   <div key={lang.name} className="flex items-center gap-1.5 text-[10px] font-mono">
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: lang.color }} />
-                    <span className="text-white/70">{lang.name}</span>
-                    <span className="text-white/30">{lang.percentage}%</span>
+                    <span className="text-os-muted">{lang.name}</span>
+                    <span className="text-os-muted/50">{lang.percentage}%</span>
                   </div>
                 ))}
               </div>
             </>
           ) : (
-            <div className="text-white/20 italic text-[10px] py-1">ANALYZING_CODE_COMPOSITION...</div>
+            <div className="text-os-muted italic text-[10px] py-1">ANALYZING_CODE_COMPOSITION...</div>
           )}
         </div>
         
-        <div className="mt-auto pt-6 border-t border-dashed border-white/10">
+        <div className="mt-auto pt-6 border-t border-dashed border-os-muted">
           <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
             {displayTopics.length > 0 ? (
               <>
-                <span className="text-white/30 mr-1 italic">MODULE_TAGS:</span>
+                <span className="text-os-muted mr-1 italic">MODULE_TAGS:</span>
                 <div className="flex flex-wrap gap-1.5">
                   {displayTopics.map(topic => (
                     <span key={topic} className="text-[#ffaa00]/80 border border-[#ffaa00]/20 px-1.5 py-0.5 rounded-sm bg-[#ffaa00]/5 uppercase text-[9px] hover:border-[#ffaa00]/50 transition-colors">
@@ -153,7 +153,7 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
                 </div>
               </>
             ) : (
-              <span className="text-white/20 italic text-[10px]">NO_TAG_METADATA_DETECTED</span>
+              <span className="text-os-muted italic text-[10px]">NO_TAG_METADATA_DETECTED</span>
             )}
           </div>
         </div>
@@ -215,18 +215,18 @@ const ProjectsApp: React.FC = () => {
   return (
     <div ref={containerRef} className="p-8 h-full overflow-auto bg-grid-pattern bg-fixed">
       <div className={`${containerMaxWidth} mx-auto transition-all duration-500`}>
-        <header className="mb-12 border-b border-white/10 pb-6 flex items-end justify-between gap-4 flex-wrap">
+        <header className="mb-12 border-b border-os-muted pb-6 flex items-end justify-between gap-4 flex-wrap">
           <div>
-            <h2 className="text-4xl font-space-grotesk font-bold text-white mb-2 uppercase tracking-tight">
+            <h2 className="text-4xl font-space-grotesk font-bold text-os-main mb-2 uppercase tracking-tight">
               Projects <span className="text-[#ffaa00]">_</span>
             </h2>
-            <p className="text-white/50 font-mono text-sm">Select a module to view details</p>
+            <p className="text-os-muted font-mono text-sm">Select a module to view details</p>
           </div>
           <div className="flex items-center gap-4">
             <button 
               onClick={() => loadRepos(true)}
               disabled={loading}
-              className="group flex items-center gap-2 px-3 py-1.5 border border-white/20 hover:border-[#ffaa00] bg-white/5 hover:bg-[#ffaa00]/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="group flex items-center gap-2 px-3 py-1.5 border border-os-muted hover:border-[#ffaa00] bg-os-surface hover:bg-[#ffaa00]/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               title="Force Refresh Data"
             >
               <svg 
@@ -237,7 +237,7 @@ const ProjectsApp: React.FC = () => {
               >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
-              <span className="text-[10px] font-mono text-white/70 group-hover:text-white uppercase tracking-wider">Refresh</span>
+              <span className="text-[10px] font-mono text-os-muted group-hover:text-os-main uppercase tracking-wider">Refresh</span>
             </button>
             <div className="text-[#ffaa00] font-mono text-xs border border-[#ffaa00]/30 px-2 py-1 bg-[#ffaa00]/10 h-fit">
               {loading ? 'ANALYZING...' : `${repos.length} MODULES DETECTED`}
@@ -248,7 +248,7 @@ const ProjectsApp: React.FC = () => {
         {loading ? (
           <div className={`grid ${gridColsClass} gap-6 opacity-50`}>
             {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-              <div key={i} className="h-[320px] bg-white/5 border border-white/10 animate-pulse" />
+              <div key={i} className="h-[320px] bg-os-surface border border-os-muted animate-pulse" />
             ))}
           </div>
         ) : (

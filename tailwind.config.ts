@@ -12,6 +12,14 @@ const config: Config = {
           light: "rgba(255, 255, 255, 0.1)",
           dark: "rgba(0, 0, 0, 0.3)",
         },
+        os: {
+          desktop: "var(--bg-desktop)",
+          window: "var(--bg-window)",
+          surface: "var(--bg-surface)",
+          element: "var(--bg-element)",
+          main: "var(--text-main)",
+          muted: "var(--text-muted)",
+        }
       },
       backdropBlur: {
         xs: "2px",

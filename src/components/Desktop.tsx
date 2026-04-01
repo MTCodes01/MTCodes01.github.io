@@ -40,7 +40,7 @@ const Desktop: React.FC = () => {
   const secondaryColor = musicState.isPlaying ? musicState.trackColor : '#00f0ff';
 
   return (
-    <div className={`nebula-container fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none transition-colors duration-[2000ms] ${isGameActive ? 'nebula-active' : ''}`}>
+    <div className={`nebula-container fixed inset-0 bg-os-desktop overflow-hidden font-inter text-os-main select-none transition-colors duration-[2000ms] ${isGameActive ? 'nebula-active' : ''}`}>
       <style>{`
         @keyframes eq-bounce {
           0% { height: 15%; }
@@ -77,7 +77,7 @@ const Desktop: React.FC = () => {
       {/* Vignette */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%)' }}
+        style={{ background: 'radial-gradient(ellipse at center, transparent 40%, var(--vignette) 100%)' }}
       />
 
       {/* Scanlines — very subtle */}

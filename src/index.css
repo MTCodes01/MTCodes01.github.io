@@ -23,11 +23,18 @@
   --accent: var(--checkpoint-pink);
 
   /* UI Variables */
+  --bg-desktop: #020204;
+  --bg-window: #0a0a0f;
+  --bg-surface: #141418;
+  --bg-element: #0d0d12;
   --border-color: rgba(255, 255, 255, 0.12);
   --border-active: var(--checkpoint-pink);
   --grid-color: rgba(255, 255, 255, 0.07);
   --glass-bg: rgba(8, 8, 12, 0.85);
-  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --vignette: rgba(0, 0, 0, 0.75);
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.4);
 }
 
 [data-theme="light"] {
@@ -35,10 +42,18 @@
   --bg-secondary: #f5f5f5;
   --text-primary: #050505;
   --text-secondary: #404040;
+  
+  --bg-desktop: #e8e8ed;
+  --bg-window: #ffffff;
+  --bg-surface: #f4f4f8;
+  --bg-element: #eaeaf0;
   --border-color: rgba(0, 0, 0, 0.15);
   --grid-color: rgba(0, 0, 0, 0.05);
-  --glass-bg: rgba(240, 240, 245, 0.90);
-  --glass-border: rgba(0, 0, 0, 0.10);
+  --glass-bg: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --vignette: rgba(0, 0, 0, 0.08); /* Much softer dark hue on borders so it looks clean */
+  --text-main: #111111;
+  --text-muted: rgba(0, 0, 0, 0.6);
 }
 
 /* ============================================================
@@ -160,7 +175,7 @@ code, pre, .font-mono {
    WIREFRAME PANEL
    ============================================================ */
 .wireframe-panel {
-  background: rgba(10, 10, 15, 0.95);
+  background: var(--bg-surface);
   backdrop-filter: blur(4px);
   border: 1px solid var(--border-color);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
@@ -254,9 +269,10 @@ code, pre, .font-mono {
    DOCK
    ============================================================ */
 .dock-container {
-  @apply wireframe-panel px-4 py-3 border border-white/10;
-  box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04);
-  background: rgba(5, 5, 8, 0.92);
+  @apply wireframe-panel px-4 py-3;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 -4px 40px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--glass-border);
+  background: var(--glass-bg);
 }
 
 /* ============================================================

@@ -410,7 +410,7 @@ const MusicApp: React.FC = () => {
   const proxyBypassUrl = `https://raw.githubusercontent.com/muhammederdem/mini-player/master/mp3/${(currentTrack % 9) + 1}.mp3`;
 
   return (
-    <div className="h-full bg-[#0a0a0c] text-white font-inter flex flex-col md:flex-row overflow-hidden relative select-none">
+    <div className="h-full bg-os-window text-os-main font-inter flex flex-col md:flex-row overflow-hidden relative select-none">
       {/* Proxy the audio stream tightly with anonymous crossOrigin to permit full Web Audio API ingestion */}
       <audio 
         ref={audioRef} 
@@ -429,7 +429,7 @@ const MusicApp: React.FC = () => {
         <div className="relative mb-8 w-48 h-48 md:w-64 md:h-64 group drop-shadow-2xl">
           {/* Vinyl Disc - shifts out slightly on play */}
           <div 
-            className="absolute inset-0 rounded-full bg-[#111] border-4 border-[#222] shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] overflow-hidden flex items-center justify-center"
+            className="absolute inset-0 rounded-full bg-os-surface border-4 border-black/20 shadow-2xl transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] overflow-hidden flex items-center justify-center"
             style={{
               transform: isPlaying ? 'translateX(15%) rotate(0deg)' : 'translateX(0%) rotate(0deg)',
               animation: 'spin 8s linear infinite',
@@ -446,7 +446,7 @@ const MusicApp: React.FC = () => {
             <div className="w-16 h-16 rounded-full overflow-hidden relative">
               <img src={track.cover} alt="label" className="w-full h-full object-cover opacity-80" />
               <div className="absolute inset-0 bg-black/40" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-[#111] rounded-full border border-white/20" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 bg-os-window rounded-full border border-white/20" />
             </div>
           </div>
           

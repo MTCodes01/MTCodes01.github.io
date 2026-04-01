@@ -242,9 +242,9 @@ const BrowserApp: React.FC = () => {
   const handleKeyDown = (e: React.KeyboardEvent) => { if (e.key === 'Enter') navigate(activeTab.inputUrl); };
 
   return (
-    <div className="h-full flex flex-col bg-[#0b0b0f] font-inter overflow-hidden">
+    <div className="h-full flex flex-col bg-os-window font-inter overflow-hidden">
       {/* Tab Bar */}
-      <div className="flex items-center gap-1 px-2 pt-2 bg-[#0d0d12] border-b border-white/5 overflow-x-auto scrollbar-hide">
+      <div className="flex items-center gap-1 px-2 pt-2 bg-os-surface border-b border-os-muted/30 overflow-x-auto scrollbar-hide">
         <AnimatePresence initial={false}>
           {tabs.map((tab) => (
             <motion.button
@@ -255,8 +255,8 @@ const BrowserApp: React.FC = () => {
               onClick={() => setActiveTabId(tab.id)}
               className={`group relative flex items-center gap-2 px-4 py-2 min-w-[140px] max-w-[220px] text-[11px] font-medium rounded-t-lg transition-all duration-300 border-t border-x ${
                 activeTabId === tab.id 
-                  ? 'bg-[#050508] text-[#00f0ff] border-white/10 shadow-[0_-4px_12px_rgba(0,0,0,0.5)]' 
-                  : 'bg-transparent text-white/30 border-transparent hover:text-white/60 hover:bg-white/[0.02]'
+                  ? 'bg-os-element text-os-main border-os-muted/30 shadow-[0_-4px_12px_rgba(0,0,0,0.5)]' 
+                  : 'bg-transparent text-os-muted border-transparent hover:text-os-muted hover:bg-white/[0.02]'
               }`}
             >
               {/* Active Glow Indicator */}
@@ -278,7 +278,7 @@ const BrowserApp: React.FC = () => {
               </motion.span>
               
               {activeTabId === tab.id && (
-                <div className="absolute bottom-[-1px] left-0 right-0 h-[1.2px] bg-[#050508] z-30" />
+                <div className="absolute bottom-[-1px] left-0 right-0 h-[1.2px] bg-os-element z-30" />
               )}
             </motion.button>
           ))}
@@ -288,45 +288,45 @@ const BrowserApp: React.FC = () => {
           whileHover={{ scale: 1.1, backgroundColor: 'rgba(0,240,255,0.1)' }}
           whileTap={{ scale: 0.9 }}
           onClick={() => createNewTab()}
-          className="ml-1 p-2 text-white/20 hover:text-[#00f0ff] rounded-lg transition-colors"
+          className="ml-1 p-2 text-os-muted hover:text-[#00f0ff] rounded-lg transition-colors"
           title="New Tab"
         >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg>
         </motion.button>
       </div>
 
-      <div className="border-b border-white/5 bg-[#0d0d12]/80 backdrop-blur-md flex flex-col z-20">
+      <div className="border-b border-os-muted/30 bg-os-surface/80 backdrop-blur-md flex flex-col z-20">
         <div className="flex items-center gap-2 px-3 py-2">
           <div className="flex gap-0.5">
-            <button onClick={goHome} className="w-8 h-8 flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors"><HomeIcon /></button>
-            <button onClick={goBack} disabled={activeTab.historyIndex <= 0} className={`w-8 h-8 flex items-center justify-center transition-colors ${activeTab.historyIndex > 0 ? 'text-white/70 hover:text-white' : 'text-white/10'}`}><BackIcon /></button>
-            <button onClick={goForward} disabled={activeTab.historyIndex >= activeTab.history.length - 1} className={`w-8 h-8 flex items-center justify-center transition-colors ${activeTab.historyIndex < activeTab.history.length - 1 ? 'text-white/70 hover:text-white' : 'text-white/10'}`}><ForwardIcon /></button>
-            <button onClick={() => navigate(activeTab.url)} className={`w-8 h-8 flex items-center justify-center text-white/40 hover:text-white transition-colors ${activeTab.loading ? 'animate-spin' : ''}`}><RefreshIcon /></button>
+            <button onClick={goHome} className="w-8 h-8 flex items-center justify-center text-os-muted hover:text-os-main hover:bg-os-muted/50 transition-colors"><HomeIcon /></button>
+            <button onClick={goBack} disabled={activeTab.historyIndex <= 0} className={`w-8 h-8 flex items-center justify-center transition-colors ${activeTab.historyIndex > 0 ? 'text-os-muted hover:text-os-main' : 'text-os-muted'}`}><BackIcon /></button>
+            <button onClick={goForward} disabled={activeTab.historyIndex >= activeTab.history.length - 1} className={`w-8 h-8 flex items-center justify-center transition-colors ${activeTab.historyIndex < activeTab.history.length - 1 ? 'text-os-muted hover:text-os-main' : 'text-os-muted'}`}><ForwardIcon /></button>
+            <button onClick={() => navigate(activeTab.url)} className={`w-8 h-8 flex items-center justify-center text-os-muted hover:text-os-main transition-colors ${activeTab.loading ? 'animate-spin' : ''}`}><RefreshIcon /></button>
           </div>
-          <div className="flex-1 flex items-center gap-2 bg-black/40 border border-white/10 px-3 py-1.5 focus-within:border-[#00f0ff]/40 rounded-md h-8 group overflow-hidden">
+          <div className="flex-1 flex items-center gap-2 bg-os-muted/30 border border-os-muted/30 px-3 py-1.5 focus-within:border-[#00f0ff]/40 rounded-md h-8 group overflow-hidden">
             <span className="text-[#33ff00]/60"><LockIcon /></span>
             <input 
               type="text" 
               value={activeTab.inputUrl} 
               onChange={e => updateTab(activeTabId, { inputUrl: e.target.value })} 
               onKeyDown={handleKeyDown} 
-              className="flex-1 bg-transparent text-[13px] text-white/60 focus:text-white focus:outline-none font-jetbrains truncate" 
+              className="flex-1 bg-transparent text-[13px] text-os-muted focus:text-os-main focus:outline-none font-jetbrains truncate" 
               placeholder="Enter URL or search..." 
             />
-            <button onClick={openExternal} className="text-white/20 hover:text-[#00f0ff] transition-colors px-1" title="Open in New Tab"><ExternalIcon /></button>
+            <button onClick={openExternal} className="text-os-muted hover:text-[#00f0ff] transition-colors px-1" title="Open in New Tab"><ExternalIcon /></button>
           </div>
           <button onClick={() => navigate(activeTab.inputUrl)} className="px-4 h-8 bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/30 hover:bg-[#00f0ff] hover:text-black transition-all text-[11px] font-bold uppercase rounded-md tracking-wider">Go</button>
         </div>
-        <div className="flex items-center gap-1 px-3 pb-1.5 overflow-x-auto scrollbar-hide border-t border-white/5 pt-1.5">
+        <div className="flex items-center gap-1 px-3 pb-1.5 overflow-x-auto scrollbar-hide border-t border-os-muted/30 pt-1.5">
           {PRESET_URLS.map(preset => (
-            <button key={preset.name} onClick={() => navigate(preset.url)} className={`flex items-center gap-2 px-2.5 py-1 text-[11px] font-medium whitespace-nowrap transition-all rounded-sm ${activeTab.url === preset.url && activeTab.viewMode !== 'home' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/80'}`}>
+            <button key={preset.name} onClick={() => navigate(preset.url)} className={`flex items-center gap-2 px-2.5 py-1 text-[11px] font-medium whitespace-nowrap transition-all rounded-sm ${activeTab.url === preset.url && activeTab.viewMode !== 'home' ? 'bg-os-muted/50 text-os-main' : 'text-os-muted hover:text-os-muted'}`}>
               <span className="leading-none opacity-60 font-bold flex items-center justify-center min-w-[14px]">{preset.icon}</span>{preset.name}
             </button>
           ))}
         </div>
       </div>
 
-      <div className="flex-1 relative overflow-hidden flex flex-col bg-[#050508]">
+      <div className="flex-1 relative overflow-hidden flex flex-col bg-os-element">
         {activeTab.loading && <div className="absolute top-0 left-0 right-0 h-[2px] z-50 overflow-hidden"><motion.div initial={{ width: 0 }} animate={{ width: '90%' }} transition={{ duration: 1.5, ease: "easeOut" }} className="h-full bg-[#00f0ff] shadow-[0_0_8px_rgba(0,240,255,0.6)]" /></div>}
         
         {tabs.map((tab) => (
@@ -336,32 +336,32 @@ const BrowserApp: React.FC = () => {
           >
             <AnimatePresence mode="wait">
               {tab.viewMode === 'home' ? (
-                <motion.div key={`home-${tab.id}`} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} className="absolute inset-0 flex flex-col items-center justify-center p-8 bg-gradient-to-b from-[#0d0d12] to-[#050508]">
+                <motion.div key={`home-${tab.id}`} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 1.02 }} className="absolute inset-0 flex flex-col items-center justify-center p-8 bg-os-window">
                   <div className="text-center space-y-8 max-w-2xl w-full">
                     <div className="space-y-2">
-                      <h1 className="text-5xl font-bold tracking-tighter text-white/90">C<span className="text-[#00f0ff]">H</span>ECKPOINT <span className="text-[#00f0ff] italic text-4xl">OS</span></h1>
-                      <p className="text-white/30 text-xs font-jetbrains uppercase tracking-[0.3em] font-medium">Original Sites Implementation</p>
+                      <h1 className="text-5xl font-bold tracking-tighter text-os-muted">C<span className="text-[#00f0ff]">H</span>ECKPOINT <span className="text-[#00f0ff] italic text-4xl">OS</span></h1>
+                      <p className="text-os-muted text-xs font-jetbrains uppercase tracking-[0.3em] font-medium">Original Sites Implementation</p>
                     </div>
                     <div className="relative group max-w-sm mx-auto w-full">
-                      <input type="text" placeholder="Search or URL" className="w-full bg-white/5 border border-white/10 px-5 py-3.5 pl-11 rounded-2xl text-white placeholder:text-white/20 focus:outline-none focus:ring-1 ring-[#00f0ff]/40 transition-all text-sm font-jetbrains" onKeyDown={(e) => { if (e.key === 'Enter') navigate((e.target as HTMLInputElement).value); }} />
-                      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30 group-focus-within:text-[#00f0ff]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg></div>
+                      <input type="text" placeholder="Search or URL" className="w-full bg-os-muted/50 border border-os-muted/30 px-5 py-3.5 pl-11 rounded-2xl text-os-main placeholder:text-os-muted focus:outline-none focus:ring-1 ring-[#00f0ff]/40 transition-all text-sm font-jetbrains" onKeyDown={(e) => { if (e.key === 'Enter') navigate((e.target as HTMLInputElement).value); }} />
+                      <div className="absolute left-4 top-1/2 -translate-y-1/2 text-os-muted group-focus-within:text-[#00f0ff]"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" /></svg></div>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-1 gap-3 pt-4">
                       {PRESET_URLS.map(preset => (
-                        <button key={preset.name} onClick={() => navigate(preset.url)} className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-white/5 transition-all group border border-transparent hover:border-white/5">
-                          <div className="w-11 h-11 flex items-center justify-center bg-white/5 rounded-2xl text-xl group-hover:bg-[#00f0ff]/10 group-hover:text-[#00f0ff] transition-all border border-white/5">
+                        <button key={preset.name} onClick={() => navigate(preset.url)} className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-os-muted/50 transition-all group border border-transparent hover:border-os-muted/30">
+                          <div className="w-11 h-11 flex items-center justify-center bg-os-muted/50 rounded-2xl text-xl group-hover:bg-[#00f0ff]/10 group-hover:text-[#00f0ff] transition-all border border-os-muted/30">
                             {typeof preset.icon === 'string' ? preset.icon : React.cloneElement(preset.icon as React.ReactElement<{ size?: number }>, { size: 24 })}
                           </div>
-                          <span className="text-[10px] text-white/50 group-hover:text-white font-medium uppercase tracking-wider">{preset.name}</span>
+                          <span className="text-[10px] text-os-muted group-hover:text-os-main font-medium uppercase tracking-wider">{preset.name}</span>
                         </button>
                       ))}
                     </div>
                   </div>
-                  <div className="absolute bottom-8 text-[10px] text-white/10 font-jetbrains uppercase tracking-widest text-center">Built for MTCodes Portfolio • All Access Mode • Sandbox Disabled</div>
+                  <div className="absolute bottom-8 text-[10px] text-os-muted font-jetbrains uppercase tracking-widest text-center">Built for MTCodes Portfolio • All Access Mode • Sandbox Disabled</div>
                 </motion.div>
               ) : tab.viewMode === 'browser' ? (
                 <motion.div key={`browser-${tab.id}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-white">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-900 text-white/20 -z-10 animate-pulse">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-os-surface text-os-muted -z-10 animate-pulse">
                     <span className="text-4xl">󰇄</span>
                     <span className="text-[10px] uppercase tracking-widest mt-4">Connecting to original site...</span>
                   </div>
@@ -375,7 +375,7 @@ const BrowserApp: React.FC = () => {
                 </motion.div>
               ) : (
                 <motion.div key={`proxied-${tab.id}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-white">
-                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-zinc-900 text-white/20 -z-10 animate-pulse">
+                  <div className="absolute inset-0 flex flex-col items-center justify-center bg-os-surface text-os-muted -z-10 animate-pulse">
                     <span className="text-4xl text-[#00f0ff]">󰇄</span>
                     <span className="text-[10px] uppercase tracking-widest mt-4">Proxying Secure Content...</span>
                   </div>

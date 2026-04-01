@@ -47,19 +47,19 @@ const ContactApp: React.FC = () => {
     }
   };
 
-  const inputClass = "w-full px-4 py-3 bg-black/40 border border-white/10 focus:border-[#00f0ff] text-white focus:outline-none transition-all font-inter text-sm placeholder-white/20 focus:bg-black/60 focus:shadow-[0_0_0_1px_rgba(0,240,255,0.15)]";
+  const inputClass = "w-full px-4 py-3 bg-os-surface border border-os-muted focus:border-[#00f0ff] text-os-main focus:outline-none transition-all font-inter text-sm placeholder-os-muted focus:bg-os-window focus:shadow-[0_0_0_1px_rgba(0,240,255,0.15)]";
 
   return (
-    <div className="h-full overflow-auto p-6 text-white font-inter bg-dot-pattern">
+    <div className="h-full overflow-auto p-6 text-os-main font-inter bg-dot-pattern">
       <div className="max-w-4xl mx-auto">
 
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-7 border-b border-white/8 pb-5"
+          className="mb-7 border-b border-os-muted pb-5"
         >
-          <h2 className="text-3xl font-space-grotesk font-bold mb-1.5 text-white uppercase tracking-tight">
+          <h2 className="text-3xl font-space-grotesk font-bold mb-1.5 text-os-main uppercase tracking-tight">
             Get In Touch
           </h2>
           <p className="font-jetbrains text-[10px] text-[#00f0ff]/60 uppercase tracking-widest">
@@ -91,28 +91,28 @@ const ContactApp: React.FC = () => {
             ].map(item => (
               <div
                 key={item.label}
-                className="border border-white/8 p-5 bg-black/20 hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/[0.02] transition-all group relative"
+                className="border border-os-muted p-5 bg-os-surface hover:border-[#00f0ff]/30 hover:bg-[#00f0ff]/[0.02] transition-all group relative"
               >
-                <div className="absolute top-0 right-0 w-2 h-2 bg-white/8 group-hover:bg-[#00f0ff]/40 transition-colors" />
+                <div className="absolute top-0 right-0 w-2 h-2 bg-os-surface group-hover:bg-[#00f0ff]/40 transition-colors" />
                 <div className="flex items-center gap-3 mb-1.5">
                   <span className="text-[#00f0ff] font-jetbrains font-bold text-lg leading-none">{item.icon}</span>
-                  <h3 className="font-space-grotesk font-bold text-[11px] uppercase tracking-widest text-white/60">
+                  <h3 className="font-space-grotesk font-bold text-[11px] uppercase tracking-widest text-os-muted">
                     {item.label}
                   </h3>
                 </div>
                 {item.href ? (
-                  <a href={item.href} className="font-inter text-sm text-white/70 hover:text-[#00f0ff] transition-colors pl-7 break-all block">
+                  <a href={item.href} className="font-inter text-sm text-os-muted hover:text-[#00f0ff] transition-colors pl-7 break-all block">
                     {item.value}
                   </a>
                 ) : (
-                  <p className="font-inter text-sm text-white/50 pl-7 break-words">{item.value}</p>
+                  <p className="font-inter text-sm text-os-muted pl-7 break-words">{item.value}</p>
                 )}
               </div>
             ))}
 
             {/* Social links */}
             <div className="pt-2">
-              <p className="font-jetbrains text-[9px] text-white/25 uppercase tracking-widest mb-3">Socials</p>
+              <p className="font-jetbrains text-[9px] text-os-muted uppercase tracking-widest mb-3">Socials</p>
               <div className="grid grid-cols-2 gap-2">
                 {SOCIALS.map(s => (
                   <a
@@ -120,10 +120,10 @@ const ContactApp: React.FC = () => {
                     href={s.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-1.5 py-2.5 border border-white/8 bg-white/[0.03] hover:bg-[#00f0ff]/8 hover:border-[#00f0ff]/30 text-white/40 hover:text-[#00f0ff] transition-all font-jetbrains text-xs uppercase tracking-wider"
+                    className="flex items-center justify-center gap-1.5 py-2.5 border border-os-muted bg-os-window hover:bg-[#00f0ff]/8 hover:border-[#00f0ff]/30 text-os-muted hover:text-[#00f0ff] transition-all font-jetbrains text-xs uppercase tracking-wider"
                   >
                     <span className="font-bold">{s.short}</span>
-                    <span className="text-white/25 text-[9px]">↗</span>
+                    <span className="text-os-muted text-[9px]">↗</span>
                   </a>
                 ))}
               </div>
@@ -137,12 +137,12 @@ const ContactApp: React.FC = () => {
             transition={{ delay: 0.15 }}
             className="md:col-span-3"
           >
-            <div className="border border-white/8 p-7 bg-black/30 relative">
+            <div className="border border-os-muted p-7 bg-os-surface relative">
               {/* Corner accents */}
               <div className="absolute -top-px -left-px w-5 h-5 border-t-2 border-l-2 border-[#00f0ff]" />
               <div className="absolute -bottom-px -right-px w-5 h-5 border-b-2 border-r-2 border-[#00f0ff]" />
 
-              <h3 className="font-space-grotesk text-sm font-bold uppercase tracking-widest text-white/70 border-b border-white/8 pb-4 mb-6">
+              <h3 className="font-space-grotesk text-sm font-bold uppercase tracking-widest text-os-muted border-b border-os-muted pb-4 mb-6">
                 Send a Message
               </h3>
 
@@ -159,7 +159,7 @@ const ContactApp: React.FC = () => {
                     <h4 className="text-xl font-space-grotesk font-bold text-[#00f0ff] uppercase tracking-widest mb-1">
                       Message Sent!
                     </h4>
-                    <p className="font-jetbrains text-[11px] text-white/40">I'll get back to you soon.</p>
+                    <p className="font-jetbrains text-[11px] text-os-muted">I'll get back to you soon.</p>
                   </motion.div>
                 ) : status === 'error' ? (
                   <motion.div
@@ -176,7 +176,7 @@ const ContactApp: React.FC = () => {
                   <motion.form key="form" onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-1.5">
-                        <label className="font-jetbrains text-[10px] text-white/40 uppercase tracking-widest block">
+                        <label className="font-jetbrains text-[10px] text-os-muted uppercase tracking-widest block">
                           Name
                         </label>
                         <input
@@ -190,7 +190,7 @@ const ContactApp: React.FC = () => {
                         />
                       </div>
                       <div className="space-y-1.5">
-                        <label className="font-jetbrains text-[10px] text-white/40 uppercase tracking-widest block">
+                        <label className="font-jetbrains text-[10px] text-os-muted uppercase tracking-widest block">
                           Email
                         </label>
                         <input
@@ -205,7 +205,7 @@ const ContactApp: React.FC = () => {
                       </div>
                     </div>
                     <div className="space-y-1.5">
-                      <label className="font-jetbrains text-[10px] text-white/40 uppercase tracking-widest block">
+                      <label className="font-jetbrains text-[10px] text-os-muted uppercase tracking-widest block">
                         Message
                       </label>
                       <textarea
