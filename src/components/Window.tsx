@@ -53,28 +53,30 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
     }
   }, [isMaximized, preMaxState, windowState, updatePosition, updateSize]);
 
-  if (windowState.minimized) return null;
-
+  // Instead of unmounting when minimized, we keep it mounted and just hide it gracefully
+  // so app states (music, browser, terminal) persist in the background.
   const isFocused = windowState.focused;
 
   return (
     <AnimatePresence>
       <motion.div
         initial={{ opacity: 0, scale: 0.92, y: 8 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
+        animate={windowState.minimized ? { opacity: 0, scale: 0.85, y: 30, display: 'none' } : { opacity: 1, scale: 1, y: 0, display: 'block' }}
         exit={{ opacity: 0, scale: 0.94, y: 4, transition: { duration: 0.15 } }}
         transition={{ type: 'spring', stiffness: 380, damping: 28 }}
-        className={`absolute window-chrome ${isFocused ? 'window-focused' : ''}`}
+        className={`absolute window-chrome ${isFocused ? 'window-focused' : ''} ${windowState.minimized ? 'pointer-events-none' : 'pointer-events-auto'}`}
         style={{
           position: 'absolute',
           left: windowState.position.x,
           top: windowState.position.y,
           width: windowState.size.width,
           height: windowState.size.height,
-          zIndex: windowState.zIndex,
+          zIndex: windowState.minimized ? -10 : windowState.zIndex,
           transition: 'border-color 0.2s, box-shadow 0.2s',
         }}
-        onMouseDown={() => focusWindow(windowState.id)}
+        onMouseDown={() => {
+          if (!windowState.minimized) focusWindow(windowState.id);
+        }}
       >
         {/* Corner accent — only show when focused */}
         {isFocused && <div className="corner-accent pointer-events-none" />}
