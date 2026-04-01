@@ -27,7 +27,7 @@ const Dock: React.FC = () => {
     registerBatterySaverClick();
   };
 
-  const isWindowOpen = (id: string) => windows.some(w => w.id === id);
+  const getWindowState = (id: string) => windows.find(w => w.id === id);
 
   return (
     <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[10000] w-full max-w-3xl px-4">
@@ -44,7 +44,10 @@ const Dock: React.FC = () => {
         <div className="flex items-center gap-1 flex-1 justify-center">
           {DOCK_APPS.map(app => {
             const IconComponent = Icons[app.icon];
-            const isOpen = isWindowOpen(app.id);
+            const windowState = getWindowState(app.id);
+            const isOpen = !!windowState;
+            const isMinimized = windowState?.minimized;
+
             return (
               <div key={app.id} className="relative group">
                 {/* Tooltip */}
@@ -59,7 +62,7 @@ const Dock: React.FC = () => {
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                   onClick={() => openWindow(app.id, app.title, app.icon)}
                   className={`relative w-11 h-11 flex items-center justify-center transition-colors duration-200 ${
-                    isOpen
+                    isOpen && !isMinimized
                       ? 'text-os-main bg-os-element border border-os-muted'
                       : 'text-os-muted hover:text-os-main border border-transparent hover:border-os-muted hover:bg-os-element'
                   }`}
@@ -72,8 +75,8 @@ const Dock: React.FC = () => {
                 {isOpen && (
                   <motion.div
                     layoutId={`dock-dot-${app.id}`}
-                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#ff003c]"
-                    style={{ boxShadow: '0 0 4px rgba(255,0,60,0.9)' }}
+                    className={`absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full ${isMinimized ? 'bg-[#ffbd2e]' : 'bg-[#ff003c]'}`}
+                    style={{ boxShadow: isMinimized ? '0 0 4px rgba(255,189,46,0.9)' : '0 0 4px rgba(255,0,60,0.9)' }}
                   />
                 )}
               </div>
