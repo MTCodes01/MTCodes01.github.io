@@ -18,9 +18,36 @@ const DOCK_APPS = [
 ];
 
 const Dock: React.FC = () => {
-  const { windows, openWindow } = useWindows();
+  const { windows, openWindow, closeWindow } = useWindows();
   const { toggleTheme, toggleBatterySaver, batterySaver } = useTheme();
   const { registerBatterySaverClick } = useNebulaOverride();
+
+  const pressTimer = React.useRef<NodeJS.Timeout | null>(null);
+  const isLongPress = React.useRef(false);
+
+  const handlePointerDown = (id: string) => {
+    isLongPress.current = false;
+    pressTimer.current = setTimeout(() => {
+      closeWindow(id);
+      isLongPress.current = true;
+      pressTimer.current = null;
+    }, 600);
+  };
+
+  const cancelPress = () => {
+    if (pressTimer.current) {
+      clearTimeout(pressTimer.current);
+      pressTimer.current = null;
+    }
+  };
+
+  const handleClick = (e: React.MouseEvent, id: string, title: string, icon: string) => {
+    e.preventDefault();
+    if (!isLongPress.current) {
+      openWindow(id, title, icon);
+    }
+    isLongPress.current = false;
+  };
 
   const handleBatterySaverClick = () => {
     toggleBatterySaver();
@@ -60,7 +87,10 @@ const Dock: React.FC = () => {
                   whileHover={{ y: -5, scale: 1.15 }}
                   whileTap={{ scale: 0.9 }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-                  onClick={() => openWindow(app.id, app.title, app.icon)}
+                  onPointerDown={() => handlePointerDown(app.id)}
+                  onPointerUp={cancelPress}
+                  onPointerLeave={cancelPress}
+                  onClick={(e) => handleClick(e, app.id, app.title, app.icon)}
                   className={`relative w-11 h-11 flex items-center justify-center transition-colors duration-200 ${
                     isOpen && !isMinimized
                       ? 'text-os-main bg-os-element border border-os-muted'
