@@ -9,6 +9,9 @@ export const useWindowDrag = (
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    // Prevent dragging when clicking on window buttons (Close/Min/Max)
+    if ((e.target as HTMLElement).closest('button')) return;
+
     // Only drag from title bar
     if ((e.target as HTMLElement).closest('.window-title-bar')) {
       e.preventDefault();

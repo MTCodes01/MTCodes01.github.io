@@ -60,15 +60,15 @@ const Dock: React.FC = () => {
     <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[10000] w-full max-w-3xl px-4">
       <div className="dock-container flex items-center justify-between gap-1 px-3 py-2.5 relative">
         {/* Brand tag */}
-        <div className="hidden md:flex items-center gap-2 pr-2 border-r border-os-muted">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#ff003c] animate-pulse" />
-          <span className="font-jetbrains text-[9px] text-os-muted uppercase tracking-widest">
+        <div className="hidden md:flex items-center gap-2.5 pr-4 border-r border-white/10">
+          <div className="w-1 h-1 rounded-full bg-[#ff003c] animate-pulse shadow-[0_0_8px_#ff003c]" />
+          <span className="font-jetbrains text-[9px] text-os-muted uppercase tracking-[0.2em]">
             SYS.LIVE
           </span>
         </div>
 
         {/* App icons */}
-        <div className="flex items-center gap-1 sm:gap-1.5 flex-1 justify-center overflow-x-auto scrollbar-hide px-1">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-1 justify-center px-1 overflow-visible">
           {DOCK_APPS.map(app => {
             const IconComponent = Icons[app.icon];
             const windowState = getWindowState(app.id);
@@ -78,9 +78,9 @@ const Dock: React.FC = () => {
             return (
               <div key={app.id} className="relative group">
                 {/* Tooltip */}
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 px-2.5 py-1 bg-os-surface border border-os-muted text-os-main text-xs font-inter font-medium opacity-0 group-hover:opacity-100 transition-all duration-150 whitespace-nowrap pointer-events-none rounded-sm -translate-y-1 group-hover:translate-y-0">
+                <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-os-surface/95 backdrop-blur-md border border-white/10 text-os-main text-[10px] font-jetbrains uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap pointer-events-none rounded-none -translate-y-2 group-hover:translate-y-0 z-50 shadow-xl">
                   {app.title}
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-os-surface border-r border-b border-os-muted rotate-45" />
+                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-os-surface border-r border-b border-white/10 rotate-45" />
                 </div>
 
                 <motion.button
@@ -115,29 +115,27 @@ const Dock: React.FC = () => {
         </div>
 
         {/* Controls */}
-        <div className="hidden md:flex items-center gap-1 pl-2 border-l border-os-muted">
+        <div className="hidden md:flex items-center gap-1.5 pl-4 border-l border-white/10">
           <motion.button
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleTheme}
-            className="w-9 h-9 flex items-center justify-center border border-transparent hover:border-os-muted bg-transparent hover:bg-os-element transition-all text-os-muted hover:text-os-main"
-            title="Toggle Theme"
+            className="w-9 h-9 flex items-center justify-center border border-transparent hover:border-white/10 bg-transparent hover:bg-white/5 transition-all text-os-muted hover:text-os-main"
           >
-            <Icons.theme size={14} />
+            <Icons.theme size={15} />
           </motion.button>
 
           <motion.button
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleBatterySaverClick}
             className={`w-9 h-9 flex items-center justify-center border transition-all ${
               batterySaver
-                ? 'bg-[#33ff00]/10 text-[#33ff00] border-[#33ff00]/30 hover:bg-[#33ff00]/20'
-                : 'border-white/10 hover:border-white/25 bg-white/5 hover:bg-white/10 text-white/50 hover:text-white'
+                ? 'bg-[#33ff00]/10 text-[#33ff00] border-[#33ff00]/30 shadow-[0_0_15px_rgba(51,255,0,0.1)]'
+                : 'border-white/5 hover:border-white/20 bg-white/5 text-white/40 hover:text-white'
             }`}
-            title="Battery Saver"
           >
-            <Icons.battery size={14} />
+            <Icons.battery size={15} />
           </motion.button>
         </div>
       </div>
