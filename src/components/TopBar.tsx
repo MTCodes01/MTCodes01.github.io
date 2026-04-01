@@ -21,7 +21,7 @@ const TopBar: React.FC = () => {
   const dateStr = time.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
   return (
-    <div className={`fixed top-0 left-0 right-0 h-8 glass-panel flex items-center justify-between px-4 text-xs text-os-main z-[10000] transition-all duration-500 ${isGameActive ? 'border-b-[#ff003c]/30' : ''}`}>
+    <div className={`w-full h-8 glass-panel flex items-center justify-between px-4 text-xs text-os-main transition-all duration-500 ${isGameActive ? 'border-b-[#ff003c]/30' : ''}`}>
       {/* Left: Brand + active app */}
       <div className="flex items-center gap-3">
         {isGameActive ? (

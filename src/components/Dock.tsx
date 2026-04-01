@@ -6,6 +6,34 @@ import { useNebulaOverride } from '../contexts/NebulaOverrideContext';
 
 import { Icons } from './Icons';
 
+const containerVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.04,
+    }
+  }
+} as const;
+
+const itemVariants = {
+  hidden: { y: 25, opacity: 0, scale: 0.8 },
+  visible: { 
+    y: 0, 
+    opacity: 1, 
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 18
+    }
+  }
+} as const;
+
 const DOCK_APPS = [
   { id: 'about',    title: 'About Me',  icon: 'about'},
   { id: 'projects', title: 'Projects',  icon: 'projects'},
@@ -57,15 +85,22 @@ const Dock: React.FC = () => {
   const getWindowState = (id: string) => windows.find(w => w.id === id);
 
   return (
-    <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-[10000] w-full max-w-3xl px-4">
-      <div className="dock-container flex items-center justify-between gap-1 px-3 py-2.5 relative">
+    <motion.div 
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+      className="dock-container flex items-center justify-between gap-1 px-3 py-2.5 relative max-w-3xl w-full mx-4"
+    >
         {/* Brand tag */}
-        <div className="hidden md:flex items-center gap-2.5 pr-4 border-r border-white/10">
+        <motion.div 
+          variants={itemVariants}
+          className="hidden md:flex items-center gap-2.5 pr-4 border-r border-white/10"
+        >
           <div className="w-1 h-1 rounded-full bg-[#ff003c] animate-pulse shadow-[0_0_8px_#ff003c]" />
           <span className="font-jetbrains text-[9px] text-os-muted uppercase tracking-[0.2em]">
             SYS.LIVE
           </span>
-        </div>
+        </motion.div>
 
         {/* App icons */}
         <div className="flex items-center gap-1.5 sm:gap-2 flex-1 justify-center px-1 overflow-visible">
@@ -76,7 +111,7 @@ const Dock: React.FC = () => {
             const isMinimized = windowState?.minimized;
 
             return (
-              <div key={app.id} className="relative group">
+              <motion.div key={app.id} variants={itemVariants} className="relative group">
                 {/* Tooltip */}
                 <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-os-surface/95 backdrop-blur-md border border-white/10 text-os-main text-[10px] font-jetbrains uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-200 whitespace-nowrap pointer-events-none rounded-none -translate-y-2 group-hover:translate-y-0 z-50 shadow-xl">
                   {app.title}
@@ -109,13 +144,16 @@ const Dock: React.FC = () => {
                     style={{ boxShadow: isMinimized ? '0 0 4px rgba(255,189,46,0.9)' : '0 0 4px rgba(255,0,60,0.9)' }}
                   />
                 )}
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Controls */}
-        <div className="hidden md:flex items-center gap-1.5 pl-4 border-l border-white/10">
+        <motion.div 
+          variants={itemVariants}
+          className="hidden md:flex items-center gap-1.5 pl-4 border-l border-white/10"
+        >
           <motion.button
             whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
@@ -137,9 +175,8 @@ const Dock: React.FC = () => {
           >
             <Icons.battery size={15} />
           </motion.button>
-        </div>
-      </div>
-    </div>
+        </motion.div>
+    </motion.div>
   );
 };
 

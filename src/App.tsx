@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { WindowProvider } from './contexts/WindowContext';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { MusicProvider } from './contexts/MusicContext';
@@ -15,11 +16,13 @@ const App: React.FC = () => {
       <MusicProvider>
         <NebulaOverrideProvider>
           <WindowProvider>
-            {!bootComplete ? (
-              <BootScreen onComplete={() => setBootComplete(true)} />
-            ) : (
-              <Desktop />
-            )}
+            <AnimatePresence>
+              {!bootComplete ? (
+                <BootScreen key="boot" onComplete={() => setBootComplete(true)} />
+              ) : (
+                <Desktop key="desktop" />
+              )}
+            </AnimatePresence>
           </WindowProvider>
         </NebulaOverrideProvider>
       </MusicProvider>

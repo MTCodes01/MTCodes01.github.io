@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { projectService } from '../services/projectService';
 
 interface BootScreenProps {
@@ -119,60 +119,59 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
   }, [complete]);
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0, transition: { duration: 0.4 } }}
-        className="fixed inset-0 bg-[#0a0a0c] z-[9999] overflow-hidden cursor-pointer p-4 md:p-8"
-        onClick={() => { if (skipReady.current) complete('click'); }}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+      className="fixed inset-0 bg-[#0a0a0c] z-[9999] overflow-hidden cursor-pointer p-4 md:p-8"
+      onClick={() => { if (skipReady.current) complete('click'); }}
+    >
+      <div 
+        ref={containerRef}
+        className="h-full w-full overflow-y-auto scrollbar-hide font-jetbrains text-[11px] md:text-xs text-white/70"
       >
-        <div 
-          ref={containerRef}
-          className="h-full w-full overflow-y-auto scrollbar-hide font-jetbrains text-[11px] md:text-xs text-white/70"
-        >
-          {logLines.map((line, i) => {
-            if (!line) return null; // Safety net
-            const isHighlight = line.startsWith('==>');
-            const isSuccess = line.startsWith('✓');
-            const isError = line.includes('WARN') || line.includes('panic');
-            
-            let color = 'text-white/70';
-            if (isHighlight) color = 'text-[#00f0ff] font-bold';
-            else if (isSuccess) color = 'text-[#33ff00]';
-            else if (isError) color = 'text-[#ffaa00]';
-            else if (line.includes('http://')) color = 'text-[#00f0ff]/80 underline';
-
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -4 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.1 }}
-                className="flex gap-4 mb-1"
-              >
-                <span className="text-white/30 shrink-0 select-none hidden sm:inline-block w-52 truncate">
-                  {timeStamp[i]}
-                </span>
-                <span className={`break-all ${color}`}>{line}</span>
-              </motion.div>
-            );
-          })}
+        {logLines.map((line, i) => {
+          if (!line) return null; // Safety net
+          const isHighlight = line.startsWith('==>');
+          const isSuccess = line.startsWith('✓');
+          const isError = line.includes('WARN') || line.includes('panic');
           
-          {logLines.length < RENDER_LOGS.length && (
-            <div className="flex gap-4 mt-1">
-              <span className="text-white/30 shrink-0 select-none hidden sm:inline-block w-52" />
-              <span className="w-2 h-3 bg-white/50 animate-blink translate-y-1" />
-            </div>
-          )}
-        </div>
+          let color = 'text-white/70';
+          if (isHighlight) color = 'text-[#00f0ff] font-bold';
+          else if (isSuccess) color = 'text-[#33ff00]';
+          else if (isError) color = 'text-[#ffaa00]';
+          else if (line.includes('http://')) color = 'text-[#00f0ff]/80 underline';
+
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -4 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.1 }}
+              className="flex gap-4 mb-1"
+            >
+              <span className="text-white/30 shrink-0 select-none hidden sm:inline-block w-52 truncate">
+                {timeStamp[i]}
+              </span>
+              <span className={`break-all ${color}`}>{line}</span>
+            </motion.div>
+          );
+        })}
         
-        {/* Skip hint */}
-        <div className="absolute bottom-4 right-4 font-jetbrains text-[10px] text-white/20 uppercase tracking-widest bg-black/60 px-3 py-1.5 rounded-sm backdrop-blur-sm pointer-events-none">
-          Click or press any key to skip
-        </div>
-      </motion.div>
-    </AnimatePresence>
+        {logLines.length < RENDER_LOGS.length && (
+          <div className="flex gap-4 mt-1">
+            <span className="text-white/30 shrink-0 select-none hidden sm:inline-block w-52" />
+            <span className="w-2 h-3 bg-white/50 animate-blink translate-y-1" />
+          </div>
+        )}
+      </div>
+      
+      {/* Skip hint */}
+      <div className="absolute bottom-4 right-4 font-jetbrains text-[10px] text-white/20 uppercase tracking-widest bg-black/60 px-3 py-1.5 rounded-sm backdrop-blur-sm pointer-events-none">
+        Click or press any key to skip
+      </div>
+    </motion.div>
   );
 };
 
