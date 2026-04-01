@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useWindows } from '../contexts/WindowContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { useNebulaOverride } from '../contexts/NebulaOverrideContext';
 
 import { Icons } from './Icons';
 
@@ -19,6 +20,12 @@ const DOCK_APPS = [
 const Dock: React.FC = () => {
   const { windows, openWindow } = useWindows();
   const { toggleTheme, toggleBatterySaver, batterySaver } = useTheme();
+  const { registerBatterySaverClick } = useNebulaOverride();
+
+  const handleBatterySaverClick = () => {
+    toggleBatterySaver();
+    registerBatterySaverClick();
+  };
 
   const isWindowOpen = (id: string) => windows.some(w => w.id === id);
 
@@ -89,7 +96,7 @@ const Dock: React.FC = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={toggleBatterySaver}
+            onClick={handleBatterySaverClick}
             className={`w-9 h-9 flex items-center justify-center border transition-all ${
               batterySaver
                 ? 'bg-[#33ff00]/10 text-[#33ff00] border-[#33ff00]/30 hover:bg-[#33ff00]/20'

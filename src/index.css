@@ -338,3 +338,38 @@ code, pre, .font-mono {
 body.window-dragging iframe {
   pointer-events: none;
 }
+
+/* ============================================================
+   NEBULA OVERRIDE — Hidden Game Mode
+   ============================================================ */
+
+/* Desktop dimming when game is active */
+.nebula-active > *:not(.fixed) {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+/* CRT glitch effect during activation */
+@keyframes nebula-glitch {
+  0%   { transform: translate(0); filter: none; }
+  10%  { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+  20%  { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+  30%  { transform: translate(-1px, 2px); filter: brightness(1.5); }
+  40%  { transform: translate(1px, -2px); filter: invert(0.1); }
+  50%  { transform: translate(0); filter: none; }
+  60%  { transform: translate(-3px, 0); filter: hue-rotate(180deg); }
+  70%  { transform: translate(3px, 1px); filter: saturate(2); }
+  80%  { transform: translate(-1px, -1px); filter: none; }
+  90%  { transform: translate(2px, 0); filter: brightness(0.8); }
+  100% { transform: translate(0); filter: none; }
+}
+
+/* Glitch bar sweep */
+@keyframes nebula-glitch-bar {
+  0%   { transform: translateX(-100%); opacity: 0; }
+  20%  { opacity: 0.7; }
+  50%  { transform: translateX(0); opacity: 0.3; }
+  80%  { opacity: 0.5; }
+  100% { transform: translateX(100%); opacity: 0; }
+}

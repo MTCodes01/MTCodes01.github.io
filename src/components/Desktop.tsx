@@ -1,10 +1,12 @@
 import React from 'react';
 import { useWindows } from '../contexts/WindowContext';
 import { useMusic } from '../contexts/MusicContext';
+import { useNebulaOverride } from '../contexts/NebulaOverrideContext';
 import Window from './Window';
 import Visualizer from './Visualizer';
 import Dock from './Dock';
 import TopBar from './TopBar';
+import NebulaOverride from './NebulaOverride';
 
 import AboutApp from './apps/AboutApp';
 import ProjectsApp from './apps/ProjectsApp';
@@ -29,13 +31,16 @@ const APP_COMPONENTS: Record<string, React.FC> = {
 const Desktop: React.FC = () => {
   const { windows } = useWindows();
   const { musicState } = useMusic();
+  const { gameState } = useNebulaOverride();
+
+  const isGameActive = gameState !== 'idle';
 
   // If music isn't playing, fallback to standard neutral aurora colors
   const primaryColor = musicState.isPlaying ? musicState.trackColor : '#ff003c';
   const secondaryColor = musicState.isPlaying ? musicState.trackColor : '#00f0ff';
 
   return (
-    <div className="fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none transition-colors duration-[2000ms]">
+    <div className={`fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none transition-colors duration-[2000ms] ${isGameActive ? 'nebula-active' : ''}`}>
       <style>{`
         @keyframes eq-bounce {
           0% { height: 15%; }
@@ -96,6 +101,9 @@ const Desktop: React.FC = () => {
       <Visualizer />
 
       <Dock />
+
+      {/* Nebula Override — Hidden Game Overlay */}
+      <NebulaOverride />
     </div>
   );
 };
