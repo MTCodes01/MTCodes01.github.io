@@ -3,7 +3,9 @@ import { useNebulaOverride } from '../contexts/NebulaOverrideContext';
 
 // ─── Types ───────────────────────────────────────────────────────────
 interface Star { x: number; y: number; speed: number; size: number; brightness: number; }
-interface Bullet { x: number; y: number; speed: number; }
+interface Bullet { x: number; y: number; vx: number; vy: number; isHoming?: boolean; }
+type PowerUpType = 'spread' | 'rapid' | 'wingman' | 'homing' | 'bomb' | 'shield' | 'life';
+interface PowerUp { x: number; y: number; speed: number; type: PowerUpType; color: string; radius: number; }
 interface Enemy { x: number; y: number; speed: number; width: number; height: number; hp: number; type: number; startX?: number; time?: number; }
 interface Particle { x: number; y: number; vx: number; vy: number; life: number; maxLife: number; color: string; size: number; }
 
@@ -14,6 +16,17 @@ const FIRE_RATE = 150; // ms between shots
 const BASE_ENEMY_SPEED = 1.5;
 const ENEMIES_PER_WAVE_BASE = 5;
 const INVULNERABLE_MS = 1500;
+
+const POWERUP_DEFS: Record<PowerUpType, { color: string; letter: string }> = {
+  spread: { color: '#ff003c', letter: 'S' },
+  rapid: { color: '#ffaa00', letter: 'R' },
+  wingman: { color: '#ffff00', letter: 'W' },
+  homing: { color: '#00ffaa', letter: 'H' },
+  bomb: { color: '#aa00ff', letter: 'B' },
+  shield: { color: '#00f0ff', letter: '⛨' },
+  life: { color: '#ff00ff', letter: '❤' },
+};
+const POWERUP_TYPES = Object.keys(POWERUP_DEFS) as PowerUpType[];
 
 const ENEMY_DEFS: Record<number, { hp: number, width: number, height: number, speedMod: number, pts: number, minWave: number, color: string, name: string }> = {
   1: { name: 'Scout', hp: 1, width: 22, height: 22, speedMod: 1.0, pts: 10, minWave: 1, color: '#ff003c' },
@@ -61,6 +74,7 @@ const NebulaOverride: React.FC = () => {
   const isMouseDownRef = useRef(false);
   const bulletsRef = useRef<Bullet[]>([]);
   const enemiesRef = useRef<Enemy[]>([]);
+  const powerupsRef = useRef<PowerUp[]>([]);
   const starsRef = useRef<Star[]>([]);
   const particlesRef = useRef<Particle[]>([]);
   const lastFireRef = useRef(0);
@@ -74,6 +88,7 @@ const NebulaOverride: React.FC = () => {
   const peakScoreRef = useRef(0);
   const [_showGameOver, setShowGameOver] = useState(false);
   const highScoreRef = useRef(highScore);
+  const activeBuffsRef = useRef({ spread: 0, rapid: 0, wingman: 0, homing: 0, shield: 0 });
 
   // Sync high score to ref to avoid triggering the main game loop useEffect
   useEffect(() => {
@@ -234,6 +249,7 @@ const NebulaOverride: React.FC = () => {
     player.invulnerableUntil = 0;
     bulletsRef.current = [];
     enemiesRef.current = [];
+    powerupsRef.current = [];
     particlesRef.current = [];
     scoreRef.current = 0;
     peakScoreRef.current = 0;
@@ -243,6 +259,7 @@ const NebulaOverride: React.FC = () => {
     totalEnemiesInWaveRef.current = ENEMIES_PER_WAVE_BASE;
     spawnTimerRef.current = 0;
     gameOverRef.current = false;
+    activeBuffsRef.current = { spread: 0, rapid: 0, wingman: 0, homing: 0, shield: 0 };
     setShowGameOver(false);
     setScore(0);
     setLives(3);
@@ -313,17 +330,36 @@ const NebulaOverride: React.FC = () => {
         }
 
         // ─── Shooting ───────────────────────────────────────────
-        if ((keys.has(' ') || isMouseDownRef.current) && timestamp - lastFireRef.current > FIRE_RATE) {
+        const isRapid = timestamp < activeBuffsRef.current.rapid;
+        const currentFireRate = isRapid ? FIRE_RATE / 2 : FIRE_RATE;
+
+        if ((keys.has(' ') || isMouseDownRef.current) && timestamp - lastFireRef.current > currentFireRate) {
+          const isSpread = timestamp < activeBuffsRef.current.spread;
+          const isHoming = timestamp < activeBuffsRef.current.homing;
+          const hasWingman = timestamp < activeBuffsRef.current.wingman;
+
           bulletsRef.current.push({
             x: player.x,
             y: player.y - player.height / 2,
-            speed: BULLET_SPEED,
+            vx: 0, vy: -BULLET_SPEED, isHoming
           });
+
+          if (isSpread) {
+            bulletsRef.current.push({ x: player.x, y: player.y - player.height / 2, vx: -2, vy: -BULLET_SPEED, isHoming });
+            bulletsRef.current.push({ x: player.x, y: player.y - player.height / 2, vx: 2, vy: -BULLET_SPEED, isHoming });
+          }
+
+          if (hasWingman) {
+            bulletsRef.current.push({ x: player.x - 30, y: player.y + 10, vx: 0, vy: -BULLET_SPEED, isHoming });
+            bulletsRef.current.push({ x: player.x + 30, y: player.y + 10, vx: 0, vy: -BULLET_SPEED, isHoming });
+          }
+
           lastFireRef.current = timestamp;
         }
 
         // ─── Draw player ────────────────────────────────────────
-        const isInvulnerable = timestamp < player.invulnerableUntil;
+        const hasShield = timestamp < activeBuffsRef.current.shield;
+        const isInvulnerable = timestamp < player.invulnerableUntil || hasShield;
         const drawPlayer = !isInvulnerable || Math.floor(timestamp / 80) % 2 === 0;
 
         if (drawPlayer) {
@@ -363,6 +399,31 @@ const NebulaOverride: React.FC = () => {
           ctx.closePath();
           ctx.fill();
           ctx.shadowBlur = 0;
+
+          // Draw Wingmen
+          if (timestamp < activeBuffsRef.current.wingman) {
+            ctx.fillStyle = COLORS.player;
+            ctx.shadowColor = COLORS.player;
+            ctx.shadowBlur = 5;
+            // Left
+            ctx.beginPath(); ctx.moveTo(player.x - 30, player.y + 5); ctx.lineTo(player.x - 35, player.y + 15); ctx.lineTo(player.x - 25, player.y + 15); ctx.fill();
+            // Right
+            ctx.beginPath(); ctx.moveTo(player.x + 30, player.y + 5); ctx.lineTo(player.x + 25, player.y + 15); ctx.lineTo(player.x + 35, player.y + 15); ctx.fill();
+            ctx.shadowBlur = 0;
+          }
+
+          // Draw Shield ring
+          if (hasShield) {
+            ctx.strokeStyle = COLORS.player;
+            ctx.lineWidth = 2;
+            ctx.shadowColor = COLORS.player;
+            ctx.shadowBlur = 10;
+            ctx.setLineDash([5, 5]);
+            ctx.lineDashOffset = -timestamp / 20;
+            ctx.beginPath(); ctx.arc(player.x, player.y, 35, 0, Math.PI * 2); ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.shadowBlur = 0;
+          }
         }
 
         // ─── Enemy spawning ─────────────────────────────────────
@@ -387,14 +448,39 @@ const NebulaOverride: React.FC = () => {
 
       // ─── Update & draw bullets ──────────────────────────────
       bulletsRef.current = bulletsRef.current.filter(b => {
-        b.y -= b.speed;
-        if (b.y < -10) return false;
+        if (b.isHoming && enemiesRef.current.length > 0) {
+          let nearest = enemiesRef.current[0];
+          let minDist = Infinity;
+          for (const e of enemiesRef.current) {
+            const dist = Math.hypot(e.x - b.x, e.y - b.y);
+            if (dist < minDist) { minDist = dist; nearest = e; }
+          }
+          const dx = nearest.x - b.x;
+          const dy = nearest.y - b.y;
+          const len = Math.hypot(dx, dy);
+          if (len > 0) {
+             const targetVx = (dx / len) * BULLET_SPEED;
+             const targetVy = (dy / len) * BULLET_SPEED;
+             b.vx += (targetVx - b.vx) * 0.1;
+             b.vy += (targetVy - b.vy) * 0.1;
+          }
+        }
+
+        b.x += b.vx;
+        b.y += b.vy;
+        
+        if (b.y < -30 || b.x < -30 || b.x > width + 30 || b.y > height + 30) return false;
 
         ctx.save();
-        ctx.shadowColor = COLORS.bullet;
+        const bColor = b.isHoming ? '#00ffaa' : COLORS.bullet;
+        ctx.shadowColor = bColor;
         ctx.shadowBlur = 8;
-        ctx.fillStyle = COLORS.bullet;
-        ctx.fillRect(b.x - 1.5, b.y - 6, 3, 12);
+        ctx.fillStyle = bColor;
+        
+        const angle = Math.atan2(b.vy, b.vx);
+        ctx.translate(b.x, b.y);
+        ctx.rotate(angle + Math.PI/2);
+        ctx.fillRect(-1.5, -6, 3, 12);
         ctx.restore();
 
         return true;
@@ -541,6 +627,14 @@ const NebulaOverride: React.FC = () => {
               peakScoreRef.current = Math.max(peakScoreRef.current, scoreRef.current);
               setScore(scoreRef.current);
               createExplosion(enemy.x, enemy.y, eColor, 16);
+              
+              if (Math.random() < 0.1) { // 10% chance to drop powerup
+                const pType = POWERUP_TYPES[Math.floor(Math.random() * POWERUP_TYPES.length)];
+                powerupsRef.current.push({
+                   x: enemy.x, y: enemy.y, speed: 1.5, type: pType, 
+                   color: POWERUP_DEFS[pType].color, radius: 10 
+                });
+              }
               return false;
             } else {
               createExplosion(b.x, b.y, eColor, 6);
@@ -552,8 +646,10 @@ const NebulaOverride: React.FC = () => {
         if (!gameOverRef.current) {
           const player = playerRef.current;
           const now = performance.now();
+          const hasShield = now < activeBuffsRef.current.shield;
           if (
             now > player.invulnerableUntil &&
+            !hasShield &&
             enemy.x + enemy.width / 2 > player.x - player.width / 2 &&
             enemy.x - enemy.width / 2 < player.x + player.width / 2 &&
             enemy.y + enemy.height / 2 > player.y - player.height / 2 &&
@@ -572,6 +668,60 @@ const NebulaOverride: React.FC = () => {
           }
         }
 
+        return true;
+      });
+
+      // ─── Update & draw powerups ──────────────────────────────
+      powerupsRef.current = powerupsRef.current.filter(p => {
+        p.y += p.speed;
+        if (p.y > height + 20) return false;
+
+        const player = playerRef.current;
+        if (
+          !gameOverRef.current &&
+          p.x > player.x - player.width / 2 - p.radius &&
+          p.x < player.x + player.width / 2 + p.radius &&
+          p.y > player.y - player.height / 2 - p.radius &&
+          p.y < player.y + player.height / 2 + p.radius
+        ) {
+          if (p.type === 'bomb') {
+            enemiesRef.current.forEach(e => {
+              const d = ENEMY_DEFS[e.type];
+              scoreRef.current += d.pts;
+              createExplosion(e.x, e.y, d.color, 16);
+            });
+            peakScoreRef.current = Math.max(peakScoreRef.current, scoreRef.current);
+            setScore(scoreRef.current);
+            enemiesRef.current = [];
+          } else if (p.type === 'life') {
+            livesRef.current++;
+            setLives(livesRef.current);
+          } else {
+            activeBuffsRef.current[p.type] = timestamp + 10000; // 10s buff
+          }
+          createExplosion(p.x, p.y, p.color, 8);
+          return false;
+        }
+
+        ctx.save();
+        ctx.fillStyle = p.color + '40';
+        ctx.strokeStyle = p.color;
+        ctx.lineWidth = 1.5;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        
+        ctx.fillStyle = '#fff';
+        ctx.shadowBlur = 0;
+        ctx.font = 'bold 12px "JetBrains Mono"';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(POWERUP_DEFS[p.type].letter, p.x, p.y + 1);
+        ctx.restore();
+        
         return true;
       });
 
@@ -700,7 +850,9 @@ const NebulaOverride: React.FC = () => {
         totalEnemiesInWaveRef.current = ENEMIES_PER_WAVE_BASE;
         bulletsRef.current = [];
         enemiesRef.current = [];
+        powerupsRef.current = [];
         particlesRef.current = [];
+        activeBuffsRef.current = { spread: 0, rapid: 0, wingman: 0, homing: 0, shield: 0 };
         setScore(0);
         setLives(3);
         setWave(1);
