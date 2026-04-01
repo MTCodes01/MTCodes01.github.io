@@ -14,7 +14,7 @@ const PLAYER_SPEED = 5;
 const BULLET_SPEED = 8;
 const FIRE_RATE = 150; // ms between shots
 const BASE_ENEMY_SPEED = 1.5;
-const ENEMIES_PER_WAVE_BASE = 5;
+const ENEMIES_PER_WAVE_BASE = 16;
 const INVULNERABLE_MS = 1500;
 
 const POWERUP_DEFS: Record<PowerUpType, { color: string; letter: string }> = {
@@ -174,7 +174,8 @@ const NebulaOverride: React.FC = () => {
     let totalWeight = 0;
     const weights = candidates.map(c => {
       const def = ENEMY_DEFS[c];
-      const weight = 100 / (1 + (waveNum - def.minWave) * 0.5);
+      const age = waveNum - def.minWave;
+      const weight = Math.max(20, 100 - age * 15);
       totalWeight += weight;
       return weight;
     });
@@ -428,7 +429,7 @@ const NebulaOverride: React.FC = () => {
 
         // ─── Enemy spawning ─────────────────────────────────────
         spawnTimerRef.current += 16;
-        const spawnInterval = Math.max(400, 1200 - waveRef.current * 80);
+        const spawnInterval = Math.max(250, 1500 - waveRef.current * 100);
         if (spawnTimerRef.current >= spawnInterval && enemiesSpawnedRef.current < totalEnemiesInWaveRef.current) {
           spawnEnemy(width);
           enemiesSpawnedRef.current++;
@@ -441,7 +442,7 @@ const NebulaOverride: React.FC = () => {
           waveRef.current = newWave;
           setWave(newWave);
           enemiesSpawnedRef.current = 0;
-          totalEnemiesInWaveRef.current = ENEMIES_PER_WAVE_BASE + (newWave - 1) * 3;
+          totalEnemiesInWaveRef.current = Math.floor(10 + newWave * 5 + Math.pow(newWave, 1.5));
           spawnTimerRef.current = -1000; // brief pause between waves
         }
       }
@@ -628,7 +629,8 @@ const NebulaOverride: React.FC = () => {
               setScore(scoreRef.current);
               createExplosion(enemy.x, enemy.y, eColor, 16);
               
-              if (Math.random() < 0.1) { // 10% chance to drop powerup
+              const dropChance = 0.03 + (def.hp * 0.01);
+              if (Math.random() < dropChance) {
                 const pType = POWERUP_TYPES[Math.floor(Math.random() * POWERUP_TYPES.length)];
                 powerupsRef.current.push({
                    x: enemy.x, y: enemy.y, speed: 1.5, type: pType, 
@@ -697,7 +699,8 @@ const NebulaOverride: React.FC = () => {
             livesRef.current++;
             setLives(livesRef.current);
           } else {
-            activeBuffsRef.current[p.type] = timestamp + 10000; // 10s buff
+            const duration = p.type === 'shield' ? 5000 : p.type === 'wingman' ? 12000 : p.type === 'spread' ? 8000 : p.type === 'homing' ? 7000 : 6000;
+            activeBuffsRef.current[p.type] = timestamp + duration;
           }
           createExplosion(p.x, p.y, p.color, 8);
           return false;
