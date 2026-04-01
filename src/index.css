@@ -344,9 +344,12 @@ body.window-dragging iframe {
    ============================================================ */
 
 /* Desktop dimming when game is active */
-.nebula-active > *:not(.fixed) {
+.nebula-container > *:not(.fixed) {
+  transition: opacity 1s ease;
+}
+
+.nebula-container.nebula-active > *:not(.fixed) {
   opacity: 0;
-  transition: opacity 0.5s ease;
   pointer-events: none;
 }
 

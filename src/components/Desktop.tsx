@@ -40,7 +40,7 @@ const Desktop: React.FC = () => {
   const secondaryColor = musicState.isPlaying ? musicState.trackColor : '#00f0ff';
 
   return (
-    <div className={`fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none transition-colors duration-[2000ms] ${isGameActive ? 'nebula-active' : ''}`}>
+    <div className={`nebula-container fixed inset-0 bg-[#020204] overflow-hidden font-inter text-white select-none transition-colors duration-[2000ms] ${isGameActive ? 'nebula-active' : ''}`}>
       <style>{`
         @keyframes eq-bounce {
           0% { height: 15%; }
