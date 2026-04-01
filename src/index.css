@@ -392,3 +392,87 @@ body.window-dragging iframe {
   80%  { opacity: 0.5; }
   100% { transform: translateX(100%); opacity: 0; }
 }
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  @page {
+    margin: 1cm;
+    size: A4;
+  }
+
+  body {
+    background: white !important;
+    color: #111111 !important;
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  /* Hide the entire OS UI during print */
+  #root {
+    display: none !important;
+  }
+
+  /* Display the temporary print mount injected by ResumeApp */
+  #print-mount {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white !important;
+    color: #111111 !important;
+    z-index: 999999;
+    padding: 1.5cm !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Reset overflow and height constraints on the cloned resume area to prevent 1-page truncation */
+  #print-mount, 
+  #print-mount > div,
+  #print-mount > div > div {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    background: white !important;
+  }
+
+  /* Remove glow effects */
+  #print-mount * {
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Core text colors (CSS variable overrides) */
+  #print-mount .text-os-main {
+    color: #111111 !important;
+  }
+  #print-mount .text-os-muted {
+    color: #555555 !important;
+  }
+  #print-mount .bg-os-element,
+  #print-mount .bg-os-surface {
+    background-color: transparent !important;
+  }
+
+  /* Hide print button */
+  #print-mount .no-print {
+    display: none !important;
+  }
+
+  /* Page breaks — keep each experience entry whole, never cut mid-role */
+  #print-mount .relative.group {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Note: neon color overrides (e.g. text-[#00f0ff]) are applied via
+     injected <style> tag in the handlePrint JS function in ResumeApp.tsx */
+}

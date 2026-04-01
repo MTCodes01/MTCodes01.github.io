@@ -69,10 +69,68 @@ const SKILLS_MAP: Record<string, { items: string[]; accent: string }> = {
 };
 
 const ResumeApp: React.FC = () => {
-  const handlePrint = () => window.print();
+  const handlePrint = () => {
+    const originalNode = document.getElementById('resume-print-area');
+    if (!originalNode) return;
+
+    const printMount = document.createElement('div');
+    printMount.id = 'print-mount';
+    printMount.className = 'font-inter';
+    printMount.innerHTML = originalNode.innerHTML;
+
+    // Inject a style tag to remap neon/dark-theme colors to professional equivalents.
+    // We do this in JS because Tailwind JIT class names with special chars (e.g. text-[#00f0ff])
+    // can't be reliably targeted via escaped CSS selectors in @media print.
+    const overrideStyle = document.createElement('style');
+    overrideStyle.textContent = `
+      /* Walk all elements and override inline color properties */
+      #print-mount [style*="color: rgb(0, 240, 255)"],
+      #print-mount [style*="color:#00f0ff"] { color: #0056b3 !important; }
+      #print-mount [style*="border-left-color: rgb(0, 240, 255)"] { border-left-color: #0056b3 !important; }
+      #print-mount [style*="background-color: rgb(0, 240, 255)"] { background-color: #0056b3 !important; }
+    `;
+    printMount.appendChild(overrideStyle);
+
+    // Walk text nodes to re-map colors applied via Tailwind utility classes.
+    // Tailwind generates CSS vars on :root — override them in print mount.
+    const varOverride = document.createElement('style');
+    varOverride.textContent = `
+      #print-mount {
+        --tw-text-opacity: 1;
+        /* Remap the specific cyan shades used throughout the resume */
+        color: #111 !important;
+      }
+      /* Catch all remaining neon-tinted utility elements via attribute hack */
+      #print-mount *[class*="00f0ff"] {
+        color: #0056b3 !important;
+        border-color: #0056b3 !important;
+        background-color: transparent !important;
+      }
+      #print-mount *[class*="os-muted"] { color: #555555 !important; }
+      #print-mount *[class*="os-main"]  { color: #111111 !important; }
+      #print-mount *[class*="os-surface"] { background: transparent !important; }
+      #print-mount *[class*="os-element"] { background: white !important; }
+      #print-mount *[class*="border-os"] { border-color: #cccccc !important; }
+
+      /* Keep each experience entry on the same page — break between roles, not within them */
+      #print-mount .relative.group {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    `;
+    document.head.appendChild(varOverride);
+
+    document.body.appendChild(printMount);
+    window.print();
+
+    setTimeout(() => {
+      document.body.removeChild(printMount);
+      document.head.removeChild(varOverride);
+    }, 100);
+  };
 
   return (
-    <div className="h-full overflow-auto bg-os-element text-os-main p-8 font-inter">
+    <div className="h-full overflow-auto bg-os-element text-os-main p-8 font-inter" id="resume-print-area">
       <div className="max-w-4xl mx-auto min-h-full relative">
         {/* Header */}
         <motion.header
@@ -227,7 +285,7 @@ const ResumeApp: React.FC = () => {
             </motion.section>
 
             {/* Download / Print */}
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }}>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.25 }} className="no-print">
               <button
                 onClick={handlePrint}
                 className="w-full py-3.5 bg-[#00f0ff]/8 text-[#00f0ff] border border-[#00f0ff]/40 hover:bg-[#00f0ff] hover:text-black transition-all text-center font-space-grotesk font-bold text-xs uppercase tracking-widest group"
