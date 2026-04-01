@@ -73,6 +73,10 @@ export const WindowProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         if (existing.minimized) {
           return prev.map(w => w.id === id ? { ...w, minimized: false, focused: true, zIndex: nextZIndex } : { ...w, focused: false });
         }
+        if (existing.focused) {
+          // If already open and focused, toggle it to minimized!
+          return prev.map(w => w.id === id ? { ...w, minimized: true, focused: false } : w);
+        }
         return prev.map(w => w.id === id ? { ...w, focused: true, zIndex: nextZIndex } : { ...w, focused: false });
       }
 

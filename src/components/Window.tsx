@@ -71,7 +71,7 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
           top: windowState.position.y,
           width: windowState.size.width,
           height: windowState.size.height,
-          zIndex: windowState.minimized ? -10 : windowState.zIndex,
+          zIndex: windowState.zIndex,
           transition: 'border-color 0.2s, box-shadow 0.2s',
         }}
         onMouseDown={() => {
