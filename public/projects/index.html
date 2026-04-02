@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Projects by Sreedev SS - Open-Source Web Apps & Tools | MTCodes</title>
+  <title>Projects by Sreedev SS - Open-Source Web Apps &amp; Tools | MTCodes</title>
   <meta name="description"
     content="Browse open-source projects by Sreedev SS (MTCodes) - React apps, Django backends, TypeScript tools, Python scripts, and UI/UX prototypes. All built by a full-stack developer from Kerala, India." />
   <meta name="keywords"
@@ -19,7 +19,7 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sreedevss.in/projects" />
-  <meta property="og:title" content="Projects by Sreedev SS - Open-Source Web Apps & Tools" />
+  <meta property="og:title" content="Projects by Sreedev SS - Open-Source Web Apps &amp; Tools" />
   <meta property="og:description"
     content="React apps, Django backends, TypeScript tools, and UI/UX prototypes by Sreedev SS (MTCodes), full-stack developer from Kerala, India." />
   <meta property="og:image" content="https://sreedevss.in/og-image.png" />
@@ -125,6 +125,7 @@
       color: var(--text);
     }
 
+    /* Hero */
     .hero {
       max-width: 1100px;
       margin: 0 auto;
@@ -162,12 +163,65 @@
     }
 
     .hero-meta {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    /* Project grid */
+    .hero-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--yellow);
+      border: 1px solid rgba(255, 170, 0, .3);
+      padding: 4px 12px;
+      background: rgba(255, 170, 0, .06);
+    }
+
+    /* Refresh button */
+    .refresh-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+
+    .refresh-btn:hover {
+      border-color: var(--yellow);
+      color: var(--text);
+      background: rgba(255, 170, 0, .06);
+    }
+
+    .refresh-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .refresh-icon {
+      width: 14px;
+      height: 14px;
+      color: var(--yellow);
+      transition: transform .5s;
+    }
+
+    .refresh-icon.spinning {
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Grid */
     .grid-container {
       max-width: 1100px;
       margin: 0 auto;
@@ -176,16 +230,18 @@
 
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 24px;
     }
 
+    /* Card */
     .project-card {
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 28px;
       display: flex;
       flex-direction: column;
+      min-height: 320px;
       transition: border-color .2s;
       position: relative;
     }
@@ -194,36 +250,99 @@
       border-color: var(--yellow);
     }
 
-    .project-card::before {
-      content: '';
+    /* Corner accents */
+    .project-card .corner {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 2px;
-      height: 0;
-      background: var(--yellow);
-      transition: height .3s;
+      width: 8px;
+      height: 8px;
+      border-color: var(--border);
+      border-style: solid;
+      transition: border-color .2s;
     }
 
-    .project-card:hover::before {
-      height: 100%;
+    .project-card:hover .corner {
+      border-color: var(--yellow);
+    }
+
+    .corner.tl { top: 0; left: 0; border-width: 1px 0 0 1px; }
+    .corner.tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
+    .corner.bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+    .corner.br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .card-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .card-index {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       color: rgba(255, 170, 0, .4);
-      margin-bottom: 12px;
+      flex-shrink: 0;
     }
 
     .card-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: #ddd;
-      margin-bottom: 10px;
       text-transform: uppercase;
       letter-spacing: -.01em;
+      transition: color .2s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
+    }
+
+    .project-card:hover .card-title {
+      color: var(--yellow);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity .2s;
+      flex-shrink: 0;
+    }
+
+    .project-card:hover .card-actions {
+      opacity: 1;
+    }
+
+    .card-action-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      transition: color .2s, border-color .2s, background .2s;
+    }
+
+    .card-action-link:hover {
+      color: var(--text);
+      border-color: var(--muted);
+      background: rgba(255, 255, 255, .03);
+    }
+
+    .card-action-link.demo {
+      color: var(--yellow);
+      border-color: rgba(255, 170, 0, .4);
+      background: rgba(255, 170, 0, .07);
+    }
+
+    .card-action-link.demo:hover {
+      background: rgba(255, 170, 0, .15);
     }
 
     .card-desc {
@@ -233,56 +352,156 @@
       line-height: 1.7;
       flex: 1;
       margin-bottom: 20px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
-    .card-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
+    /* Language bar */
+    .lang-bar-wrap {
       margin-bottom: 20px;
     }
 
-    .card-tag {
+    .lang-bar {
+      display: flex;
+      height: 6px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 99px;
+      background: var(--border);
+      margin-bottom: 8px;
+    }
+
+    .lang-bar-segment {
+      height: 100%;
+    }
+
+    .lang-bar-segment:first-child { border-radius: 99px 0 0 99px; }
+    .lang-bar-segment:last-child { border-radius: 0 99px 99px 0; }
+    .lang-bar-segment:only-child { border-radius: 99px; }
+
+    .lang-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+
+    .lang-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
+      color: var(--muted);
+    }
+
+    .lang-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .lang-pct {
+      color: rgba(102, 102, 102, .6);
+    }
+
+    .lang-analyzing {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(102, 102, 102, .6);
+      font-style: italic;
+    }
+
+    /* Skeleton pulse */
+    .skeleton {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      min-height: 320px;
+      animation: pulse .8s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.5; }
+      to { opacity: 0.8; }
+    }
+
+    /* Card footer / topics */
+    .card-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .card-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .topics-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--muted);
+      font-style: italic;
+      margin-right: 4px;
+    }
+
+    .topic-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: .08em;
-      color: rgba(255, 170, 0, .7);
+      letter-spacing: .06em;
+      color: rgba(255, 170, 0, .8);
       border: 1px solid rgba(255, 170, 0, .2);
       padding: 2px 8px;
-      background: rgba(255, 170, 0, .04);
+      background: rgba(255, 170, 0, .05);
+      transition: border-color .15s;
     }
 
-    .card-links {
-      display: flex;
-      gap: 10px;
+    .topic-tag:hover {
+      border-color: rgba(255, 170, 0, .5);
     }
 
-    .card-link {
+    .no-topics {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(102, 102, 102, .6);
+      font-style: italic;
+    }
+
+    /* Error state */
+    .error-box {
+      background: rgba(255, 0, 60, .06);
+      border: 1px solid rgba(255, 0, 60, .2);
+      padding: 28px;
+      text-align: center;
+    }
+
+    .error-box p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #ff003c;
+      margin-bottom: 16px;
+    }
+
+    .error-box button {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: .08em;
       color: var(--muted);
-      text-decoration: none;
+      background: var(--surface);
       border: 1px solid var(--border);
-      padding: 5px 12px;
-      transition: color .2s, border-color .2s;
+      padding: 8px 20px;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
     }
 
-    .card-link:hover {
-      color: var(--text);
+    .error-box button:hover {
       border-color: var(--yellow);
-    }
-
-    .card-link.demo {
-      color: var(--yellow);
-      border-color: rgba(255, 170, 0, .4);
-      background: rgba(255, 170, 0, .05);
-    }
-
-    .card-link.demo:hover {
-      background: rgba(255, 170, 0, .12);
+      color: var(--text);
     }
 
     /* GitHub CTA */
@@ -349,7 +568,6 @@
     }
 
     @media (max-width: 600px) {
-
       nav.topnav,
       .hero,
       .grid-container,
@@ -361,6 +579,10 @@
 
       .nav-links {
         gap: 14px;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -383,131 +605,27 @@
       <span class="badge">// projects</span>
       <h1>Projects <span>_</span></h1>
     </div>
-    <p class="hero-meta">All repos tagged <code style="color:var(--yellow)">portfolio</code> on GitHub · Sorted by
-      latest push</p>
+    <div class="hero-meta">
+      <span id="repo-count" class="hero-count">ANALYZING...</span>
+      <button id="refresh-btn" class="refresh-btn" title="Refresh from GitHub">
+        <svg id="refresh-icon" class="refresh-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+        </svg>
+        <span id="refresh-label">Refresh</span>
+      </button>
+    </div>
   </header>
 
   <main class="grid-container">
-    <div class="projects-grid">
-
-      <!-- OS-Style Portfolio -->
-      <article class="project-card">
-        <p class="card-index">01</p>
-        <h2 class="card-title">OS Portfolio UI</h2>
-        <p class="card-desc">
-          An interactive OS-style portfolio built with React, TypeScript, and Framer Motion.
-          Features a boot screen, windowed apps (projects, resume, about, contact),
-          a music player, terminal, and dark/light themes. The site you're looking at now.
-        </p>
-        <div class="card-tags">
-          <span class="card-tag">React</span>
-          <span class="card-tag">TypeScript</span>
-          <span class="card-tag">Framer Motion</span>
-          <span class="card-tag">Vite</span>
-        </div>
-        <div class="card-links">
-          <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank" rel="noopener noreferrer"
-            class="card-link">[Code]</a>
-          <a href="https://sreedevss.in" class="card-link demo">[Live]</a>
-        </div>
-      </article>
-
-      <!-- Reelo Downloader -->
-      <article class="project-card">
-        <p class="card-index">02</p>
-        <h2 class="card-title">Reelo Downloader</h2>
-        <p class="card-desc">
-          A tool for downloading Instagram Reels content. Built with Python and a browser-friendly
-          interface. Provides a clean, fast way to save reel content for offline viewing.
-        </p>
-        <div class="card-tags">
-          <span class="card-tag">Python</span>
-          <span class="card-tag">Web Scraping</span>
-        </div>
-        <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
-            class="card-link">[GitHub]</a>
-        </div>
-      </article>
-
-      <!-- Full-Stack Django Apps -->
-      <article class="project-card">
-        <p class="card-index">03</p>
-        <h2 class="card-title">Django Web Apps</h2>
-        <p class="card-desc">
-          Server-rendered and API-backed web applications built with Django and Python.
-          Includes REST APIs, database-driven content management systems, and
-          admin dashboards for dynamic content editing.
-        </p>
-        <div class="card-tags">
-          <span class="card-tag">Python</span>
-          <span class="card-tag">Django</span>
-          <span class="card-tag">PostgreSQL</span>
-          <span class="card-tag">REST API</span>
-        </div>
-        <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
-            class="card-link">[GitHub]</a>
-        </div>
-      </article>
-
-      <!-- TypeScript Tooling -->
-      <article class="project-card">
-        <p class="card-index">04</p>
-        <h2 class="card-title">TypeScript Tools</h2>
-        <p class="card-desc">
-          Utility scripts, browser extensions, and developer tooling built in TypeScript.
-          Focused on developer experience, automation, and productivity.
-        </p>
-        <div class="card-tags">
-          <span class="card-tag">TypeScript</span>
-          <span class="card-tag">Node.js</span>
-          <span class="card-tag">Browser APIs</span>
-        </div>
-        <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
-            class="card-link">[GitHub]</a>
-        </div>
-      </article>
-
-      <!-- UI/UX Designs -->
-      <article class="project-card">
-        <p class="card-index">05</p>
-        <h2 class="card-title">UI/UX Designs</h2>
-        <p class="card-desc">
-          Interface prototypes and design systems created in Figma. From wireframes to
-          high-fidelity mockups, covering web apps, mobile UIs, and design tokens.
-        </p>
-        <div class="card-tags">
-          <span class="card-tag">Figma</span>
-          <span class="card-tag">UI Design</span>
-          <span class="card-tag">UX Research</span>
-        </div>
-        <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
-            class="card-link">[GitHub]</a>
-        </div>
-      </article>
-
-      <!-- Python Automation -->
-      <article class="project-card">
-        <p class="card-index">06</p>
-        <h2 class="card-title">Python Automation</h2>
-        <p class="card-desc">
-          Scripts for automating repetitive tasks, file management, web scraping,
-          and system utilities. Built for efficiency and cross-platform use.
-        </p>
-        <div class="card-tags">
-          <span class="card-tag">Python</span>
-          <span class="card-tag">Automation</span>
-          <span class="card-tag">CLI</span>
-        </div>
-        <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
-            class="card-link">[GitHub]</a>
-        </div>
-      </article>
-
+    <div id="projects-grid" class="projects-grid">
+      <!-- Skeleton placeholders -->
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
+      <div class="skeleton"></div>
     </div>
   </main>
 
@@ -526,6 +644,269 @@
       <a href="/blog">Blog</a>
     </nav>
   </footer>
+
+  <script>
+    // ─── Constants matching projectService.ts and ProjectsApp.tsx ───────────────
+    const PROJECTS_CACHE_KEY = 'portfolio_projects_data';
+    const LANGUAGES_CACHE_KEY = 'portfolio_languages_cache';
+    const GITHUB_USERNAME = 'mtcodes01';
+
+    const LANGUAGE_COLORS = {
+      'TypeScript': '#3178c6',
+      'JavaScript': '#f1e05a',
+      'Python': '#3572A5',
+      'HTML': '#e34c26',
+      'CSS': '#563d7b',
+      'C': '#555555',
+      'C++': '#f34b7d',
+      'Java': '#b07219',
+      'Rust': '#dea584',
+      'Go': '#00ADD8',
+      'Shell': '#89e051',
+      'Vue': '#41b883',
+      'React': '#61dafb',
+      'PHP': '#4F5D95',
+      'Ruby': '#701516',
+    };
+
+    // ─── State ──────────────────────────────────────────────────────────────────
+    let repos = [];
+    let isLoading = false;
+
+    // ─── DOM refs ───────────────────────────────────────────────────────────────
+    const grid = document.getElementById('projects-grid');
+    const countEl = document.getElementById('repo-count');
+    const refreshBtn = document.getElementById('refresh-btn');
+    const refreshIcon = document.getElementById('refresh-icon');
+    const refreshLabel = document.getElementById('refresh-label');
+
+    // ─── Helpers ────────────────────────────────────────────────────────────────
+    function titleFromName(name) {
+      return name.split('-').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
+    }
+
+    function setLoading(loading) {
+      isLoading = loading;
+      refreshBtn.disabled = loading;
+      if (loading) {
+        refreshIcon.classList.add('spinning');
+        refreshLabel.textContent = 'Loading...';
+        countEl.textContent = 'ANALYZING...';
+      } else {
+        refreshIcon.classList.remove('spinning');
+        refreshLabel.textContent = 'Refresh';
+      }
+    }
+
+    // ─── Language fetch (mirrors ProjectCard useEffect) ──────────────────────
+    async function fetchLanguages(repoName, languagesUrl) {
+      // Try cache first
+      let cache = {};
+      try {
+        const raw = localStorage.getItem(LANGUAGES_CACHE_KEY);
+        cache = raw ? JSON.parse(raw) : {};
+      } catch (e) { /* ignore */ }
+
+      if (cache[repoName]) return cache[repoName];
+
+      try {
+        const res = await fetch(languagesUrl, {
+          headers: { 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+
+        const totalBytes = Object.values(data).reduce((a, b) => a + b, 0);
+        const processed = Object.entries(data)
+          .map(([name, bytes]) => ({
+            name,
+            percentage: totalBytes > 0
+              ? parseFloat((bytes / totalBytes * 100).toFixed(1))
+              : 0,
+            color: LANGUAGE_COLORS[name] || `hsl(${Math.abs(name.charCodeAt(0) * 37) % 360}, 65%, 60%)`,
+          }))
+          .sort((a, b) => b.percentage - a.percentage);
+
+        // Write back to cache (re-read first to prevent race)
+        try {
+          const latestRaw = localStorage.getItem(LANGUAGES_CACHE_KEY);
+          const latestCache = latestRaw ? JSON.parse(latestRaw) : {};
+          latestCache[repoName] = processed;
+          localStorage.setItem(LANGUAGES_CACHE_KEY, JSON.stringify(latestCache));
+        } catch (e) { /* ignore */ }
+
+        return processed;
+      } catch (err) {
+        return [];
+      }
+    }
+
+    // ─── Build language bar HTML ─────────────────────────────────────────────
+    function langBarHTML(languages) {
+      if (!languages || languages.length === 0) {
+        return `<div class="lang-analyzing">ANALYZING_CODE_COMPOSITION...</div>`;
+      }
+      const segments = languages
+        .map(l => `<div class="lang-bar-segment" style="width:${l.percentage}%;background:${l.color}" title="${l.name}: ${l.percentage}%"></div>`)
+        .join('');
+      const legend = languages
+        .map(l => `<div class="lang-item"><span class="lang-dot" style="background:${l.color}"></span>${l.name}<span class="lang-pct">${l.percentage}%</span></div>`)
+        .join('');
+      return `<div class="lang-bar">${segments}</div><div class="lang-legend">${legend}</div>`;
+    }
+
+    // ─── Render a single card ─────────────────────────────────────────────────
+    function buildCard(repo, index) {
+      const title = titleFromName(repo.name);
+      const desc = repo.description || 'Experimental module with dynamic parameters.';
+      const demoUrl = repo.homepage && repo.homepage.trim() !== '' ? repo.homepage : null;
+      const topics = (repo.topics || []).filter(t => t !== 'portfolio');
+      const idxStr = String(index + 1).padStart(2, '0');
+
+      const topicsHTML = topics.length > 0
+        ? `<span class="topics-label">MODULE_TAGS:</span>${topics.map(t => `<span class="topic-tag">${t}</span>`).join('')}`
+        : `<span class="no-topics">NO_TAG_METADATA_DETECTED</span>`;
+
+      const demoBtn = demoUrl
+        ? `<a href="${demoUrl}" target="_blank" rel="noopener noreferrer" class="card-action-link demo">[RUN]</a>`
+        : '';
+
+      const card = document.createElement('article');
+      card.className = 'project-card';
+      card.dataset.repoName = repo.name;
+      card.dataset.languagesUrl = repo.languages_url;
+      card.innerHTML = `
+        <div class="corner tl"></div>
+        <div class="corner tr"></div>
+        <div class="corner bl"></div>
+        <div class="corner br"></div>
+        <div class="card-header">
+          <div class="card-header-left">
+            <span class="card-index">${idxStr}</span>
+            <h2 class="card-title" title="${title}">${title}</h2>
+          </div>
+          <div class="card-actions">
+            <a href="${repo.html_url}" target="_blank" rel="noopener noreferrer"
+               aria-label="View source code for ${title} on GitHub"
+               class="card-action-link">[CODE]</a>
+            ${demoBtn}
+          </div>
+        </div>
+        <p class="card-desc">${desc}</p>
+        <div class="lang-bar-wrap" id="lang-${repo.name}">
+          <div class="lang-analyzing">ANALYZING_CODE_COMPOSITION...</div>
+        </div>
+        <div class="card-footer">
+          <div class="card-topics">${topicsHTML}</div>
+        </div>
+      `;
+      return card;
+    }
+
+    // ─── Render the full grid ─────────────────────────────────────────────────
+    function renderGrid(data) {
+      grid.innerHTML = '';
+      if (!data || data.length === 0) {
+        grid.innerHTML = `
+          <div class="error-box" style="grid-column:1/-1">
+            <p>// NO_MODULES_DETECTED</p>
+            <button onclick="loadProjects(true)">Retry GitHub API</button>
+          </div>`;
+        return;
+      }
+
+      // Render all cards first (placeholder lang bars), then fetch languages async
+      data.forEach((repo, i) => {
+        const card = buildCard(repo, i);
+        grid.appendChild(card);
+      });
+
+      // Now fetch languages for each card in parallel
+      data.forEach(repo => {
+        fetchLanguages(repo.name, repo.languages_url).then(languages => {
+          const langEl = document.getElementById(`lang-${repo.name}`);
+          if (langEl) langEl.innerHTML = langBarHTML(languages);
+        });
+      });
+    }
+
+    // ─── Show skeleton placeholders ───────────────────────────────────────────
+    function showSkeletons() {
+      grid.innerHTML = Array(6).fill('<div class="skeleton"></div>').join('');
+    }
+
+    // ─── Main load function ───────────────────────────────────────────────────
+    async function loadProjects(forceRefresh = false) {
+      if (isLoading) return;
+      setLoading(true);
+
+      if (forceRefresh) {
+        localStorage.removeItem(LANGUAGES_CACHE_KEY);
+        showSkeletons();
+      }
+
+      // 1. Try localStorage cache first (mirrors projectService.getCachedProjects)
+      if (!forceRefresh) {
+        try {
+          const cached = localStorage.getItem(PROJECTS_CACHE_KEY);
+          if (cached) {
+            repos = JSON.parse(cached);
+            countEl.textContent = `${repos.length} MODULES DETECTED`;
+            renderGrid(repos);
+            setLoading(false);
+            return;
+          }
+        } catch (e) { /* fall through to API */ }
+      }
+
+      // 2. Fall back to GitHub API (mirrors projectService.fetchProjects)
+      try {
+        const res = await fetch(
+          `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=pushed&direction=desc&per_page=100`,
+          { headers: { 'Accept': 'application/vnd.github.v3+json' } }
+        );
+        if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
+        const data = await res.json();
+
+        repos = data.filter(repo =>
+          repo.topics && repo.topics.some(t => t.toLowerCase() === 'portfolio')
+        );
+
+        // Cache it for next time
+        try {
+          localStorage.setItem(PROJECTS_CACHE_KEY, JSON.stringify(repos));
+        } catch (e) { /* storage full, ignore */ }
+
+        countEl.textContent = `${repos.length} MODULES DETECTED`;
+        renderGrid(repos);
+      } catch (err) {
+        // Final fallback: try stale cache even if forceRefresh was requested
+        try {
+          const stale = localStorage.getItem(PROJECTS_CACHE_KEY);
+          if (stale) {
+            repos = JSON.parse(stale);
+            countEl.textContent = `${repos.length} MODULES (CACHED)`;
+            renderGrid(repos);
+          } else {
+            throw err;
+          }
+        } catch (e) {
+          grid.innerHTML = `
+            <div class="error-box" style="grid-column:1/-1">
+              <p>// GITHUB_API_UNREACHABLE — Check your connection.</p>
+              <button onclick="loadProjects(true)">Retry</button>
+            </div>`;
+          countEl.textContent = 'ERROR';
+        }
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────────────
+    refreshBtn.addEventListener('click', () => loadProjects(true));
+    loadProjects();
+  </script>
 
 </body>
 
