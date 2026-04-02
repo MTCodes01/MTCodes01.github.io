@@ -11,6 +11,13 @@ import './index.css';
 const App: React.FC = () => {
   const [bootComplete, setBootComplete] = useState(false);
 
+  React.useEffect(() => {
+    if (bootComplete) {
+      const seo = document.getElementById('seo-content');
+      if (seo) seo.style.display = 'block';
+    }
+  }, [bootComplete]);
+
   return (
     <ThemeProvider>
       <MusicProvider>

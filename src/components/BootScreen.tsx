@@ -166,11 +166,6 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
           </div>
         )}
       </div>
-      
-      {/* Skip hint */}
-      <div className="absolute bottom-4 right-4 font-jetbrains text-[10px] text-white/20 uppercase tracking-widest bg-black/60 px-3 py-1.5 rounded-sm backdrop-blur-sm pointer-events-none">
-        Click or press any key to skip
-      </div>
     </motion.div>
   );
 };

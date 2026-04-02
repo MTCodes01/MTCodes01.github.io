@@ -72,6 +72,26 @@
 <body>
   <div id="root"></div>
 
+  <style>
+    /* Prevent SEO content from flashing before React handles the boot screen */
+    body {
+      background: #0a0a0f !important;
+      margin: 0;
+      overflow: hidden;
+    }
+    #seo-content {
+      display: none;
+    }
+  </style>
+  <noscript>
+    <style>
+      #seo-content {
+        display: block !important;
+      }
+    </style>
+  </noscript>
+
+
   <!--
     ╔══════════════════════════════════════════════════════════╗
     ║  SEO CONTENT SECTION - visible below the OS viewport     ║
