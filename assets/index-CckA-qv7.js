@@ -53,7 +53,7 @@ neofetch  - System info
 date      - Current time
 fortune   - Get wisdom
 cowsay    - Moo!
-rickroll      - ???
+rickroll  - ???
 ls        - List files
 pwd       - Current path
 cd <dir>  - Change directory

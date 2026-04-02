@@ -539,7 +539,7 @@
           <p class="meta-info">
             <span>April 2, 2026</span>
             <span class="meta-dot"> · </span>
-            <span>~8 min read</span>
+            <span>~10 min read</span>
           </p>
         </div>
       </div>
@@ -698,8 +698,64 @@ transition={SPRING}</code></pre>
       These static pages (<a href="/about">/about</a>, <a href="/projects">/projects</a>,
       <a href="/blog">/blog</a>) live in the <code>public/</code> directory, served
       directly by GitHub Pages without any JavaScript - giving Google real, crawlable
-      topical depth beyond the SPA root.
+      topical depth beyond the SPA root. This was a major focus in commit <code>19efa8d</code> 
+      where we implemented "SEO optimisations" (also <code>a5b3720</code>) to ensure 
+      the site is crawlable without breaking the OS illusion.
     </p>
+
+    <!-- NEW SECTION START -->
+    <h2>Minute Details & Hidden Features</h2>
+    
+    <h3>1. The Audio Visualizer Engine</h3>
+    <p>
+      Most web visualizers use simple linear bars. For this project, I implemented 
+      <strong>Auto-Gain Control (AGC)</strong> and <strong>Hybrid Indexing</strong>.
+      Instead of mapping frequency bins 1:1, we use a power curve to spread out the 
+      bass and mids, creating a much more organic "wall of sound."
+    </p>
+    <div class="callout">
+      <strong>Commit <code>9bb945c</code>:</strong> Added a "buttery" smoothing effect 
+      where bars snap UP quickly (fast attack) but decay DOWN slowly (slow release), 
+      mimicking physical analogue hardware.
+    </div>
+
+    <h3>2. Virtual Filesystem & Terminal</h3>
+    <p>
+      The <code>TerminalApp</code> isn't just a UI - it's a simulated kernel. 
+      It has a persistent virtual filesystem stored in <code>localStorage</code>.
+      You can <code>mkdir</code>, <code>touch</code>, and <code>cd</code> through 
+      directories just like a real shell. It even supports <strong>Tab-Completion</strong> 
+      and <strong>Command History</strong> (ArrowUp/Down).
+    </p>
+
+    <h3>3. The "Print Transformation"</h3>
+    <p>
+      The <code>ResumeApp</code> features a custom print engine. Since the UI is 
+      neon-on-dark, a standard <code>window.print()</code> would be unreadable. 
+      When you click "Print", the app clones the DOM into a temporary mount, 
+      programmatically remaps all neon colors to professional printer-friendly 
+      shades (e.g., cyan <code>#00f0ff</code> becomes deep blue <code>#0056b3</code>), 
+      and enforces <code>break-inside: avoid</code> on experience blocks to 
+      prevent awkward page cuts.
+    </p>
+
+    <h3>4. Nebula Override (Game Mode)</h3>
+    <p>
+      Hidden in the system is a full-blown <strong>Canvas-based SHMUP game</strong>. 
+      Written from scratch with pure JS math (no game engine), it features 12 
+      enemy types with unique AI patterns, a progressive wave system, and 
+      power-ups like Homing Missiles and Wingmen. It's the ultimate easter egg 
+      for people who explore deep enough into the components.
+    </p>
+
+    <h3>5. Boot Screen Fidelity</h3>
+    <p>
+      The boot sequence in <code>9819050</code> was fine-tuned for "fake 
+      authenticity." It uses variable delays—fast bursts of "Transforming..." 
+      logs followed by a deliberate pause on "Mounting virtual filesystem..."—to 
+      trick the brain into thinking the computer is actually doing heavy work.
+    </p>
+    <!-- NEW SECTION END -->
 
     <h2>Key Lessons</h2>
     <ul>
