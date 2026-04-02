@@ -92,7 +92,7 @@ const ResumeApp: React.FC = () => {
     printMount.appendChild(overrideStyle);
 
     // Walk text nodes to re-map colors applied via Tailwind utility classes.
-    // Tailwind generates CSS vars on :root — override them in print mount.
+    // Tailwind generates CSS vars on :root - override them in print mount.
     const varOverride = document.createElement('style');
     varOverride.textContent = `
       #print-mount {
@@ -112,7 +112,7 @@ const ResumeApp: React.FC = () => {
       #print-mount *[class*="os-element"] { background: white !important; }
       #print-mount *[class*="border-os"] { border-color: #cccccc !important; }
 
-      /* Keep each experience entry on the same page — break between roles, not within them */
+      /* Keep each experience entry on the same page - break between roles, not within them */
       #print-mount .relative.group {
         break-inside: avoid;
         page-break-inside: avoid;
@@ -164,7 +164,7 @@ const ResumeApp: React.FC = () => {
         </motion.header>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {/* Main — Experience + Education */}
+          {/* Main - Experience + Education */}
           <div className="md:col-span-2 space-y-10">
 
             {/* Experience */}
@@ -243,7 +243,7 @@ const ResumeApp: React.FC = () => {
             </motion.section>
           </div>
 
-          {/* Sidebar — Skills + Languages + Download */}
+          {/* Sidebar - Skills + Languages + Download */}
           <div className="space-y-8">
             <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}>
               <h2 className="font-space-grotesk text-[11px] font-bold uppercase tracking-[0.2em] text-[#00f0ff] mb-6 border-b border-[#00f0ff]/15 pb-2">

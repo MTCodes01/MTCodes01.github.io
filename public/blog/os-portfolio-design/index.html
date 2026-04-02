@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>How I Built an OS-Style Portfolio with React & Framer Motion - Sreedev SS</title>
+  <meta name="description"
+    content="A deep-dive into building an interactive operating system UI as a portfolio using React, TypeScript, Vite, and Framer Motion. Boot sequences, windowed apps, context APIs, and animation architecture - all explained." />
+  <meta name="keywords"
+    content="React portfolio, OS-style UI, Framer Motion, TypeScript, Vite, window management, boot animation, portfolio design, web development, Sreedev SS, MTCodes" />
+  <meta name="author" content="Sreedev SS" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sreedevss.in/blog/os-portfolio-design" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <link rel="icon" type="image/svg+xml" href="/MT.svg" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://sreedevss.in/blog/os-portfolio-design" />
+  <meta property="og:title" content="How I Built an OS-Style Portfolio with React & Framer Motion" />
+  <meta property="og:description"
+    content="A deep-dive into the architecture, animation strategy, and design decisions behind building an interactive OS UI as a personal portfolio." />
+  <meta property="og:image" content="https://sreedevss.in/og-image.png" />
+  <meta property="article:author" content="Sreedev SS" />
+  <meta property="article:published_time" content="2026-04-02" />
+  <meta property="article:tag" content="React" />
+  <meta property="article:tag" content="TypeScript" />
+  <meta property="article:tag" content="Framer Motion" />
+  <meta property="article:tag" content="Portfolio Design" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How I Built an OS-Style Portfolio with React & Framer Motion" />
+  <meta name="twitter:description"
+    content="Boot sequences, windowed apps, and animation architecture - how the sreedevss.in OS portfolio was built." />
+  <meta name="twitter:image" content="https://sreedevss.in/og-image.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How I Built an OS-Style Portfolio with React & Framer Motion",
+    "description": "A deep-dive into the architecture, animation strategy, and design decisions behind building an interactive OS UI as a personal portfolio.",
+    "url": "https://sreedevss.in/blog/os-portfolio-design",
+    "datePublished": "2026-04-02",
+    "dateModified": "2026-04-02",
+    "author": {
+      "@type": "Person",
+      "name": "Sreedev SS",
+      "alternateName": "MTCodes",
+      "url": "https://sreedevss.in"
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Sreedev SS",
+      "url": "https://sreedevss.in"
+    },
+    "image": "https://sreedevss.in/og-image.png",
+    "keywords": ["React", "TypeScript", "Framer Motion", "Portfolio", "OS UI", "Vite", "Web Development"],
+    "articleSection": "Design & Engineering",
+    "inLanguage": "en-IN",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://sreedevss.in/blog/os-portfolio-design"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --text: #c8c8d0;
+      --muted: #666;
+      --accent: #ff003c;
+      --yellow: #ffaa00;
+      --blue: #61dafb;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav.topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 15, .92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    /* ARTICLE HEADER */
+    .article-header {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 72px 40px 48px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-category {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      color: var(--blue);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .article-category a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .article-category a:hover {
+      color: var(--text);
+    }
+
+    .chevron {
+      color: var(--border);
+    }
+
+    h1.article-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(26px, 4.5vw, 42px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.15;
+      color: #eee;
+      margin-bottom: 20px;
+    }
+
+    .article-excerpt {
+      font-size: 17px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .meta-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .meta-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #1a0008, #0a0a0f);
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .meta-name {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .meta-info {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .meta-dot {
+      color: var(--border);
+    }
+
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 20px;
+    }
+
+    .article-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+    }
+
+    /* ARTICLE BODY */
+    .article-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    .article-body h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+      color: #ddd;
+      margin: 48px 0 16px;
+      padding-top: 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .article-body h2:first-child {
+      margin-top: 0;
+    }
+
+    .article-body h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--yellow);
+      margin: 28px 0 10px;
+    }
+
+    .article-body p {
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .article-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .article-body strong {
+      color: #eee;
+      font-weight: 600;
+    }
+
+    .article-body em {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .article-body a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .article-body a:hover {
+      color: #eee;
+    }
+
+    .article-body ul,
+    .article-body ol {
+      padding-left: 24px;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+
+    .article-body li {
+      margin-bottom: 6px;
+    }
+
+    .article-body li::marker {
+      color: var(--yellow);
+    }
+
+    /* Code blocks */
+    .article-body pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--yellow);
+      padding: 20px 24px;
+      margin: 24px 0;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      color: #b0b0c0;
+    }
+
+    .article-body code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--yellow);
+      background: rgba(255, 170, 0, .06);
+      padding: 2px 6px;
+      border-radius: 2px;
+    }
+
+    .article-body pre code {
+      color: #b0b0c0;
+      background: none;
+      padding: 0;
+      font-size: 13px;
+    }
+
+    .code-comment {
+      color: #44475a;
+    }
+
+    .code-keyword {
+      color: #61dafb;
+    }
+
+    .code-string {
+      color: #a8ff78;
+    }
+
+    .code-fn {
+      color: #ffaa00;
+    }
+
+    .code-type {
+      color: #ff79c6;
+    }
+
+    /* Callout */
+    .callout {
+      background: var(--surface);
+      border-left: 3px solid var(--blue);
+      padding: 16px 20px;
+      margin: 24px 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .callout strong {
+      color: var(--blue);
+    }
+
+    /* Section divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    /* RELATED / CTA */
+    .article-footer {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+    }
+
+    .article-footer-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--muted);
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 10px;
+    }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .cta-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--blue);
+      text-decoration: none;
+      border: 1px solid var(--blue);
+      padding: 10px 22px;
+      transition: background .2s;
+    }
+
+    .cta-link:hover {
+      background: rgba(97, 218, 251, .07);
+    }
+
+    .cta-link.alt {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .cta-link.alt:hover {
+      background: rgba(255, 170, 0, .07);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0;
+    }
+
+    footer nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    footer a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      nav.topnav {
+        padding: 14px 20px;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
+
+      .article-header,
+      .article-body,
+      .article-footer,
+      footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="topnav">
+    <a href="/" class="nav-logo">MT<span style="color:#666">Codes</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/blog">Blog</a></li>
+    </ul>
+  </nav>
+
+  <header class="article-header">
+    <p class="article-category">
+      <a href="/blog">Blog</a>
+      <span class="chevron">/</span>
+      <span>Design &amp; Engineering</span>
+    </p>
+
+    <h1 class="article-title">
+      How I Built an OS-Style Portfolio with React &amp; Framer Motion
+    </h1>
+
+    <p class="article-excerpt">
+      A deep-dive into the architecture, animation strategy, and design decisions behind
+      building an interactive operating system UI as a personal portfolio - boot sequences,
+      windowed apps, context APIs, and more.
+    </p>
+
+    <div class="article-meta">
+      <div class="meta-author">
+        <div class="meta-avatar">MT</div>
+        <div>
+          <p class="meta-name">Sreedev SS</p>
+          <p class="meta-info">
+            <span>April 2, 2026</span>
+            <span class="meta-dot"> · </span>
+            <span>~8 min read</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="article-tags">
+      <span class="article-tag">React</span>
+      <span class="article-tag">TypeScript</span>
+      <span class="article-tag">Framer Motion</span>
+      <span class="article-tag">Vite</span>
+      <span class="article-tag">UI Design</span>
+      <span class="article-tag">Portfolio</span>
+    </div>
+  </header>
+
+  <article class="article-body">
+
+    <h2>The Idea</h2>
+    <p>
+      Most developer portfolios follow the same playbook - hero section, skills grid,
+      project cards, contact form. I wanted something that would actually make someone
+      stop and explore. The concept: what if your portfolio <strong>was</strong> an operating system?
+    </p>
+    <p>
+      The visitor "boots" into a dark-themed OS desktop, then launches windowed apps to
+      explore your work - just like opening apps on a real computer. It's interactive,
+      memorable, and gives every section its own space without scrolling through a single
+      long page.
+    </p>
+
+    <div class="callout">
+      <strong>Live demo:</strong> You can explore the full UI at
+      <a href="https://sreedevss.in">sreedevss.in</a>.
+      The source code is on <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank"
+        rel="noopener noreferrer">GitHub</a>.
+    </div>
+
+    <h2>Tech Stack</h2>
+    <ul>
+      <li><strong>React 18</strong> with functional components and hooks</li>
+      <li><strong>TypeScript</strong> throughout - strict mode enabled</li>
+      <li><strong>Vite</strong> for the build tool and dev server</li>
+      <li><strong>Framer Motion</strong> for all animations and transitions</li>
+      <li><strong>Tailwind CSS</strong> for utility-first styling</li>
+      <li><strong>Context API</strong> for window, theme, and music state</li>
+    </ul>
+
+    <h2>Architecture Overview</h2>
+    <p>
+      The app has three main layers that compose the full experience:
+    </p>
+
+    <h3>1. Boot Screen</h3>
+    <p>
+      When the user first visits, they see a cinematic boot sequence - a loading bar,
+      blinking cursor, and system messages in a terminal font. This is handled by the
+      <code>BootScreen</code> component which fires an <code>onComplete</code> callback
+      once the animation finishes, triggering React's <code>AnimatePresence</code> to
+      unmount the boot screen and mount the desktop.
+    </p>
+    <pre><code><span class="code-comment">// App.tsx - boot → desktop transition</span>
+<span class="code-keyword">const</span> <span class="code-fn">App</span> = () =&gt; {
+  <span class="code-keyword">const</span> [bootComplete, setBootComplete] = useState(<span class="code-keyword">false</span>);
+
+  <span class="code-keyword">return</span> (
+    &lt;<span class="code-type">AnimatePresence</span>&gt;
+      {!bootComplete ? (
+        &lt;<span class="code-type">BootScreen</span> onComplete={() =&gt; setBootComplete(<span class="code-keyword">true</span>)} /&gt;
+      ) : (
+        &lt;<span class="code-type">Desktop</span> /&gt;
+      )}
+    &lt;/<span class="code-type">AnimatePresence</span>&gt;
+  );
+};</code></pre>
+
+    <h3>2. Window Management System</h3>
+    <p>
+      The <code>WindowContext</code> is the core of the OS illusion. It tracks every open
+      window - its position, size, z-index, minimized state, and which app it renders.
+      Windows can be dragged, resized, minimized to the Dock, and brought to focus.
+    </p>
+    <pre><code><span class="code-comment">// WindowContext shape</span>
+<span class="code-keyword">interface</span> <span class="code-type">WindowState</span> {
+  id: <span class="code-type">string</span>;
+  appId: <span class="code-type">AppId</span>;
+  title: <span class="code-type">string</span>;
+  position: { x: <span class="code-type">number</span>; y: <span class="code-type">number</span> };
+  size: { w: <span class="code-type">number</span>; h: <span class="code-type">number</span> };
+  zIndex: <span class="code-type">number</span>;
+  minimized: <span class="code-type">boolean</span>;
+}</code></pre>
+    <p>
+      Each <code>Window</code> component uses Framer Motion's <code>drag</code> prop
+      constrained to the desktop viewport. Z-index is managed by tracking the highest
+      current value and incrementing on focus.
+    </p>
+
+    <h3>3. App Components</h3>
+    <p>
+      Each "app" is just a React component rendered inside the Window chrome. The apps include:
+    </p>
+    <ul>
+      <li><strong>AboutApp</strong> - bio, animated typewriter role, skills, and social links</li>
+      <li><strong>ProjectsApp</strong> - live GitHub repo cards pulled from the API</li>
+      <li><strong>ResumeApp</strong> - interactive resume with print-to-PDF support</li>
+      <li><strong>ContactApp</strong> - contact form with email integration</li>
+      <li><strong>TerminalApp</strong> - functional terminal with custom commands</li>
+      <li><strong>MusicApp</strong> - ambient music player with visualizer</li>
+      <li><strong>BrowserApp</strong> - mini in-OS browser window</li>
+    </ul>
+
+    <h2>Animation Strategy</h2>
+    <p>
+      Every animation in the OS follows a consistent set of physics parameters.
+      Windows enter with a spring-based scale-fade, the Dock icons have a macOS-style
+      magnification hover, and the boot sequence uses staggered delays.
+    </p>
+    <pre><code><span class="code-comment">// Shared spring config used across window enter/exit</span>
+<span class="code-keyword">const</span> SPRING = {
+  type: <span class="code-string">"spring"</span>,
+  stiffness: <span class="code-keyword">280</span>,
+  damping: <span class="code-keyword">24</span>,
+  mass: <span class="code-keyword">0.8</span>,
+};
+
+<span class="code-comment">// Window mount animation</span>
+initial={{ opacity: <span class="code-keyword">0</span>, scale: <span class="code-keyword">0.92</span>, y: <span class="code-keyword">8</span> }}
+animate={{ opacity: <span class="code-keyword">1</span>, scale: <span class="code-keyword">1</span>, y: <span class="code-keyword">0</span> }}
+exit={{ opacity: <span class="code-keyword">0</span>, scale: <span class="code-keyword">0.88</span>, y: <span class="code-keyword">-4</span> }}
+transition={SPRING}</code></pre>
+
+    <h2>Design System</h2>
+    <p>
+      The visual language is <strong>dark cyberpunk-minimal</strong>. Everything is built
+      on a near-black <code>#0a0a0f</code> base with a red accent (<code>#ff003c</code>),
+      amber (<code>#ffaa00</code>), and cyan (<code>#61dafb</code>).
+    </p>
+    <p>
+      Typography uses three complementary fonts:
+    </p>
+    <ul>
+      <li><strong>Space Grotesk</strong> for display headings - bold, geometric</li>
+      <li><strong>Inter</strong> for body text - clean and readable</li>
+      <li><strong>JetBrains Mono</strong> for labels, tags, and code - tech authenticity</li>
+    </ul>
+
+    <h2>The SEO Challenge</h2>
+    <p>
+      A JS-driven SPA meant Google initially saw an empty <code>&lt;div id="root"&gt;</code>.
+      Since switching to SSR wasn't viable for a GitHub Pages static site, I took a
+      different approach: adding a <strong>real, visible footer section</strong> to the
+      HTML that appears below the OS viewport when users scroll. It contains structured
+      content (bio, skills, projects, contact) and links to static subpages.
+    </p>
+    <p>
+      These static pages (<a href="/about">/about</a>, <a href="/projects">/projects</a>,
+      <a href="/blog">/blog</a>) live in the <code>public/</code> directory, served
+      directly by GitHub Pages without any JavaScript - giving Google real, crawlable
+      topical depth beyond the SPA root.
+    </p>
+
+    <h2>Key Lessons</h2>
+    <ul>
+      <li>
+        <strong>Context API scales well</strong> for this kind of orchestrated state -
+        window management, theme switching, and music playback each got their own context
+        without Redux overhead.
+      </li>
+      <li>
+        <strong>Framer Motion's <code>AnimatePresence</code></strong> is indispensable for
+        mount/unmount animations. Wrapping it around conditional renders is the cleanest
+        pattern.
+      </li>
+      <li>
+        <strong>OS aesthetics need constraint</strong>. Every pixel matters when your UI
+        is imitating a real operating system - inconsistency breaks the illusion.
+      </li>
+      <li>
+        <strong>Static HTML wins for SEO</strong> even inside an SPA project.
+        Public-folder HTML pages are served directly and require zero JS to be indexed.
+      </li>
+    </ul>
+
+    <hr class="divider" />
+
+    <p>
+      The full source is on
+      <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer">GitHub/MTCodes01</a>.
+      If you have questions, reach me at
+      <a href="mailto:sreedevss05@gmail.com">sreedevss05@gmail.com</a> or on
+      <a href="https://www.linkedin.com/in/sreedevss/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+    </p>
+
+  </article>
+
+  <div class="article-footer">
+    <p class="article-footer-label">More from MTCodes</p>
+    <div class="cta-row">
+      <a href="/projects" class="cta-link alt">View Projects →</a>
+      <a href="/blog" class="cta-link">All Articles →</a>
+      <a href="/" class="cta-link">Open Portfolio UI →</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Sreedev SS · MTCodes · Kerala, India</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/projects">Projects</a>
+      <a href="/blog">Blog</a>
+    </nav>
+  </footer>
+
+</body>
+
+</html>

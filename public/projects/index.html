@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Projects by Sreedev SS - Open-Source Web Apps & Tools | MTCodes</title>
+  <meta name="description"
+    content="Browse open-source projects by Sreedev SS (MTCodes) - React apps, Django backends, TypeScript tools, Python scripts, and UI/UX prototypes. All built by a full-stack developer from Kerala, India." />
+  <meta name="keywords"
+    content="Sreedev SS projects, MTCodes projects, open source, React, Django, TypeScript, Python, GitHub, portfolio, web apps, tools, Kerala developer" />
+  <meta name="author" content="Sreedev SS" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sreedevss.in/projects" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <link rel="icon" type="image/svg+xml" href="/MT.svg" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sreedevss.in/projects" />
+  <meta property="og:title" content="Projects by Sreedev SS - Open-Source Web Apps & Tools" />
+  <meta property="og:description"
+    content="React apps, Django backends, TypeScript tools, and UI/UX prototypes by Sreedev SS (MTCodes), full-stack developer from Kerala, India." />
+  <meta property="og:image" content="https://sreedevss.in/og-image.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Projects by Sreedev SS",
+    "description": "Open-source web applications, tools, and experiments by Sreedev SS (MTCodes).",
+    "url": "https://sreedevss.in/projects",
+    "author": {
+      "@type": "Person",
+      "name": "Sreedev SS",
+      "alternateName": "MTCodes",
+      "url": "https://sreedevss.in"
+    },
+    "about": [
+      { "@type": "SoftwareApplication", "name": "Full-Stack Web Applications", "applicationCategory": "WebApplication" },
+      { "@type": "SoftwareApplication", "name": "TypeScript Tools & Utilities", "applicationCategory": "DeveloperApplication" },
+      { "@type": "SoftwareApplication", "name": "Python Automation Scripts", "applicationCategory": "DeveloperApplication" }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --text: #ccc;
+      --muted: #666;
+      --accent: #ff003c;
+      --yellow: #ffaa00;
+      --blue: #61dafb;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    nav.topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 15, .92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+    }
+
+    .hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 72px 40px 48px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--yellow);
+      border: 1px solid var(--yellow);
+      padding: 4px 10px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      color: #eee;
+    }
+
+    h1 span {
+      color: var(--yellow);
+    }
+
+    .hero-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Project grid */
+    .grid-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      transition: border-color .2s;
+      position: relative;
+    }
+
+    .project-card:hover {
+      border-color: var(--yellow);
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 0;
+      background: var(--yellow);
+      transition: height .3s;
+    }
+
+    .project-card:hover::before {
+      height: 100%;
+    }
+
+    .card-index {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(255, 170, 0, .4);
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #ddd;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: -.01em;
+    }
+
+    .card-desc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .card-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: rgba(255, 170, 0, .7);
+      border: 1px solid rgba(255, 170, 0, .2);
+      padding: 2px 8px;
+      background: rgba(255, 170, 0, .04);
+    }
+
+    .card-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 5px 12px;
+      transition: color .2s, border-color .2s;
+    }
+
+    .card-link:hover {
+      color: var(--text);
+      border-color: var(--yellow);
+    }
+
+    .card-link.demo {
+      color: var(--yellow);
+      border-color: rgba(255, 170, 0, .4);
+      background: rgba(255, 170, 0, .05);
+    }
+
+    .card-link.demo:hover {
+      background: rgba(255, 170, 0, .12);
+    }
+
+    /* GitHub CTA */
+    .github-cta {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 40px 64px;
+      text-align: center;
+    }
+
+    .github-cta p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    .github-btn {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 10px 28px;
+      transition: border-color .2s, background .2s;
+    }
+
+    .github-btn:hover {
+      border-color: var(--yellow);
+      background: rgba(255, 170, 0, .05);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0;
+    }
+
+    footer nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    footer a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+
+      nav.topnav,
+      .hero,
+      .grid-container,
+      .github-cta,
+      footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="topnav">
+    <a href="/" class="nav-logo">MT<span style="color:#666">Codes</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/projects" class="active">Projects</a></li>
+      <li><a href="/blog">Blog</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <span class="badge">// projects</span>
+      <h1>Projects <span>_</span></h1>
+    </div>
+    <p class="hero-meta">All repos tagged <code style="color:var(--yellow)">portfolio</code> on GitHub · Sorted by
+      latest push</p>
+  </header>
+
+  <main class="grid-container">
+    <div class="projects-grid">
+
+      <!-- OS-Style Portfolio -->
+      <article class="project-card">
+        <p class="card-index">01</p>
+        <h2 class="card-title">OS Portfolio UI</h2>
+        <p class="card-desc">
+          An interactive OS-style portfolio built with React, TypeScript, and Framer Motion.
+          Features a boot screen, windowed apps (projects, resume, about, contact),
+          a music player, terminal, and dark/light themes. The site you're looking at now.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">React</span>
+          <span class="card-tag">TypeScript</span>
+          <span class="card-tag">Framer Motion</span>
+          <span class="card-tag">Vite</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank" rel="noopener noreferrer"
+            class="card-link">[Code]</a>
+          <a href="https://sreedevss.in" class="card-link demo">[Live]</a>
+        </div>
+      </article>
+
+      <!-- Reelo Downloader -->
+      <article class="project-card">
+        <p class="card-index">02</p>
+        <h2 class="card-title">Reelo Downloader</h2>
+        <p class="card-desc">
+          A tool for downloading Instagram Reels content. Built with Python and a browser-friendly
+          interface. Provides a clean, fast way to save reel content for offline viewing.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">Web Scraping</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
+        </div>
+      </article>
+
+      <!-- Full-Stack Django Apps -->
+      <article class="project-card">
+        <p class="card-index">03</p>
+        <h2 class="card-title">Django Web Apps</h2>
+        <p class="card-desc">
+          Server-rendered and API-backed web applications built with Django and Python.
+          Includes REST APIs, database-driven content management systems, and
+          admin dashboards for dynamic content editing.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">Django</span>
+          <span class="card-tag">PostgreSQL</span>
+          <span class="card-tag">REST API</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
+        </div>
+      </article>
+
+      <!-- TypeScript Tooling -->
+      <article class="project-card">
+        <p class="card-index">04</p>
+        <h2 class="card-title">TypeScript Tools</h2>
+        <p class="card-desc">
+          Utility scripts, browser extensions, and developer tooling built in TypeScript.
+          Focused on developer experience, automation, and productivity.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">TypeScript</span>
+          <span class="card-tag">Node.js</span>
+          <span class="card-tag">Browser APIs</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
+        </div>
+      </article>
+
+      <!-- UI/UX Designs -->
+      <article class="project-card">
+        <p class="card-index">05</p>
+        <h2 class="card-title">UI/UX Designs</h2>
+        <p class="card-desc">
+          Interface prototypes and design systems created in Figma. From wireframes to
+          high-fidelity mockups, covering web apps, mobile UIs, and design tokens.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">Figma</span>
+          <span class="card-tag">UI Design</span>
+          <span class="card-tag">UX Research</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
+        </div>
+      </article>
+
+      <!-- Python Automation -->
+      <article class="project-card">
+        <p class="card-index">06</p>
+        <h2 class="card-title">Python Automation</h2>
+        <p class="card-desc">
+          Scripts for automating repetitive tasks, file management, web scraping,
+          and system utilities. Built for efficiency and cross-platform use.
+        </p>
+        <div class="card-tags">
+          <span class="card-tag">Python</span>
+          <span class="card-tag">Automation</span>
+          <span class="card-tag">CLI</span>
+        </div>
+        <div class="card-links">
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <div class="github-cta">
+    <p>All active projects are published on GitHub. The interactive portfolio also pulls live repo data.</p>
+    <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer" class="github-btn">
+      View All on GitHub →
+    </a>
+  </div>
+
+  <footer>
+    <p>© 2026 Sreedev SS · MTCodes · Kerala, India</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/blog">Blog</a>
+    </nav>
+  </footer>
+
+</body>
+
+</html>

@@ -78,7 +78,7 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
           if (!windowState.minimized) focusWindow(windowState.id);
         }}
       >
-        {/* Corner accent — only show when focused */}
+        {/* Corner accent - only show when focused */}
         {isFocused && <div className="corner-accent pointer-events-none" />}
 
         {/* Title Bar */}
@@ -147,7 +147,7 @@ const Window: React.FC<WindowProps> = ({ windowState, children }) => {
           {children}
         </div>
 
-        {/* Resize handle — hidden when maximized or for resume app */}
+        {/* Resize handle - hidden when maximized or for resume app */}
         {!isMaximized && windowState.id !== 'resume' && (
           <div
             className="resize-handle absolute bottom-0 right-0 w-5 h-5 cursor-se-resize flex items-end justify-end p-1 opacity-40 hover:opacity-100 transition-opacity z-50"

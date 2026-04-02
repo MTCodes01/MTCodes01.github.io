@@ -38,7 +38,7 @@ interface HistoryEntry {
 const TerminalApp: React.FC = () => {
   const { openWindow, closeWindow } = useWindows();
   const [history, setHistory] = useState<HistoryEntry[]>([
-    { type: 'output', text: 'CheckTerm v1.1.0 — Checkpoint OS' },
+    { type: 'output', text: 'CheckTerm v1.1.0 - Checkpoint OS' },
     { type: 'output', text: 'Type "help" for available commands.\n' },
   ]);
   const [input, setInput] = useState('');
@@ -66,9 +66,9 @@ const TerminalApp: React.FC = () => {
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   const COMMANDS: Record<string, (args: string[]) => Promise<string | void> | string | void> = useMemo(() => ({
-    whoami: () => `Sreedev S S — Developer · Designer · Editor
+    whoami: () => `Sreedev S S - Developer · Designer · Editor
 Location  : Thiruvananthapuram, Kerala, India
-Education : B.Tech CSE — College of Engineering, Attingal
+Education : B.Tech CSE - College of Engineering, Attingal
 Status    : Open to opportunities`,
 
     skills: () => `Technical Skills
@@ -120,18 +120,27 @@ YouTube   : @MT_yt`,
 
     help: () => `Available Commands
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-whoami    — About me          ls        — List files
-skills    — Technical skills  pwd       — Current path
-projects  — Featured projects  neofetch  — System info
-contact   — Contact info      echo      — Print text
-open <ap> — Open app          mkdir     — Create dir
-cd <dir>  — Change dir        touch     — Create file
-rm <file> — Remove file       rmdir     — Remove dir
-date      — Current time       echo      — Print text
-socials   — My social links   fortune   — Wisdom
-cowsay    — Moo!              clear     — Clear screen
-rickroll  — ???               
-exit      — Close term`,
+whoami    - About me
+skills    - Technical skills
+projects  - Featured projects
+contact   - Contact info
+socials   - Social links
+neofetch  - System info
+date      - Current time
+fortune   - Get wisdom
+cowsay    - Moo!
+rick      - ???
+ls        - List files
+pwd       - Current path
+cd <dir>  - Change directory
+mkdir     - Create directory
+touch     - Create file
+rm <file> - Remove file
+rmdir     - Remove directory
+open <ap> - Open application
+echo      - Print text
+clear     - Clear screen
+exit      - Close terminal`,
 
     socials: () => `Connect with me:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -238,7 +247,7 @@ YouTube   : https://youtube.com/@MT_yt`,
 
     cowsay: (args) => {
       const msg = args.join(' ') || "Moo!";
-      const border = "—".repeat(msg.length + 2);
+      const border = "-".repeat(msg.length + 2);
       return `
   ${border}
 < ${msg} >
@@ -256,7 +265,7 @@ YouTube   : https://youtube.com/@MT_yt`,
       return FORTUNES[idx];
     },
 
-    rickroll: () => {
+    rick: () => {
       window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
       return "Never gonna give you up, never gonna let you down...";
     },
