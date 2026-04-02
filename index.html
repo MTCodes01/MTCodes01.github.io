@@ -67,12 +67,32 @@
     ]
   }
   </script>
-  <script type="module" crossorigin src="/assets/index-Dq7H4tlX.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-BZ4UJzIN.css">
+  <script type="module" crossorigin src="/assets/index-BMIl530E.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-6SPxf8yw.css">
 </head>
 
 <body>
   <div id="root"></div>
+
+  <style>
+    /* Prevent SEO content from flashing before React handles the boot screen */
+    body {
+      background: #0a0a0f !important;
+      margin: 0;
+      overflow: hidden;
+    }
+    #seo-content {
+      display: none;
+    }
+  </style>
+  <noscript>
+    <style>
+      #seo-content {
+        display: block !important;
+      }
+    </style>
+  </noscript>
+
 
   <!--
     ╔══════════════════════════════════════════════════════════╗
