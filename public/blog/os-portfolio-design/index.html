@@ -7,9 +7,9 @@
 
   <title>How I Built an OS-Style Portfolio with React & Framer Motion - Sreedev SS</title>
   <meta name="description"
-    content="A deep-dive into building an interactive operating system UI as a portfolio using React, TypeScript, Vite, and Framer Motion. Boot sequences, windowed apps, context APIs, and animation architecture - all explained." />
+    content="A deep-dive into every detail that went into building sreedevss.in - the interactive OS-style portfolio. Boot sequences, window management, a 30-track music player with a real-time visualizer, a hidden space shooter game, and drag-to-resize windows - all in React, TypeScript, and Framer Motion." />
   <meta name="keywords"
-    content="React portfolio, OS-style UI, Framer Motion, TypeScript, Vite, window management, boot animation, portfolio design, web development, Sreedev SS, MTCodes" />
+    content="React portfolio, OS-style UI, Framer Motion, TypeScript, Vite, window management, boot animation, Web Audio API, canvas game, portfolio design, web development, Sreedev SS, MTCodes" />
   <meta name="author" content="Sreedev SS" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sreedevss.in/blog/os-portfolio-design" />
@@ -21,7 +21,7 @@
   <meta property="og:url" content="https://sreedevss.in/blog/os-portfolio-design" />
   <meta property="og:title" content="How I Built an OS-Style Portfolio with React & Framer Motion" />
   <meta property="og:description"
-    content="A deep-dive into the architecture, animation strategy, and design decisions behind building an interactive OS UI as a personal portfolio." />
+    content="Every technical detail behind sreedevss.in - from the cinematic boot sequence to the hidden Nebula Override space shooter." />
   <meta property="og:image" content="https://sreedevss.in/og-image.png" />
   <meta property="article:author" content="Sreedev SS" />
   <meta property="article:published_time" content="2026-04-02" />
@@ -29,11 +29,13 @@
   <meta property="article:tag" content="TypeScript" />
   <meta property="article:tag" content="Framer Motion" />
   <meta property="article:tag" content="Portfolio Design" />
+  <meta property="article:tag" content="Web Audio API" />
+  <meta property="article:tag" content="Canvas Game" />
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="How I Built an OS-Style Portfolio with React & Framer Motion" />
   <meta name="twitter:description"
-    content="Boot sequences, windowed apps, and animation architecture - how the sreedevss.in OS portfolio was built." />
+    content="Boot sequences, windowed apps, a real-time visualizer, and a hidden space shooter - every detail of building sreedevss.in." />
   <meta name="twitter:image" content="https://sreedevss.in/og-image.png" />
 
   <script type="application/ld+json">
@@ -41,7 +43,7 @@
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "How I Built an OS-Style Portfolio with React & Framer Motion",
-    "description": "A deep-dive into the architecture, animation strategy, and design decisions behind building an interactive OS UI as a personal portfolio.",
+    "description": "Every technical detail behind sreedevss.in - from the cinematic boot sequence to the hidden Nebula Override space shooter.",
     "url": "https://sreedevss.in/blog/os-portfolio-design",
     "datePublished": "2026-04-02",
     "dateModified": "2026-04-02",
@@ -57,7 +59,7 @@
       "url": "https://sreedevss.in"
     },
     "image": "https://sreedevss.in/og-image.png",
-    "keywords": ["React", "TypeScript", "Framer Motion", "Portfolio", "OS UI", "Vite", "Web Development"],
+    "keywords": ["React", "TypeScript", "Framer Motion", "Portfolio", "OS UI", "Vite", "Web Audio API", "Canvas", "Web Development"],
     "articleSection": "Design & Engineering",
     "inLanguage": "en-IN",
     "mainEntityOfPage": {
@@ -91,6 +93,8 @@
       --accent: #ff003c;
       --yellow: #ffaa00;
       --blue: #61dafb;
+      --green: #33ff00;
+      --cyan: #00f0ff;
     }
 
     html {
@@ -270,7 +274,7 @@
       font-weight: 700;
       letter-spacing: -.02em;
       color: #ddd;
-      margin: 48px 0 16px;
+      margin: 56px 0 16px;
       padding-top: 8px;
       border-top: 1px solid var(--border);
     }
@@ -284,7 +288,16 @@
       font-size: 18px;
       font-weight: 700;
       color: var(--yellow);
-      margin: 28px 0 10px;
+      margin: 36px 0 10px;
+    }
+
+    .article-body h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--cyan);
+      margin: 24px 0 8px;
     }
 
     .article-body p {
@@ -381,6 +394,10 @@
       color: #ff79c6;
     }
 
+    .code-num {
+      color: #bd93f9;
+    }
+
     /* Callout */
     .callout {
       background: var(--surface);
@@ -395,14 +412,89 @@
       color: var(--blue);
     }
 
+    .callout.yellow {
+      border-left-color: var(--yellow);
+    }
+
+    .callout.yellow strong {
+      color: var(--yellow);
+    }
+
+    .callout.red {
+      border-left-color: var(--accent);
+    }
+
+    .callout.red strong {
+      color: var(--accent);
+    }
+
+    .callout.green {
+      border-left-color: var(--green);
+    }
+
+    .callout.green strong {
+      color: var(--green);
+    }
+
+    /* Commit badge */
+    .commit {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: rgba(255, 170, 0, .08);
+      border: 1px solid rgba(255, 170, 0, .25);
+      color: var(--yellow);
+      padding: 2px 8px;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
     /* Section divider */
     .divider {
       border: none;
       border-top: 1px solid var(--border);
-      margin: 48px 0;
+      margin: 56px 0;
     }
 
-    /* RELATED / CTA */
+    /* Table of contents */
+    .toc {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 24px 28px;
+      margin: 0 0 48px;
+    }
+
+    .toc-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .toc ol {
+      padding-left: 20px;
+      margin: 0;
+    }
+
+    .toc li {
+      margin-bottom: 4px;
+    }
+
+    .toc a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s;
+    }
+
+    .toc a:hover {
+      color: var(--blue);
+    }
+
+    /* FOOTER / CTA */
     .article-footer {
       max-width: 760px;
       margin: 0 auto;
@@ -522,13 +614,14 @@
     </p>
 
     <h1 class="article-title">
-      How I Built an OS-Style Portfolio with React &amp; Framer Motion
+      How I Built an OS-Style Portfolio - Every Detail
     </h1>
 
     <p class="article-excerpt">
-      A deep-dive into the architecture, animation strategy, and design decisions behind
-      building an interactive operating system UI as a personal portfolio - boot sequences,
-      windowed apps, context APIs, and more.
+      A thorough breakdown of every system inside sreedevss.in - the interactive portfolio that
+      boots like an operating system. Window management with localStorage persistence, a Web Audio
+      visualizer with AGC, a 30-track music player, a hidden space-shooter game, and the SEO
+      puzzle of making a JavaScript SPA crawlable.
     </p>
 
     <div class="article-meta">
@@ -539,7 +632,7 @@
           <p class="meta-info">
             <span>April 2, 2026</span>
             <span class="meta-dot"> · </span>
-            <span>~8 min read</span>
+            <span>~15 min read</span>
           </p>
         </div>
       </div>
@@ -550,6 +643,8 @@
       <span class="article-tag">TypeScript</span>
       <span class="article-tag">Framer Motion</span>
       <span class="article-tag">Vite</span>
+      <span class="article-tag">Web Audio API</span>
+      <span class="article-tag">Canvas</span>
       <span class="article-tag">UI Design</span>
       <span class="article-tag">Portfolio</span>
     </div>
@@ -557,169 +652,562 @@
 
   <article class="article-body">
 
-    <h2>The Idea</h2>
-    <p>
-      Most developer portfolios follow the same playbook - hero section, skills grid,
-      project cards, contact form. I wanted something that would actually make someone
-      stop and explore. The concept: what if your portfolio <strong>was</strong> an operating system?
-    </p>
-    <p>
-      The visitor "boots" into a dark-themed OS desktop, then launches windowed apps to
-      explore your work - just like opening apps on a real computer. It's interactive,
-      memorable, and gives every section its own space without scrolling through a single
-      long page.
-    </p>
+    <div class="toc">
+      <p class="toc-label">// Table of contents</p>
+      <ol>
+        <li><a href="#idea">The Idea</a></li>
+        <li><a href="#stack">Tech Stack</a></li>
+        <li><a href="#boot">The Boot Screen</a></li>
+        <li><a href="#desktop">The Desktop - Layers &amp; Animation</a></li>
+        <li><a href="#windows">Window Management System</a></li>
+        <li><a href="#dock">The Dock - Interactions &amp; State Indicators</a></li>
+        <li><a href="#apps">The Apps - Each One In Detail</a></li>
+        <li><a href="#music">Music Player &amp; Web Audio Visualizer</a></li>
+        <li><a href="#nebula">Nebula Override - The Hidden Game</a></li>
+        <li><a href="#design">Design System</a></li>
+        <li><a href="#seo">The SEO Challenge</a></li>
+        <li><a href="#lessons">Key Lessons</a></li>
+      </ol>
+    </div>
 
+    <!-- ─── 1. IDEA ─── -->
+    <h2 id="idea">The Idea</h2>
+    <p>
+      Most portfolios are a long scroll - hero, skills grid, project cards, contact. Fine, but forgettable.
+      I wanted mine to make someone <strong>stop and explore</strong>. The concept: what if your portfolio
+      <em>was</em> an operating system?
+    </p>
+    <p>
+      The visitor boots into a dark-themed desktop, then launches windowed apps to explore your work -
+      just like opening apps on a real machine. It's interactive, memorable, and gives every section its
+      own dedicated space without competing for attention on one long page.
+    </p>
     <div class="callout">
-      <strong>Live demo:</strong> You can explore the full UI at
-      <a href="https://sreedevss.in">sreedevss.in</a>.
-      The source code is on <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank"
+      <strong>Live:</strong> Explore the full UI at <a href="https://sreedevss.in">sreedevss.in</a>.
+      Source code is on <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank"
         rel="noopener noreferrer">GitHub</a>.
     </div>
 
-    <h2>Tech Stack</h2>
+    <!-- ─── 2. STACK ─── -->
+    <h2 id="stack">Tech Stack</h2>
     <ul>
-      <li><strong>React 18</strong> with functional components and hooks</li>
-      <li><strong>TypeScript</strong> throughout - strict mode enabled</li>
-      <li><strong>Vite</strong> for the build tool and dev server</li>
-      <li><strong>Framer Motion</strong> for all animations and transitions</li>
-      <li><strong>Tailwind CSS</strong> for utility-first styling</li>
-      <li><strong>Context API</strong> for window, theme, and music state</li>
+      <li><strong>React 19</strong> - functional components, hooks everywhere</li>
+      <li><strong>TypeScript</strong> in strict mode throughout</li>
+      <li><strong>Vite 7</strong> - fast dev server and optimized production builds</li>
+      <li><strong>Framer Motion 12</strong> - all animations, springs, and <code>AnimatePresence</code></li>
+      <li><strong>Tailwind CSS 3</strong> - utility-first styling with a custom design system</li>
+      <li><strong>Context API</strong> - four contexts: Window, Music, Theme, and NebulaOverride</li>
+      <li><strong>Web Audio API</strong> - real-time frequency analysis for the visualizer</li>
+      <li><strong>Canvas API</strong> - the Nebula Override game and visualizer bars</li>
+      <li><strong>EmailJS</strong> - contact form email delivery without a backend</li>
+      <li><strong>gh-pages</strong> - deployment directly to GitHub Pages</li>
     </ul>
 
-    <h2>Architecture Overview</h2>
+    <!-- ─── 3. BOOT ─── -->
+    <h2 id="boot">The Boot Screen</h2>
     <p>
-      The app has three main layers that compose the full experience:
+      The very first thing the visitor sees is a terminal-style boot log - timestamped system messages
+      rolling out in a monospace font on a near-black background. It sets the tone immediately.
     </p>
-
-    <h3>1. Boot Screen</h3>
+    <h3>Fake authenticity through variable timing</h3>
     <p>
-      When the user first visits, they see a cinematic boot sequence - a loading bar,
-      blinking cursor, and system messages in a terminal font. This is handled by the
-      <code>BootScreen</code> component which fires an <code>onComplete</code> callback
-      once the animation finishes, triggering React's <code>AnimatePresence</code> to
-      unmount the boot screen and mount the desktop.
+      The log prints 43 messages, but they don't appear at a fixed interval. Each line is delayed by
+      <code>Math.random() * 50 + 10</code> ms, giving it the feel of actual I/O. Specific lines
+      (<code>idx 3</code>, <code>10</code>, and <code>18</code>) get an extra 500 ms pause - exactly
+      where a real build tool would stall on something expensive, like transforming modules or mounting
+      a filesystem. The log goes through realistic stages: cloning, npm build, Vite transforms, and
+      finally "System READY."
+    </p>
+    <pre><code><span class="code-comment">// Variable speed - fast bursts with deliberate pauses</span>
+<span class="code-keyword">let</span> delay = Math.<span class="code-fn">random</span>() * <span class="code-num">50</span> + <span class="code-num">10</span>;
+<span class="code-keyword">if</span> (idx === <span class="code-num">3</span> || idx === <span class="code-num">10</span> || idx === <span class="code-num">18</span>) delay += <span class="code-num">500</span>;</code></pre>
+
+    <h3>Skip mechanism with a safety gate</h3>
+    <p>
+      You can skip by clicking anywhere or pressing any key - but only <em>after</em> 30 lines have
+      printed. A <code>skipReady</code> ref (not state, to avoid re-renders) is checked by both the
+      keyboard handler and the click handler. This prevents accidental skips if someone clicks within
+      the first second of loading.
+    </p>
+    <h3>Pre-fetching data during the boot</h3>
+    <p>
+      The boot screen isn't idle time - it uses a <code>useEffect</code> to kick off a
+      <code>projectService.fetchProjects()</code> call to the GitHub API in the background. By the time
+      the user opens the Projects app, the data is already cached.
     </p>
     <pre><code><span class="code-comment">// App.tsx - boot → desktop transition</span>
-<span class="code-keyword">const</span> <span class="code-fn">App</span> = () =&gt; {
-  <span class="code-keyword">const</span> [bootComplete, setBootComplete] = useState(<span class="code-keyword">false</span>);
+<span class="code-keyword">const</span> <span class="code-fn">App</span>: React.FC = () => {
+  <span class="code-keyword">const</span> [bootComplete, setBootComplete] = <span class="code-fn">useState</span>(<span class="code-keyword">false</span>);
+
+  <span class="code-comment">// Reveal SEO content once boot is done</span>
+  React.<span class="code-fn">useEffect</span>(() => {
+    <span class="code-keyword">if</span> (bootComplete) {
+      <span class="code-keyword">const</span> seo = document.<span class="code-fn">getElementById</span>(<span class="code-string">'seo-content'</span>);
+      <span class="code-keyword">if</span> (seo) seo.style.display = <span class="code-string">'block'</span>;
+    }
+  }, [bootComplete]);
 
   <span class="code-keyword">return</span> (
     &lt;<span class="code-type">AnimatePresence</span>&gt;
       {!bootComplete ? (
-        &lt;<span class="code-type">BootScreen</span> onComplete={() =&gt; setBootComplete(<span class="code-keyword">true</span>)} /&gt;
+        &lt;<span class="code-type">BootScreen</span> key=<span class="code-string">"boot"</span> onComplete={() => <span class="code-fn">setBootComplete</span>(<span class="code-keyword">true</span>)} /&gt;
       ) : (
-        &lt;<span class="code-type">Desktop</span> /&gt;
+        &lt;<span class="code-type">Desktop</span> key=<span class="code-string">"desktop"</span> /&gt;
       )}
     &lt;/<span class="code-type">AnimatePresence</span>&gt;
   );
 };</code></pre>
+    <div class="callout yellow">
+      <strong>Commit <span class="commit">9819050</span>:</strong> "Updated the boot screen" - the latest
+      pass that fine-tuned the log messages, adjusted timing constants, and added a scan animation effect
+      to the boot sequence to make it feel more cinematic.
+    </div>
 
-    <h3>2. Window Management System</h3>
+    <!-- ─── 4. DESKTOP ─── -->
+    <h2 id="desktop">The Desktop - Layers &amp; Animation</h2>
     <p>
-      The <code>WindowContext</code> is the core of the OS illusion. It tracks every open
-      window - its position, size, z-index, minimized state, and which app it renders.
-      Windows can be dragged, resized, minimized to the Dock, and brought to focus.
+      The desktop is a <code>fixed inset-0</code> div that hosts several visual layers, composited from back to front:
     </p>
-    <pre><code><span class="code-comment">// WindowContext shape</span>
+    <ol>
+      <li><strong>Grid background</strong> - a CSS dot/grid pattern at low opacity</li>
+      <li><strong>Aurora blobs</strong> - two large radial-gradient blobs with blur, animated with a slow CSS keyframe.
+        Crucially, they <em>react to the music</em>: when the Music App plays a track, the blob colors shift to match
+        that track's color token within 1000–1500ms using a CSS transition.</li>
+      <li><strong>Vignette &amp; scanlines</strong> - a radial gradient vignette and a repeating scanline overlay at 10%
+        opacity for CRT realism</li>
+      <li><strong>TopBar</strong> - slides in from the top on mount with a spring animation</li>
+      <li><strong>Windows</strong> - rendered as a flat list from <code>WindowContext</code></li>
+      <li><strong>Visualizer</strong> - a canvas overlay behind the Dock</li>
+      <li><strong>Dock</strong> - floats at the bottom-center</li>
+      <li><strong>NebulaOverride</strong> - mounted always, invisible when <code>gameState === 'idle'</code></li>
+    </ol>
+    <p>
+      The staggered mount animation (TopBar slides in first at <code>delay: 0.6s</code>, then windows fade in at
+      <code>delay: 0.9s</code>) gives the desktop a cinematic boot-to-ready feel, like a high-end OS coming online.
+    </p>
+    <div class="callout yellow">
+      <strong>Commit <span class="commit">5f9ee44</span>:</strong> "Updated animation" - this commit implemented the
+      staggered desktop reveal, replacing jarring instant-appear with spring-physics-based sequence where the TopBar,
+      window layer, and Dock each animate in at tuned offsets.
+    </div>
+
+    <!-- ─── 5. WINDOWS ─── -->
+    <h2 id="windows">Window Management System</h2>
+    <p>
+      The <code>WindowContext</code> is the core of the OS illusion. It manages the full state of every
+      open window: position, size, z-index, minimized state, and focus.
+    </p>
+    <pre><code><span class="code-comment">// WindowContext.tsx - actual interface used in production</span>
 <span class="code-keyword">interface</span> <span class="code-type">WindowState</span> {
   id: <span class="code-type">string</span>;
-  appId: <span class="code-type">AppId</span>;
   title: <span class="code-type">string</span>;
+  icon: <span class="code-type">string</span>;
   position: { x: <span class="code-type">number</span>; y: <span class="code-type">number</span> };
-  size: { w: <span class="code-type">number</span>; h: <span class="code-type">number</span> };
-  zIndex: <span class="code-type">number</span>;
+  size: { width: <span class="code-type">number</span>; height: <span class="code-type">number</span> };
   minimized: <span class="code-type">boolean</span>;
+  focused: <span class="code-type">boolean</span>;
+  zIndex: <span class="code-type">number</span>;
 }</code></pre>
+
+    <h3>Dragging &amp; Resizing</h3>
     <p>
-      Each <code>Window</code> component uses Framer Motion's <code>drag</code> prop
-      constrained to the desktop viewport. Z-index is managed by tracking the highest
-      current value and incrementing on focus.
+      Dragging and resizing are implemented via two custom hooks: <code>useWindowDrag</code> and
+      <code>useWindowResize</code>. Both use the Pointer Events API for unified mouse/touch support.
+      The title bar listens for <code>onPointerDown</code> to start a drag, and a resize handle in
+      the bottom-right corner triggers resize mode. Double-clicking the title bar toggles maximize
+      (with a pre-max state snapshot stored in React state for restore).
+    </p>
+    <p>
+      The <strong>Resume app</strong> is specifically locked - maximize is disabled for it
+      (<code>windowState.id === 'resume'</code> guard) because it has a fixed layout designed for
+      A4 printing and maximizing would break the print-preview.
     </p>
 
-    <h3>3. App Components</h3>
+    <h3>localStorage Persistence</h3>
     <p>
-      Each "app" is just a React component rendered inside the Window chrome. The apps include:
+      Every time a window is moved or resized, its position and size are written to
+      <code>localStorage</code> under the key <code>'windowPositions'</code>. On the next visit,
+      the <code>WindowProvider</code> reads this on mount and merges the saved positions with the defaults.
+      Your windows remember where you left them.
+    </p>
+
+    <h3>Minimization without unmounting</h3>
+    <p>
+      A key design decision: minimized windows are <em>not</em> unmounted. They're animated to
+      <code>opacity: 0, scale: 0.85, y: 30, display: 'none'</code> with Framer Motion, keeping the
+      React component fully alive in the tree. This means the Music Player keeps playing after being
+      minimized, the Terminal keeps its session, and the Browser keeps its page - exactly like a real OS.
+    </p>
+    <pre><code><span class="code-comment">// Window.tsx - minimize animates but doesn't unmount</span>
+animate={windowState.minimized
+  ? { opacity: <span class="code-num">0</span>, scale: <span class="code-num">0.85</span>, y: <span class="code-num">30</span>, display: <span class="code-string">'none'</span> }
+  : { opacity: <span class="code-num">1</span>, scale: <span class="code-num">1</span>, y: <span class="code-num">0</span>, display: <span class="code-string">'block'</span> }}
+transition={{ type: <span class="code-string">'spring'</span>, stiffness: <span class="code-num">380</span>, damping: <span class="code-num">28</span> }}</code></pre>
+
+    <h3>Intelligent z-index management</h3>
+    <p>
+      A <code>nextZIndex</code> counter in the context starts at 100 and increments every time a window is
+      focused or newly opened. <code>focusWindow</code> has a short-circuit: if the window is already at
+      <code>nextZIndex - 1</code> and already focused, it skips the state update entirely to prevent
+      pointless re-renders.
+    </p>
+    <h3>Mobile responsiveness</h3>
+    <p>
+      On viewports <code>≤ 768px</code>, any newly opened window is positioned at <code>{ x: 0, y: 32 }</code>
+      and sized to fill the full viewport height minus the TopBar and Dock - making it behave like a
+      full-screen modal. No drag or resize handles are shown on mobile.
+    </p>
+    <div class="callout yellow">
+      <strong>Commit <span class="commit">b29b5b6</span>:</strong> "Minimize works" - this was the commit that nailed
+      the minimized state behavior, ensuring components stayed mounted and the dock dot correctly toggled between red
+      (open) and amber (minimized).
+    </div>
+
+    <!-- ─── 6. DOCK ─── -->
+    <h2 id="dock">The Dock - Interactions &amp; State Indicators</h2>
+    <p>
+      The Dock is a glassmorphic bar centered at the bottom, containing 8 app icons, a brand tag,
+      a theme toggle, and what appears to be a battery-saver button (more on that later).
+    </p>
+
+    <h3>Opening, toggling, and long-press to close</h3>
+    <p>
+      Each Dock button implements three behaviors via pointer event timing:
     </p>
     <ul>
-      <li><strong>AboutApp</strong> - bio, animated typewriter role, skills, and social links</li>
-      <li><strong>ProjectsApp</strong> - live GitHub repo cards pulled from the API</li>
-      <li><strong>ResumeApp</strong> - interactive resume with print-to-PDF support</li>
-      <li><strong>ContactApp</strong> - contact form with email integration</li>
-      <li><strong>TerminalApp</strong> - functional terminal with custom commands</li>
-      <li><strong>MusicApp</strong> - ambient music player with visualizer</li>
-      <li><strong>BrowserApp</strong> - mini in-OS browser window</li>
+      <li><strong>Tap/click</strong> → <code>openWindow()</code>. If the window is already focused, clicking again
+        minimizes it. This creates a natural toggle.</li>
+      <li><strong>Long press (600ms)</strong> → <code>closeWindow()</code>. A <code>setTimeout</code> is set on
+        <code>pointerDown</code> and cancelled on <code>pointerUp</code> or <code>pointerLeave</code>. If it fires, the
+        window is closed.</li>
     </ul>
 
-    <h2>Animation Strategy</h2>
+    <h3>Active state indicators</h3>
     <p>
-      Every animation in the OS follows a consistent set of physics parameters.
-      Windows enter with a spring-based scale-fade, the Dock icons have a macOS-style
-      magnification hover, and the boot sequence uses staggered delays.
+      When an app window is open, a dot appears below the Dock icon. The dot color tells the story:
+      <strong style="color: #ff003c">■ red</strong> means the window is open and visible,
+      <strong style="color: #ffbd2e">■ amber</strong> means it's minimized. The dot uses Framer Motion's
+      <code>layoutId</code> so it animates smoothly when changing states.
     </p>
-    <pre><code><span class="code-comment">// Shared spring config used across window enter/exit</span>
-<span class="code-keyword">const</span> SPRING = {
-  type: <span class="code-string">"spring"</span>,
-  stiffness: <span class="code-keyword">280</span>,
-  damping: <span class="code-keyword">24</span>,
-  mass: <span class="code-keyword">0.8</span>,
-};
 
-<span class="code-comment">// Window mount animation</span>
-initial={{ opacity: <span class="code-keyword">0</span>, scale: <span class="code-keyword">0.92</span>, y: <span class="code-keyword">8</span> }}
-animate={{ opacity: <span class="code-keyword">1</span>, scale: <span class="code-keyword">1</span>, y: <span class="code-keyword">0</span> }}
-exit={{ opacity: <span class="code-keyword">0</span>, scale: <span class="code-keyword">0.88</span>, y: <span class="code-keyword">-4</span> }}
-transition={SPRING}</code></pre>
-
-    <h2>Design System</h2>
+    <h3>The staggered entrance animation</h3>
     <p>
-      The visual language is <strong>dark cyberpunk-minimal</strong>. Everything is built
-      on a near-black <code>#0a0a0f</code> base with a red accent (<code>#ff003c</code>),
-      amber (<code>#ffaa00</code>), and cyan (<code>#61dafb</code>).
+      The Dock uses <code>variants</code> with staggered children, so each icon pops up
+      sequentially on first load - a spring-based entrance with <code>y: 25 → 0</code>,
+      <code>scale: 0.8 → 1</code>, and <code>staggerChildren: 0.04s</code>.
+    </p>
+
+    <!-- ─── 7. APPS ─── -->
+    <h2 id="apps">The Apps - Each One In Detail</h2>
+
+    <h3>AboutApp - Typewriter and Scan-line Avatar</h3>
+    <p>
+      The About app opens with a hero section: a square avatar with animated red corner brackets, a
+      scan-line that sweeps vertically through it using a CSS keyframe animation, and a typewriter
+      that cycles through "Developer", "Designer", "Editor" at 90ms per character, with a 45ms
+      backspace speed and a 2000ms pause between words. The typing cursor is a blinking 2px red bar.
     </p>
     <p>
-      Typography uses three complementary fonts:
+      Beneath that, skills are rendered as small tags with a left border colored by the technology's
+      brand color (React gets <code>#61dafb</code>, Figma gets <code>#f24e1e</code>, etc.) - a detail
+      that makes the grid feel alive at a glance.
+    </p>
+
+    <h3>ProjectsApp - Live GitHub API</h3>
+    <p>
+      Projects are fetched from the GitHub API using a <code>projectService</code> singleton. The service
+      caches results so repeat opens don't re-fetch. Data is pre-fetched during the boot screen's idle time.
+    </p>
+
+    <h3>TerminalApp - Real Shell Simulation</h3>
+    <p>
+      The terminal is a genuine shell simulation, not just a pretty text box. It has:
     </p>
     <ul>
-      <li><strong>Space Grotesk</strong> for display headings - bold, geometric</li>
-      <li><strong>Inter</strong> for body text - clean and readable</li>
-      <li><strong>JetBrains Mono</strong> for labels, tags, and code - tech authenticity</li>
+      <li><strong>Persistent virtual filesystem</strong> - stored in <code>localStorage</code>. You can
+        <code>mkdir</code> folders, <code>touch</code> files, <code>rm</code> them, and <code>cd</code>
+        into directories. The filesystem survives page refreshes.
+      </li>
+      <li><strong>Tab completion</strong> - pressing Tab completes commands or filenames. Multiple matches
+        are printed as a list (just like bash).</li>
+      <li><strong>Command history</strong> - ArrowUp/Down cycles through previous commands.</li>
+      <li><strong>Async commands</strong> - <code>matrix</code> is an async command that streams lines
+        with <code>await delay(600)</code>, locking input while running.</li>
+      <li><strong>Live GitHub integration</strong> - <code>cd ~/projects && ls</code> shows live repo names
+        from the GitHub API. <code>open &lt;repoName&gt;</code> opens the repo in a new tab.</li>
+      <li><strong>CRT aesthetic</strong> - a <code>repeating-linear-gradient</code> overlay creates
+        scanlines on the terminal output, and green text has a subtle <code>text-shadow</code> glow.</li>
+      <li>Easter eggs: <code>rick</code>, <code>cowsay</code>, <code>coffee</code>, <code>matrix</code>.</li>
     </ul>
+    <div class="callout green">
+      <strong>Try it:</strong> In the terminal, type
+      <code>open browser</code>, <code>open about</code>, or <code>open music</code> to launch any app
+      directly from the command line.
+    </div>
 
-    <h2>The SEO Challenge</h2>
+    <h3>ResumeApp - The Print Transformation</h3>
     <p>
-      A JS-driven SPA meant Google initially saw an empty <code>&lt;div id="root"&gt;</code>.
-      Since switching to SSR wasn't viable for a GitHub Pages static site, I took a
-      different approach: adding a <strong>real, visible footer section</strong> to the
-      HTML that appears below the OS viewport when users scroll. It contains structured
-      content (bio, skills, projects, contact) and links to static subpages.
+      The CV is rendered in the OS's dark neon aesthetic. But printing neon-on-black as a PDF is
+      unreadable. The <code>handlePrint()</code> function implements a full color transformation pipeline:
+    </p>
+    <ol>
+      <li>Clone <code>#resume-print-area</code> into a temporary <code>#print-mount</code> div appended to
+        <code>&lt;body&gt;</code>.</li>
+      <li>Inject a <code>&lt;style&gt;</code> tag that remaps all neon shades to professional equivalents - for example,
+        <code>#00f0ff</code> (cyan) becomes <code>#0056b3</code> (deep blue).</li>
+      <li>Inject a second style that enforces <code>break-inside: avoid</code> on every <code>.relative.group</code>
+        experience block, preventing page cuts mid-entry.</li>
+      <li>Call <code>window.print()</code>.</li>
+      <li>Remove both the injected mount and style tag in a <code>setTimeout(100)</code> cleanup.</li>
+    </ol>
+
+    <h3>ContactApp - EmailJS Without a Backend</h3>
+    <p>
+      The contact form uses <code>@emailjs/browser</code> to deliver messages directly to an email address
+      from the browser, with zero backend required. The form validates all fields client-side before submission.
+    </p>
+
+    <h3>BrowserApp - In-OS Web Browser</h3>
+    <p>
+      A fully functional mini-browser window with an address bar, navigation controls, and an
+      <code>&lt;iframe&gt;</code> viewport. It includes quick-launch bookmarks for common sites.
+    </p>
+
+    <h3>VSCodeApp - Easter Egg</h3>
+    <p>
+      The VS Code app is a lightweight easter egg - it embeds a link to an online code editor or
+      redirects to the GitHub source. Part of the joke of running a full "OS."
+    </p>
+
+    <!-- ─── 8. MUSIC ─── -->
+    <h2 id="music">Music Player &amp; Web Audio Visualizer</h2>
+
+    <h3>The Player</h3>
+    <p>
+      The MusicApp is a two-column layout: a main player with an animated vinyl disc on the left,
+      and a 30-track scrollable playlist on the right. The vinyl disc physically slides out
+      (<code>translateX(15%)</code>) when playing, revealing the album art, and spins via a CSS
+      <code>animation: spin 8s linear infinite</code> that pauses when music stops.
     </p>
     <p>
-      These static pages (<a href="/about">/about</a>, <a href="/projects">/projects</a>,
-      <a href="/blog">/blog</a>) live in the <code>public/</code> directory, served
-      directly by GitHub Pages without any JavaScript - giving Google real, crawlable
-      topical depth beyond the SPA root.
+      The player supports shuffle, repeat, volume control, and a seek bar. The "previous track" button
+      has smart logic: if you're more than 3 seconds into a track, it restarts the track instead of
+      going back - the same behavior as Spotify.
     </p>
 
-    <h2>Key Lessons</h2>
+    <h3>Per-track color theming across the whole OS</h3>
+    <p>
+      Every track has a <code>color</code> property (e.g., <code>'#ff7e67'</code> for Lofi Beats,
+      <code>'#9d00ff'</code> for Deep Work). When a track plays, <code>setMusicState</code> pushes
+      the color to the global <code>MusicContext</code>. The <code>Desktop</code> component reads this and
+      uses it for the aurora blob radial gradients - so the entire desktop's ambient lighting shifts to
+      match whatever you're listening to with a 1–2 second CSS transition.
+    </p>
+
+    <h3>The Web Audio API pipeline</h3>
+    <p>
+      The visualizer is powered by the Web Audio API. On the first user interaction (required by
+      browsers to allow audio context creation), the <code>initAudio()</code> function builds a pipeline:
+    </p>
+    <pre><code><span class="code-comment">// MusicApp.tsx - Web Audio API pipeline</span>
+<span class="code-keyword">const</span> ctx = <span class="code-keyword">new</span> <span class="code-type">AudioContext</span>();
+<span class="code-keyword">const</span> analyser = ctx.<span class="code-fn">createAnalyser</span>();
+analyser.fftSize = <span class="code-num">1024</span>;         <span class="code-comment">// 512 frequency bins</span>
+analyser.smoothingTimeConstant = <span class="code-num">0.85</span>; <span class="code-comment">// built-in temporal smoothing</span>
+
+<span class="code-keyword">const</span> source = ctx.<span class="code-fn">createMediaElementSource</span>(audioRef.current!);
+source.<span class="code-fn">connect</span>(analyser);
+analyser.<span class="code-fn">connect</span>(ctx.destination);
+
+<span class="code-comment">// Share the analyser globally so the Visualizer component can read it</span>
+<span class="code-fn">setMusicState</span>(prev => ({ ...prev, analyserNode: analyser }));</code></pre>
+
+    <p>
+      The analyser reference is stored in <code>MusicContext</code> and shared across the app tree.
+      The standalone <code>Visualizer</code> component reads it on every animation frame.
+    </p>
+
+    <h4>CORS bypass for audio analysis</h4>
+    <p>
+      The Web Audio API's <code>createMediaElementSource</code> requires the audio to be served with
+      CORS headers. Public MP3 CDNs often block this. The solution was to proxy tracks through
+      GitHub's raw content CDN (<code>raw.githubusercontent.com</code>) for a mini-player repository
+      that explicitly allows CORS - bypassing 403 blocks from corsproxy.io entirely.
+    </p>
+
+    <h3>The Visualizer - AGC + Hybrid Indexing</h3>
+    <p>
+      Most web visualizers naively map frequency bins 1:1 to bars. This makes high-frequency bars
+      almost invisible since most music energy is in the bass and mids. Two techniques fix this:
+    </p>
+    <p>
+      <strong>Hybrid Indexing</strong> - each bar's frequency bin is computed with a mixed linear+power
+      curve: <code>index = (i * 0.45) + Math.pow(fraction, 2.8) * (binCount * 0.6)</code>. This
+      ensures bass bars are unique while mids and highs are still well-represented.
+    </p>
+    <p>
+      <strong>Auto-Gain Control (AGC)</strong> - instead of a fixed normalization ceiling, <code>maxPeak</code>
+      tracks the loudest signal seen and slowly decays at 0.99× per frame (<code>maxPeak * 0.99</code>).
+      Quiet tracks don't show tiny bars; loud tracks don't clip.
+    </p>
+    <p>
+      <strong>Lateral smoothing</strong> - each bar's target height is a weighted average of itself
+      and its neighbors (60% self, 20% each side), removing the jagged sawtooth look.
+    </p>
+    <p>
+      <strong>Attack/release damping</strong> - bars snap up at 35% per frame (fast attack) but decay
+      at only 8% per frame (slow release), mimicking the feel of a hardware VU meter.
+    </p>
+    <div class="callout yellow">
+      <strong>Commit <span class="commit">9bb945c</span>:</strong> "Updated the visualiser" - rewrote the bar drawing
+      logic with the AGC, Hybrid Indexing, and lateral smoothing described above. Also added a 2-second grace period on
+      pause so bars slowly descend rather than snapping to zero.
+    </div>
+
+    <!-- ─── 9. NEBULA ─── -->
+    <h2 id="nebula">Nebula Override - The Hidden Game</h2>
+
+    <h3>How to unlock it</h3>
+    <p>
+      The Nebula Override game is completely hidden. There's no hint in the UI. To activate it,
+      click the <strong>battery-saver button in the Dock 5 times within 2 seconds</strong>.
+      The <code>NebulaOverrideContext</code> tracks click timestamps in a ref and checks them against a
+      2000ms rolling window. Hit the threshold, and the game activates.
+    </p>
+    <pre><code><span class="code-comment">// NebulaOverrideContext.tsx - secret trigger</span>
+<span class="code-keyword">const</span> CLICK_THRESHOLD = <span class="code-num">5</span>;
+<span class="code-keyword">const</span> CLICK_WINDOW_MS = <span class="code-num">2000</span>;
+
+<span class="code-keyword">const</span> <span class="code-fn">registerBatterySaverClick</span> = () => {
+  <span class="code-keyword">const</span> now = Date.<span class="code-fn">now</span>();
+  clickTimestamps.current.<span class="code-fn">push</span>(now);
+  <span class="code-comment">// Prune timestamps outside the window</span>
+  clickTimestamps.current = clickTimestamps.current.<span class="code-fn">filter</span>(
+    ts => now - ts &lt; CLICK_WINDOW_MS
+  );
+  <span class="code-keyword">if</span> (clickTimestamps.current.length >= CLICK_THRESHOLD) {
+    <span class="code-fn">activateNebula</span>();
+  }
+};</code></pre>
+
+    <h3>Activation sequence</h3>
+    <p>
+      Activating triggers a 2.5-second "activating" state that overlays glitchy terminal text
+      on the desktop: "SYSTEM INTERRUPT DETECTED", "BYPASSING SECURITY PROTOCOLS...", "LOADING
+      NEBULA_OVERRIDE.exe". The text is printed line by line with 350ms intervals, and a
+      <code>glitchIntensity</code> value escalates to distort the screen. At 2000ms, the text
+      fades out. At 2500ms, <code>gameState</code> transitions to <code>'playing'</code>.
+    </p>
+
+    <h3>The game engine</h3>
+    <p>
+      The game is a full space-shooter written entirely with the Canvas API - no game engine, no
+      library. It runs in a <code>requestAnimationFrame</code> loop and manages:
+    </p>
+    <ul>
+      <li><strong>12 enemy types</strong> - Scout, Fighter, Cruiser, Bomber, Interceptor, Carrier,
+        Star, Tank, Dart, Ghost, Juggernaut, Seeker. Each has HP, speed, size, and a minimum wave
+        when it starts appearing. The Ghost drifts sinusoidally; the Seeker homes in on the player.</li>
+      <li><strong>Player ship</strong> - controlled via keyboard (WASD/arrows) or mouse. Mouse control
+        uses smooth interpolation (<code>player.x += (mouseX - player.x) * 0.3</code>) for fluid movement.</li>
+      <li><strong>6 power-up types</strong> - Spread, Rapid, Wingman, Homing, Bomb, Shield, Life.
+        Each drops from enemies with probability scaled by the enemy's HP value.</li>
+      <li><strong>Weighted wave spawning</strong> - enemy type selection uses a weighted random
+        algorithm: newer, tougher enemies get lower weight as they age, preventing later waves from
+        being monopolized by one type.</li>
+      <li><strong>Progressive difficulty</strong> - spawn interval shrinks from 1500ms to 250ms,
+        and enemy count per wave scales as <code>floor(10 + wave * 5 + wave^1.5)</code>.</li>
+      <li><strong>Persistent high score</strong> - stored in <code>localStorage('nebulaHighScore')</code>.</li>
+    </ul>
+    <div class="callout red">
+      <strong>Secret:</strong> Click the battery icon in the Dock 5× rapidly. Keep looking - you'll find it.
+    </div>
+
+    <!-- ─── 10. DESIGN ─── -->
+    <h2 id="design">Design System</h2>
+    <p>
+      The visual language is <strong>dark cyberpunk-minimal</strong>. Three accent colors over a near-black base:
+    </p>
+    <ul>
+      <li><code style="color: #ff003c">#ff003c</code> - Red accent. Primary brand color, used for active states, glows,
+        and the MT logo.</li>
+      <li><code style="color: #ffaa00">#ffaa00</code> - Amber. Secondary actions, code highlights, warnings.</li>
+      <li><code style="color: #00f0ff">#00f0ff</code> - Cyan. Links, section headings on the Resume, and the visualizer
+        default color.</li>
+    </ul>
+    <p>
+      Three typefaces, each serving a role:
+    </p>
+    <ul>
+      <li><strong>Space Grotesk 700</strong> - Display headings. Bold, geometric, tight letter-spacing.</li>
+      <li><strong>Inter 400–700</strong> - Body text and UI copy. Legible at all sizes.</li>
+      <li><strong>JetBrains Mono 400–500</strong> - Labels, tags, timestamps, all monospaced elements.
+        Provides the tech authenticity without overusing code formatting.</li>
+    </ul>
+    <p>
+      The window chrome mirrors macOS traffic lights - red close (<code>#ff5f56</code>), amber minimize
+      (<code>#ffbd2e</code>), green maximize (<code>#27c93f</code>) - with glyph icons (✕, −, +) that
+      only appear on group-hover, exactly like macOS.
+    </p>
+
+    <!-- ─── 11. SEO ─── -->
+    <h2 id="seo">The SEO Challenge</h2>
+    <p>
+      A pure-client SPA on GitHub Pages means Google's crawler initially sees only an empty
+      <code>&lt;div id="root"&gt;&lt;/div&gt;</code>. Server-side rendering isn't an option on GitHub Pages.
+    </p>
+    <p>
+      The solution was layered. First, a legitimate <strong>visible SEO footer</strong> was added below
+      the fixed-height OS viewport in <code>index.html</code>. It contains real text content (bio,
+      skills, links) that appears when a user scrolls past the OS UI. Search engines can crawl it; real
+      users rarely see it.
+    </p>
+    <p>
+      Second, a network of <strong>static HTML pages</strong> was built in the <code>public/</code>
+      directory: <code>/about</code>, <code>/projects</code>, and this <code>/blog</code>. These are
+      served directly by GitHub Pages without any JavaScript - fully crawlable, fully linkable subpages
+      that give Google real topical depth beyond the SPA root.
+    </p>
+    <div class="callout yellow">
+      <strong>Commits <span class="commit">19efa8d</span> + <span class="commit">a5b3720</span>:</strong>
+      "Updated SEO" and "Updated SEO optimisations" - these two commits introduced the static subpages,
+      sitemap.xml, and the schema.org structured data (BlogPosting, Person, WebSite) that now appears
+      across all pages.
+    </div>
+    <p>
+      The <code>index.html</code> also contains full Open Graph and Twitter Card meta tags, a
+      <code>&lt;link rel="canonical"&gt;</code> on every page, and JSON-LD structured data. The previously
+      risky "hidden div" SEO approach was replaced entirely to avoid Google penalties.
+    </p>
+
+    <!-- ─── 12. LESSONS ─── -->
+    <h2 id="lessons">Key Lessons</h2>
     <ul>
       <li>
-        <strong>Context API scales well</strong> for this kind of orchestrated state -
-        window management, theme switching, and music playback each got their own context
-        without Redux overhead.
+        <strong>Context API is sufficient for orchestrated OS state.</strong> Four contexts cover the
+        entire app: windows, music, theme, and the game. No Redux, no Zustand. The key is keeping each
+        context focused and not making them aware of each other - communication is one-way through props.
       </li>
       <li>
-        <strong>Framer Motion's <code>AnimatePresence</code></strong> is indispensable for
-        mount/unmount animations. Wrapping it around conditional renders is the cleanest
-        pattern.
+        <strong><code>AnimatePresence</code> is non-negotiable for mount/unmount animations.</strong>
+        Without it, components disappear instantly. With it, <code>exit</code> animations play in full
+        before unmounting. Every window, every screen transition uses it.
       </li>
       <li>
-        <strong>OS aesthetics need constraint</strong>. Every pixel matters when your UI
-        is imitating a real operating system - inconsistency breaks the illusion.
+        <strong>Don't unmount minimized windows.</strong> Learned this the hard way - music stopped,
+        terminal sessions reset. Keep them in the tree, hide them visually.
       </li>
       <li>
-        <strong>Static HTML wins for SEO</strong> even inside an SPA project.
-        Public-folder HTML pages are served directly and require zero JS to be indexed.
+        <strong>Web Audio API's CORS requirement is a trap.</strong> You cannot analyze audio from a
+        URL that doesn't send CORS headers, no matter how you load it. Plan your audio hosting early.
+      </li>
+      <li>
+        <strong>Variable timing makes fake boot sequences believable.</strong> A fixed 80ms interval
+        feels like a loading spinner. Random bursts with strategic pauses feel like a real system.
+      </li>
+      <li>
+        <strong>Static HTML pages in <code>public/</code> are the pragmatic SEO answer for SPAs on
+          GitHub Pages.</strong> They're served directly, require no JS, and give Google real content to index.
       </li>
     </ul>
 
