@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Blog — Web Dev, Design & Open Source | Sreedev SS (MTCodes)</title>
+  <meta name="description" content="Articles on web development, UI/UX design, React, Python, Django, and open-source by Sreedev SS (MTCodes) — a full-stack developer and designer from Kerala, India." />
+  <meta name="keywords" content="Sreedev SS blog, MTCodes blog, web development, React, TypeScript, Django, Python, UI/UX, open source, Kerala developer, portfolio design" />
+  <meta name="author" content="Sreedev SS" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sreedevss.in/blog" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <link rel="icon" type="image/svg+xml" href="/MT.svg" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sreedevss.in/blog" />
+  <meta property="og:title" content="Blog — Web Dev, Design & Open Source | Sreedev SS" />
+  <meta property="og:description" content="Articles on React, Django, UI/UX design, and open-source development by Sreedev SS from Kerala, India." />
+  <meta property="og:image" content="https://sreedevss.in/og-image.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "MTCodes Blog — by Sreedev SS",
+    "url": "https://sreedevss.in/blog",
+    "description": "Articles on web development, design, React, Python, Django, and open-source by Sreedev SS.",
+    "author": {
+      "@type": "Person",
+      "name": "Sreedev SS",
+      "url": "https://sreedevss.in"
+    },
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "How I Built an OS-Style Portfolio with React and Framer Motion",
+        "url": "https://sreedevss.in/blog/os-portfolio-design",
+        "datePublished": "2026-04-02",
+        "author": { "@type": "Person", "name": "Sreedev SS" }
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --text: #ccc;
+      --muted: #666;
+      --accent: #ff003c;
+      --yellow: #ffaa00;
+      --blue: #61dafb;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    nav.topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,15,.92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--accent); text-decoration: none; }
+    .nav-links { display: flex; gap: 24px; list-style: none; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 72px 40px 56px;
+      border-bottom: 1px solid var(--border);
+    }
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      padding: 4px 10px;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      color: #eee;
+      margin-bottom: 12px;
+    }
+    h1 span { color: var(--blue); }
+    .hero-sub { color: var(--muted); font-size: 14px; }
+
+    /* Post list */
+    .posts { max-width: 860px; margin: 0 auto; padding: 48px 40px 80px; }
+
+    .post-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: inherit;
+    }
+    .post-item:hover .post-title { color: var(--blue); }
+    .post-item:first-child { padding-top: 0; }
+
+    .post-category {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+    .post-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #ddd;
+      margin-bottom: 8px;
+      letter-spacing: -.02em;
+      transition: color .2s;
+    }
+    .post-excerpt { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .post-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+    .post-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+    }
+    .post-meta { text-align: right; }
+    .post-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .post-readtime {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: rgba(102,102,102,.6);
+      margin-top: 4px;
+    }
+    .read-link {
+      display: inline-block;
+      margin-top: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--blue);
+      text-decoration: none;
+      letter-spacing: .06em;
+    }
+
+    /* Coming soon card */
+    .coming-soon {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      padding: 32px;
+      text-align: center;
+      margin-top: 32px;
+    }
+    .coming-soon p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+    }
+    .coming-soon span { color: var(--yellow); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer p { color: var(--muted); font-size: 12px; margin: 0; }
+    footer nav { display: flex; gap: 16px; }
+    footer a { font-size: 12px; color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      nav.topnav, .hero, .posts, footer { padding-left: 20px; padding-right: 20px; }
+      .post-item { grid-template-columns: 1fr; }
+      .post-meta { text-align: left; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="topnav">
+    <a href="/" class="nav-logo">MT<span style="color:#666">Codes</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/blog" class="active">Blog</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <span class="badge">// blog</span>
+    <h1>Writing <span>_</span></h1>
+    <p class="hero-sub">Notes on web development, design, and open-source from Kerala, India.</p>
+  </header>
+
+  <main class="posts">
+
+    <a href="/blog/os-portfolio-design" class="post-item">
+      <div>
+        <p class="post-category">// Design &amp; Engineering</p>
+        <h2 class="post-title">How I Built an OS-Style Portfolio with React &amp; Framer Motion</h2>
+        <p class="post-excerpt">
+          A deep-dive into the architecture, animation strategy, and design decisions behind
+          building an interactive operating system UI as a personal portfolio. From boot sequence
+          to windowed apps — every detail explored.
+        </p>
+        <div class="post-tags">
+          <span class="post-tag">React</span>
+          <span class="post-tag">TypeScript</span>
+          <span class="post-tag">Framer Motion</span>
+          <span class="post-tag">UI Design</span>
+          <span class="post-tag">Vite</span>
+        </div>
+        <span class="read-link">Read article →</span>
+      </div>
+      <div class="post-meta">
+        <p class="post-date">2026–04–02</p>
+        <p class="post-readtime">~8 min read</p>
+      </div>
+    </a>
+
+    <div class="coming-soon">
+      <p>More articles coming soon — <span>React patterns</span>, <span>Django tips</span>, and <span>design systems</span>.</p>
+    </div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Sreedev SS · MTCodes · Kerala, India</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/projects">Projects</a>
+    </nav>
+  </footer>
+
+</body>
+</html>
