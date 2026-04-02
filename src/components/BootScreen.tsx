@@ -59,15 +59,12 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
     onCompleteRef.current();
   }, []);
 
-  // Allow skipping only after it's actually "ready" (e.g. 30 lines have printed)
+  // Allow skipping after a short delay (500ms)
   useEffect(() => {
-    const checkReady = setInterval(() => {
-      if (logCounter.current >= 30) {
-        skipReady.current = true;
-        clearInterval(checkReady);
-      }
-    }, 100);
-    return () => clearInterval(checkReady);
+    const timer = setTimeout(() => {
+      skipReady.current = true;
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   // Keyboard skip
@@ -165,6 +162,11 @@ const BootScreen: React.FC<BootScreenProps> = ({ onComplete }) => {
             <span className="w-2 h-3 bg-white/50 animate-blink translate-y-1" />
           </div>
         )}
+      </div>
+      
+      {/* Skip hint */}
+      <div className="absolute bottom-4 right-4 font-jetbrains text-[10px] text-white/20 uppercase tracking-widest bg-black/60 px-3 py-1.5 rounded-sm backdrop-blur-sm pointer-events-none">
+        Click or press any key to skip
       </div>
     </motion.div>
   );
