@@ -67,6 +67,109 @@
 
 <body>
   <div id="root"></div>
+
+  <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  SEO CONTENT — visually hidden, fully crawlable          ║
+    ║  This mirrors the JS-driven UI content for search bots.  ║
+    ╚══════════════════════════════════════════════════════════╝
+  -->
+  <div aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;left:-9999px;">
+
+    <!-- About -->
+    <section>
+      <h1>Sreedev SS — Full-Stack Developer, UI/UX Designer &amp; Video Editor</h1>
+      <p>
+        B.Tech CSE student at College of Engineering Attingal (CEAL), Kerala, India.
+        Skilled in web design, full-stack development, server management, and video editing.
+        Passionate about building impactful digital experiences.
+      </p>
+      <p>
+        Known online as MTCodes. Experienced in React, TypeScript, Python, Django, Figma,
+        HTML, CSS, MySQL, PostgreSQL, and Adobe After Effects.
+      </p>
+    </section>
+
+    <!-- Projects -->
+    <section>
+      <h2>Projects by Sreedev SS</h2>
+      <p>
+        A collection of open-source tools, web applications, and experiments built by Sreedev SS.
+        Projects span full-stack web development, UI/UX design, server utilities, and more.
+        All source code is available on GitHub at github.com/MTCodes01.
+      </p>
+      <ul>
+        <li>Full-stack web applications built with React and Django</li>
+        <li>TypeScript tools and browser extensions</li>
+        <li>Python automation scripts and utilities</li>
+        <li>Open-source contributions and experiments</li>
+        <li>UI/UX prototypes designed in Figma</li>
+      </ul>
+    </section>
+
+    <!-- Skills -->
+    <section>
+      <h2>Technical Skills</h2>
+      <ul>
+        <li>Frontend: React, TypeScript, JavaScript, HTML, CSS, Tailwind CSS</li>
+        <li>Backend: Python, Django, Node.js, REST APIs</li>
+        <li>Databases: MySQL, PostgreSQL, SQLite</li>
+        <li>Design: Figma, Adobe After Effects, UI/UX Design</li>
+        <li>Tools: Git, GitHub, Linux, Server Management</li>
+        <li>Media: Video Editing, Motion Graphics, Content Creation</li>
+      </ul>
+    </section>
+
+    <!-- Contact & Social -->
+    <section>
+      <h2>Contact Sreedev SS</h2>
+      <p>Email: <a href="mailto:sreedevss05@gmail.com">sreedevss05@gmail.com</a></p>
+      <ul>
+        <li><a href="https://github.com/MTCodes01" rel="noopener noreferrer">GitHub — MTCodes01</a></li>
+        <li><a href="https://www.linkedin.com/in/sreedevss/" rel="noopener noreferrer">LinkedIn — Sreedev SS</a></li>
+        <li><a href="https://www.instagram.com/_mt_yt_" rel="noopener noreferrer">Instagram — @_mt_yt_</a></li>
+        <li><a href="https://www.youtube.com/@MT_yt" rel="noopener noreferrer">YouTube — MT_yt</a></li>
+      </ul>
+    </section>
+  </div>
+
+  <!-- Fallback for browsers/bots with JavaScript disabled -->
+  <noscript>
+    <style>
+      #seo-noscript {
+        font-family: sans-serif;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        line-height: 1.6;
+        color: #eee;
+        background: #0a0a0f;
+      }
+      #seo-noscript h1 { color: #ff003c; }
+      #seo-noscript h2 { color: #ffaa00; margin-top: 24px; }
+      #seo-noscript a { color: #61dafb; }
+    </style>
+    <div id="seo-noscript">
+      <h1>Sreedev SS — Full-Stack Developer &amp; UI/UX Designer</h1>
+      <p>
+        This portfolio uses an interactive OS-style interface powered by JavaScript.
+        Please enable JavaScript to experience the full UI, or explore the key information below.
+      </p>
+      <h2>About</h2>
+      <p>
+        B.Tech CSE student at College of Engineering Attingal (CEAL), Kerala, India.
+        Full-stack developer, UI/UX designer, and video editor with expertise in React,
+        TypeScript, Python, Django, Figma, and more.
+      </p>
+      <h2>Connect</h2>
+      <ul>
+        <li><a href="https://github.com/MTCodes01">GitHub — MTCodes01</a></li>
+        <li><a href="https://www.linkedin.com/in/sreedevss/">LinkedIn — Sreedev SS</a></li>
+        <li><a href="mailto:sreedevss05@gmail.com">sreedevss05@gmail.com</a></li>
+      </ul>
+    </div>
+  </noscript>
+
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
