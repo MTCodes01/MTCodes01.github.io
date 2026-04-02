@@ -129,7 +129,7 @@ neofetch  - System info
 date      - Current time
 fortune   - Get wisdom
 cowsay    - Moo!
-rick      - ???
+rickroll  - ???
 ls        - List files
 pwd       - Current path
 cd <dir>  - Change directory
@@ -265,7 +265,7 @@ YouTube   : https://youtube.com/@MT_yt`,
       return FORTUNES[idx];
     },
 
-    rick: () => {
+    rickroll: () => {
       window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
       return "Never gonna give you up, never gonna let you down...";
     },
