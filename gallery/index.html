@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Gallery & Creative Work - Posters & Videos | Sreedev SS (MTCodes)</title>
+  <meta name="description"
+    content="A showcase of posters, digital designs, and video editing projects by Sreedev SS. Explore creative visual work including UI mockups, typography, and cinematic video edits." />
+  <meta name="keywords"
+    content="Gallery, Posters, Video Editing, UI Design, Graphic Design, Sreedev SS, MTCodes, After Effects, Figma, Motion Graphics" />
+  <meta name="author" content="Sreedev SS" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://sreedevss.in/gallery" />
+  <meta name="theme-color" content="#0a0a0f" />
+
+  <link rel="icon" type="image/svg+xml" href="/MT.svg" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sreedevss.in/gallery" />
+  <meta property="og:title" content="Gallery & Creative Work - Posters & Videos" />
+  <meta property="og:description"
+    content="Explore the creative side of MTCodes - from minimalist posters to high-energy video edits." />
+  <meta property="og:image" content="https://sreedevss.in/og-image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --text: #ccc;
+      --muted: #666;
+      --accent: #ff003c;
+      --yellow: #ffaa00;
+      --blue: #61dafb;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav.topnav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 40px;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: rgba(10, 10, 15, .92);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: -.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 40px 60px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      color: var(--yellow);
+      border: 1px solid var(--yellow);
+      padding: 4px 10px;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: #eee;
+    }
+
+    h1 span {
+      color: var(--yellow);
+    }
+
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      max-width: 1200px;
+      margin: 80px auto 40px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .section-header h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 24px;
+      color: #eee;
+      white-space: nowrap;
+    }
+
+    .section-header .line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* POSTER MASONRY */
+    .poster-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px;
+      columns: 3;
+      column-gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .poster-grid { columns: 2; }
+    }
+
+    @media (max-width: 600px) {
+      .poster-grid { columns: 1; }
+    }
+
+    .poster-item {
+      break-inside: avoid;
+      margin-bottom: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s;
+    }
+
+    .poster-item:hover {
+      border-color: var(--yellow);
+    }
+
+    .poster-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform .5s ease;
+      filter: grayscale(20%);
+    }
+
+    .poster-item:hover img {
+      transform: scale(1.03);
+      filter: grayscale(0%);
+    }
+
+    .poster-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px;
+      background: linear-gradient(to top, rgba(10, 10, 15, 0.9), transparent);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .poster-item:hover .poster-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .poster-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: #eee;
+    }
+
+    .poster-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+
+    /* VIDEO SECTION */
+    .video-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+      gap: 32px;
+    }
+
+    @media (max-width: 600px) {
+      .video-grid { grid-template-columns: 1fr; }
+    }
+
+    .video-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: border-color .3s;
+    }
+
+    .video-card:hover {
+      border-color: var(--accent);
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      background: #000;
+    }
+
+    .video-wrapper iframe, 
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-content {
+      padding: 20px;
+    }
+
+    .video-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .video-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      color: #eee;
+      margin-bottom: 10px;
+    }
+
+    .video-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* SKELETON LOADERS */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, #1a1a24 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    footer p {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    footer nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    footer a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 600px) {
+      nav.topnav, .hero, .section-header, .poster-grid, .video-grid, footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="topnav">
+    <a href="/" class="nav-logo">MT<span style="color:#666">Codes</span></a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/projects">Projects</a></li>
+      <li><a href="/gallery" class="active">Gallery</a></li>
+      <li><a href="/blog">Blog</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <span class="badge">// creative_output</span>
+    <h1>Visual <span>&amp;</span> Motion<br />Work Portfolio</h1>
+    <p class="subtitle">
+      A collection of graphic designs, posters, and cinematic video edits created across various projects and experiments.
+    </p>
+  </header>
+
+  <div class="section-header">
+    <h2>Posters &amp; Graphics</h2>
+    <div class="line"></div>
+  </div>
+
+  <main class="poster-grid" id="poster-container">
+    <!-- These will be replaced/supplemented by the user's actual work -->
+    <div class="poster-item">
+      <img src="https://picsum.photos/600/800?random=1" alt="Poster 1" loading="lazy" decoding="async">
+      <div class="poster-info">
+        <p class="poster-tag">Digital Design</p>
+        <p class="poster-title">Minimalist Future</p>
+      </div>
+    </div>
+    <div class="poster-item">
+      <img src="https://picsum.photos/600/400?random=2" alt="Poster 2" loading="lazy" decoding="async">
+      <div class="poster-info">
+        <p class="poster-tag">UI Mockup</p>
+        <p class="poster-title">Cyber Interface v1</p>
+      </div>
+    </div>
+    <div class="poster-item">
+      <img src="https://picsum.photos/600/900?random=3" alt="Poster 3" loading="lazy" decoding="async">
+      <div class="poster-info">
+        <p class="poster-tag">Typography</p>
+        <p class="poster-title">Monospace Study</p>
+      </div>
+    </div>
+    <div class="poster-item">
+      <img src="https://picsum.photos/600/700?random=4" alt="Poster 4" loading="lazy" decoding="async">
+      <div class="poster-info">
+        <p class="poster-tag">Branding</p>
+        <p class="poster-title">MTCodes Identity</p>
+      </div>
+    </div>
+  </main>
+
+  <div class="section-header">
+    <h2>Video Editing &amp; Motion</h2>
+    <div class="line"></div>
+  </div>
+
+  <section class="video-grid">
+    <!-- Local / Embedded Videos -->
+    <div class="video-card">
+      <div class="video-wrapper">
+        <!-- Placeholder for embed or local video -->
+        <div class="skeleton" style="width:100%;height:100%;position:absolute;"></div>
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Placeholder" allowfullscreen></iframe>
+      </div>
+      <div class="video-content">
+        <p class="video-label">After Effects // Motion</p>
+        <h3 class="video-title">Project Reveal Trailer</h3>
+        <p class="video-desc">Cinematic introduction created for the OS Portfolio launch, focusing on typography and spring-physics animations.</p>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="video-wrapper">
+        <div class="skeleton" style="width:100%;height:100%;position:absolute;"></div>
+        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Placeholder" allowfullscreen></iframe>
+      </div>
+      <div class="video-content">
+        <p class="video-label">Premiere Pro // Edit</p>
+        <h3 class="video-title">Community Event Recap</h3>
+        <p class="video-desc">A high-energy montage of the FOSS CEAL meetups, featuring custom transitions and sound design.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Sreedev SS · MTCodes · Kerala, India</p>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/projects">Projects</a>
+      <a href="/blog">Blog</a>
+    </nav>
+  </footer>
+
+  <script>
+    // IntersectionObserver for video autoplay control (if using local videos)
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target.querySelector('video');
+        if (video) {
+          if (entry.isIntersecting) {
+            video.play().catch(() => {}); // Autoplay might be blocked by browser
+          } else {
+            video.pause();
+          }
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.video-card').forEach(card => {
+      videoObserver.observe(card);
+    });
+
+    // Simple script to remove skeletons once iframes/images load
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.skeleton').forEach(el => el.style.display = 'none');
+    });
+  </script>
+
+</body>
+
+</html>
