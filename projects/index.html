@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Projects by Sreedev SS — Open-Source Web Apps & Tools | MTCodes</title>
-  <meta name="description" content="Browse open-source projects by Sreedev SS (MTCodes) — React apps, Django backends, TypeScript tools, Python scripts, and UI/UX prototypes. All built by a full-stack developer from Kerala, India." />
-  <meta name="keywords" content="Sreedev SS projects, MTCodes projects, open source, React, Django, TypeScript, Python, GitHub, portfolio, web apps, tools, Kerala developer" />
+  <title>Projects by Sreedev SS - Open-Source Web Apps & Tools | MTCodes</title>
+  <meta name="description"
+    content="Browse open-source projects by Sreedev SS (MTCodes) - React apps, Django backends, TypeScript tools, Python scripts, and UI/UX prototypes. All built by a full-stack developer from Kerala, India." />
+  <meta name="keywords"
+    content="Sreedev SS projects, MTCodes projects, open source, React, Django, TypeScript, Python, GitHub, portfolio, web apps, tools, Kerala developer" />
   <meta name="author" content="Sreedev SS" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sreedevss.in/projects" />
@@ -16,8 +19,9 @@
 
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://sreedevss.in/projects" />
-  <meta property="og:title" content="Projects by Sreedev SS — Open-Source Web Apps & Tools" />
-  <meta property="og:description" content="React apps, Django backends, TypeScript tools, and UI/UX prototypes by Sreedev SS (MTCodes), full-stack developer from Kerala, India." />
+  <meta property="og:title" content="Projects by Sreedev SS - Open-Source Web Apps & Tools" />
+  <meta property="og:description"
+    content="React apps, Django backends, TypeScript tools, and UI/UX prototypes by Sreedev SS (MTCodes), full-stack developer from Kerala, India." />
   <meta property="og:image" content="https://sreedevss.in/og-image.png" />
 
   <script type="application/ld+json">
@@ -43,10 +47,18 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --bg: #0a0a0f;
@@ -59,7 +71,9 @@
       --blue: #61dafb;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       background: var(--bg);
@@ -78,17 +92,24 @@
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      background: rgba(10,10,15,.92);
+      background: rgba(10, 10, 15, .92);
       backdrop-filter: blur(12px);
       z-index: 100;
     }
+
     .nav-logo {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 18px;
       color: var(--accent);
       text-decoration: none;
     }
-    .nav-links { display: flex; gap: 24px; list-style: none; }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
     .nav-links a {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -98,7 +119,11 @@
       text-decoration: none;
       transition: color .2s;
     }
-    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--text);
+    }
 
     .hero {
       max-width: 1100px;
@@ -111,6 +136,7 @@
       flex-wrap: wrap;
       border-bottom: 1px solid var(--border);
     }
+
     .badge {
       display: inline-block;
       font-family: 'JetBrains Mono', monospace;
@@ -122,6 +148,7 @@
       padding: 4px 10px;
       margin-bottom: 20px;
     }
+
     h1 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: clamp(28px, 4vw, 44px);
@@ -129,8 +156,16 @@
       letter-spacing: -.03em;
       color: #eee;
     }
-    h1 span { color: var(--yellow); }
-    .hero-meta { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+
+    h1 span {
+      color: var(--yellow);
+    }
+
+    .hero-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--muted);
+    }
 
     /* Project grid */
     .grid-container {
@@ -138,6 +173,7 @@
       margin: 0 auto;
       padding: 48px 40px 80px;
     }
+
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -153,23 +189,33 @@
       transition: border-color .2s;
       position: relative;
     }
-    .project-card:hover { border-color: var(--yellow); }
+
+    .project-card:hover {
+      border-color: var(--yellow);
+    }
+
     .project-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 2px; height: 0;
+      top: 0;
+      left: 0;
+      width: 2px;
+      height: 0;
       background: var(--yellow);
       transition: height .3s;
     }
-    .project-card:hover::before { height: 100%; }
+
+    .project-card:hover::before {
+      height: 100%;
+    }
 
     .card-index {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
-      color: rgba(255,170,0,.4);
+      color: rgba(255, 170, 0, .4);
       margin-bottom: 12px;
     }
+
     .card-title {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 18px;
@@ -179,6 +225,7 @@
       text-transform: uppercase;
       letter-spacing: -.01em;
     }
+
     .card-desc {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
@@ -187,18 +234,30 @@
       flex: 1;
       margin-bottom: 20px;
     }
-    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
     .card-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: .08em;
-      color: rgba(255,170,0,.7);
-      border: 1px solid rgba(255,170,0,.2);
+      color: rgba(255, 170, 0, .7);
+      border: 1px solid rgba(255, 170, 0, .2);
       padding: 2px 8px;
-      background: rgba(255,170,0,.04);
+      background: rgba(255, 170, 0, .04);
     }
-    .card-links { display: flex; gap: 10px; }
+
+    .card-links {
+      display: flex;
+      gap: 10px;
+    }
+
     .card-link {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -210,9 +269,21 @@
       padding: 5px 12px;
       transition: color .2s, border-color .2s;
     }
-    .card-link:hover { color: var(--text); border-color: var(--yellow); }
-    .card-link.demo { color: var(--yellow); border-color: rgba(255,170,0,.4); background: rgba(255,170,0,.05); }
-    .card-link.demo:hover { background: rgba(255,170,0,.12); }
+
+    .card-link:hover {
+      color: var(--text);
+      border-color: var(--yellow);
+    }
+
+    .card-link.demo {
+      color: var(--yellow);
+      border-color: rgba(255, 170, 0, .4);
+      background: rgba(255, 170, 0, .05);
+    }
+
+    .card-link.demo:hover {
+      background: rgba(255, 170, 0, .12);
+    }
 
     /* GitHub CTA */
     .github-cta {
@@ -221,7 +292,13 @@
       padding: 0 40px 64px;
       text-align: center;
     }
-    .github-cta p { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+
+    .github-cta p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
     .github-btn {
       display: inline-block;
       font-family: 'JetBrains Mono', monospace;
@@ -234,7 +311,11 @@
       padding: 10px 28px;
       transition: border-color .2s, background .2s;
     }
-    .github-btn:hover { border-color: var(--yellow); background: rgba(255,170,0,.05); }
+
+    .github-btn:hover {
+      border-color: var(--yellow);
+      background: rgba(255, 170, 0, .05);
+    }
 
     footer {
       border-top: 1px solid var(--border);
@@ -245,14 +326,42 @@
       flex-wrap: wrap;
       gap: 12px;
     }
-    footer p { color: var(--muted); font-size: 12px; margin: 0; }
-    footer nav { display: flex; gap: 16px; }
-    footer a { font-size: 12px; color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
+
+    footer p {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0;
+    }
+
+    footer nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    footer a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
 
     @media (max-width: 600px) {
-      nav.topnav, .hero, .grid-container, .github-cta, footer { padding-left: 20px; padding-right: 20px; }
-      .nav-links { gap: 14px; }
+
+      nav.topnav,
+      .hero,
+      .grid-container,
+      .github-cta,
+      footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
     }
   </style>
 </head>
@@ -274,7 +383,8 @@
       <span class="badge">// projects</span>
       <h1>Projects <span>_</span></h1>
     </div>
-    <p class="hero-meta">All repos tagged <code style="color:var(--yellow)">portfolio</code> on GitHub · Sorted by latest push</p>
+    <p class="hero-meta">All repos tagged <code style="color:var(--yellow)">portfolio</code> on GitHub · Sorted by
+      latest push</p>
   </header>
 
   <main class="grid-container">
@@ -296,7 +406,8 @@
           <span class="card-tag">Vite</span>
         </div>
         <div class="card-links">
-          <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank" rel="noopener noreferrer" class="card-link">[Code]</a>
+          <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank" rel="noopener noreferrer"
+            class="card-link">[Code]</a>
           <a href="https://sreedevss.in" class="card-link demo">[Live]</a>
         </div>
       </article>
@@ -314,7 +425,8 @@
           <span class="card-tag">Web Scraping</span>
         </div>
         <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer" class="card-link">[GitHub]</a>
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
         </div>
       </article>
 
@@ -334,7 +446,8 @@
           <span class="card-tag">REST API</span>
         </div>
         <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer" class="card-link">[GitHub]</a>
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
         </div>
       </article>
 
@@ -352,7 +465,8 @@
           <span class="card-tag">Browser APIs</span>
         </div>
         <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer" class="card-link">[GitHub]</a>
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
         </div>
       </article>
 
@@ -370,7 +484,8 @@
           <span class="card-tag">UX Research</span>
         </div>
         <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer" class="card-link">[GitHub]</a>
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
         </div>
       </article>
 
@@ -388,7 +503,8 @@
           <span class="card-tag">CLI</span>
         </div>
         <div class="card-links">
-          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer" class="card-link">[GitHub]</a>
+          <a href="https://github.com/MTCodes01" target="_blank" rel="noopener noreferrer"
+            class="card-link">[GitHub]</a>
         </div>
       </article>
 
@@ -412,4 +528,5 @@
   </footer>
 
 </body>
+
 </html>

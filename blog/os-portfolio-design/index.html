@@ -1,12 +1,15 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>How I Built an OS-Style Portfolio with React & Framer Motion — Sreedev SS</title>
-  <meta name="description" content="A deep-dive into building an interactive operating system UI as a portfolio using React, TypeScript, Vite, and Framer Motion. Boot sequences, windowed apps, context APIs, and animation architecture — all explained." />
-  <meta name="keywords" content="React portfolio, OS-style UI, Framer Motion, TypeScript, Vite, window management, boot animation, portfolio design, web development, Sreedev SS, MTCodes" />
+  <title>How I Built an OS-Style Portfolio with React & Framer Motion - Sreedev SS</title>
+  <meta name="description"
+    content="A deep-dive into building an interactive operating system UI as a portfolio using React, TypeScript, Vite, and Framer Motion. Boot sequences, windowed apps, context APIs, and animation architecture - all explained." />
+  <meta name="keywords"
+    content="React portfolio, OS-style UI, Framer Motion, TypeScript, Vite, window management, boot animation, portfolio design, web development, Sreedev SS, MTCodes" />
   <meta name="author" content="Sreedev SS" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://sreedevss.in/blog/os-portfolio-design" />
@@ -17,7 +20,8 @@
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://sreedevss.in/blog/os-portfolio-design" />
   <meta property="og:title" content="How I Built an OS-Style Portfolio with React & Framer Motion" />
-  <meta property="og:description" content="A deep-dive into the architecture, animation strategy, and design decisions behind building an interactive OS UI as a personal portfolio." />
+  <meta property="og:description"
+    content="A deep-dive into the architecture, animation strategy, and design decisions behind building an interactive OS UI as a personal portfolio." />
   <meta property="og:image" content="https://sreedevss.in/og-image.png" />
   <meta property="article:author" content="Sreedev SS" />
   <meta property="article:published_time" content="2026-04-02" />
@@ -28,7 +32,8 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="How I Built an OS-Style Portfolio with React & Framer Motion" />
-  <meta name="twitter:description" content="Boot sequences, windowed apps, and animation architecture — how the sreedevss.in OS portfolio was built." />
+  <meta name="twitter:description"
+    content="Boot sequences, windowed apps, and animation architecture - how the sreedevss.in OS portfolio was built." />
   <meta name="twitter:image" content="https://sreedevss.in/og-image.png" />
 
   <script type="application/ld+json">
@@ -64,10 +69,18 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
 
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     :root {
       --bg: #0a0a0f;
@@ -80,7 +93,9 @@
       --blue: #61dafb;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       background: var(--bg);
@@ -100,12 +115,24 @@
       border-bottom: 1px solid var(--border);
       position: sticky;
       top: 0;
-      background: rgba(10,10,15,.92);
+      background: rgba(10, 10, 15, .92);
       backdrop-filter: blur(12px);
       z-index: 100;
     }
-    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 18px; color: var(--accent); text-decoration: none; }
-    .nav-links { display: flex; gap: 24px; list-style: none; }
+
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 18px;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+
     .nav-links a {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -115,7 +142,10 @@
       text-decoration: none;
       transition: color .2s;
     }
-    .nav-links a:hover { color: var(--text); }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
 
     /* ARTICLE HEADER */
     .article-header {
@@ -124,6 +154,7 @@
       padding: 72px 40px 48px;
       border-bottom: 1px solid var(--border);
     }
+
     .article-category {
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
@@ -135,9 +166,19 @@
       align-items: center;
       gap: 8px;
     }
-    .article-category a { color: inherit; text-decoration: none; }
-    .article-category a:hover { color: var(--text); }
-    .chevron { color: var(--border); }
+
+    .article-category a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .article-category a:hover {
+      color: var(--text);
+    }
+
+    .chevron {
+      color: var(--border);
+    }
 
     h1.article-title {
       font-family: 'Space Grotesk', sans-serif;
@@ -148,21 +189,30 @@
       color: #eee;
       margin-bottom: 20px;
     }
+
     .article-excerpt {
       font-size: 17px;
       color: var(--muted);
       line-height: 1.7;
       margin-bottom: 28px;
     }
+
     .article-meta {
       display: flex;
       align-items: center;
       gap: 20px;
       flex-wrap: wrap;
     }
-    .meta-author { display: flex; align-items: center; gap: 10px; }
+
+    .meta-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .meta-avatar {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       background: linear-gradient(135deg, #1a0008, #0a0a0f);
       border: 1px solid var(--accent);
       display: flex;
@@ -173,10 +223,30 @@
       font-weight: 700;
       color: var(--muted);
     }
-    .meta-name { font-size: 13px; color: var(--text); font-weight: 600; }
-    .meta-info { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); }
-    .meta-dot { color: var(--border); }
-    .article-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 20px; }
+
+    .meta-name {
+      font-size: 13px;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .meta-info {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .meta-dot {
+      color: var(--border);
+    }
+
+    .article-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 20px;
+    }
+
     .article-tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
@@ -193,6 +263,7 @@
       margin: 0 auto;
       padding: 56px 40px 80px;
     }
+
     .article-body h2 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 24px;
@@ -203,7 +274,11 @@
       padding-top: 8px;
       border-top: 1px solid var(--border);
     }
-    .article-body h2:first-child { margin-top: 0; }
+
+    .article-body h2:first-child {
+      margin-top: 0;
+    }
+
     .article-body h3 {
       font-family: 'Space Grotesk', sans-serif;
       font-size: 18px;
@@ -211,20 +286,50 @@
       color: var(--yellow);
       margin: 28px 0 10px;
     }
-    .article-body p { color: var(--text); margin-bottom: 18px; }
-    .article-body p:last-child { margin-bottom: 0; }
-    .article-body strong { color: #eee; font-weight: 600; }
-    .article-body em { color: var(--muted); font-style: italic; }
-    .article-body a { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
-    .article-body a:hover { color: #eee; }
 
-    .article-body ul, .article-body ol {
+    .article-body p {
+      color: var(--text);
+      margin-bottom: 18px;
+    }
+
+    .article-body p:last-child {
+      margin-bottom: 0;
+    }
+
+    .article-body strong {
+      color: #eee;
+      font-weight: 600;
+    }
+
+    .article-body em {
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .article-body a {
+      color: var(--blue);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .article-body a:hover {
+      color: #eee;
+    }
+
+    .article-body ul,
+    .article-body ol {
       padding-left: 24px;
       margin-bottom: 18px;
       color: var(--text);
     }
-    .article-body li { margin-bottom: 6px; }
-    .article-body li::marker { color: var(--yellow); }
+
+    .article-body li {
+      margin-bottom: 6px;
+    }
+
+    .article-body li::marker {
+      color: var(--yellow);
+    }
 
     /* Code blocks */
     .article-body pre {
@@ -239,25 +344,42 @@
       line-height: 1.7;
       color: #b0b0c0;
     }
+
     .article-body code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       color: var(--yellow);
-      background: rgba(255,170,0,.06);
+      background: rgba(255, 170, 0, .06);
       padding: 2px 6px;
       border-radius: 2px;
     }
+
     .article-body pre code {
       color: #b0b0c0;
       background: none;
       padding: 0;
       font-size: 13px;
     }
-    .code-comment { color: #44475a; }
-    .code-keyword { color: #61dafb; }
-    .code-string { color: #a8ff78; }
-    .code-fn { color: #ffaa00; }
-    .code-type { color: #ff79c6; }
+
+    .code-comment {
+      color: #44475a;
+    }
+
+    .code-keyword {
+      color: #61dafb;
+    }
+
+    .code-string {
+      color: #a8ff78;
+    }
+
+    .code-fn {
+      color: #ffaa00;
+    }
+
+    .code-type {
+      color: #ff79c6;
+    }
 
     /* Callout */
     .callout {
@@ -268,7 +390,10 @@
       font-size: 14px;
       color: var(--muted);
     }
-    .callout strong { color: var(--blue); }
+
+    .callout strong {
+      color: var(--blue);
+    }
 
     /* Section divider */
     .divider {
@@ -283,6 +408,7 @@
       margin: 0 auto;
       padding: 0 40px 80px;
     }
+
     .article-footer-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 10px;
@@ -293,7 +419,13 @@
       border-bottom: 1px solid var(--border);
       padding-bottom: 10px;
     }
-    .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .cta-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .cta-link {
       font-family: 'JetBrains Mono', monospace;
       font-size: 12px;
@@ -305,9 +437,19 @@
       padding: 10px 22px;
       transition: background .2s;
     }
-    .cta-link:hover { background: rgba(97,218,251,.07); }
-    .cta-link.alt { color: var(--yellow); border-color: var(--yellow); }
-    .cta-link.alt:hover { background: rgba(255,170,0,.07); }
+
+    .cta-link:hover {
+      background: rgba(97, 218, 251, .07);
+    }
+
+    .cta-link.alt {
+      color: var(--yellow);
+      border-color: var(--yellow);
+    }
+
+    .cta-link.alt:hover {
+      background: rgba(255, 170, 0, .07);
+    }
 
     footer {
       border-top: 1px solid var(--border);
@@ -318,15 +460,44 @@
       flex-wrap: wrap;
       gap: 12px;
     }
-    footer p { color: var(--muted); font-size: 12px; margin: 0; }
-    footer nav { display: flex; gap: 16px; }
-    footer a { font-size: 12px; color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--text); }
+
+    footer p {
+      color: var(--muted);
+      font-size: 12px;
+      margin: 0;
+    }
+
+    footer nav {
+      display: flex;
+      gap: 16px;
+    }
+
+    footer a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: var(--text);
+    }
 
     @media (max-width: 600px) {
-      nav.topnav { padding: 14px 20px; }
-      .nav-links { gap: 14px; }
-      .article-header, .article-body, .article-footer, footer { padding-left: 20px; padding-right: 20px; }
+      nav.topnav {
+        padding: 14px 20px;
+      }
+
+      .nav-links {
+        gap: 14px;
+      }
+
+      .article-header,
+      .article-body,
+      .article-footer,
+      footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
     }
   </style>
 </head>
@@ -356,7 +527,7 @@
 
     <p class="article-excerpt">
       A deep-dive into the architecture, animation strategy, and design decisions behind
-      building an interactive operating system UI as a personal portfolio — boot sequences,
+      building an interactive operating system UI as a personal portfolio - boot sequences,
       windowed apps, context APIs, and more.
     </p>
 
@@ -388,13 +559,13 @@
 
     <h2>The Idea</h2>
     <p>
-      Most developer portfolios follow the same playbook — hero section, skills grid,
+      Most developer portfolios follow the same playbook - hero section, skills grid,
       project cards, contact form. I wanted something that would actually make someone
       stop and explore. The concept: what if your portfolio <strong>was</strong> an operating system?
     </p>
     <p>
       The visitor "boots" into a dark-themed OS desktop, then launches windowed apps to
-      explore your work — just like opening apps on a real computer. It's interactive,
+      explore your work - just like opening apps on a real computer. It's interactive,
       memorable, and gives every section its own space without scrolling through a single
       long page.
     </p>
@@ -402,13 +573,14 @@
     <div class="callout">
       <strong>Live demo:</strong> You can explore the full UI at
       <a href="https://sreedevss.in">sreedevss.in</a>.
-      The source code is on <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank" rel="noopener noreferrer">GitHub</a>.
+      The source code is on <a href="https://github.com/MTCodes01/MTCodes01.github.io" target="_blank"
+        rel="noopener noreferrer">GitHub</a>.
     </div>
 
     <h2>Tech Stack</h2>
     <ul>
       <li><strong>React 18</strong> with functional components and hooks</li>
-      <li><strong>TypeScript</strong> throughout — strict mode enabled</li>
+      <li><strong>TypeScript</strong> throughout - strict mode enabled</li>
       <li><strong>Vite</strong> for the build tool and dev server</li>
       <li><strong>Framer Motion</strong> for all animations and transitions</li>
       <li><strong>Tailwind CSS</strong> for utility-first styling</li>
@@ -422,13 +594,13 @@
 
     <h3>1. Boot Screen</h3>
     <p>
-      When the user first visits, they see a cinematic boot sequence — a loading bar,
+      When the user first visits, they see a cinematic boot sequence - a loading bar,
       blinking cursor, and system messages in a terminal font. This is handled by the
       <code>BootScreen</code> component which fires an <code>onComplete</code> callback
       once the animation finishes, triggering React's <code>AnimatePresence</code> to
       unmount the boot screen and mount the desktop.
     </p>
-    <pre><code><span class="code-comment">// App.tsx — boot → desktop transition</span>
+    <pre><code><span class="code-comment">// App.tsx - boot → desktop transition</span>
 <span class="code-keyword">const</span> <span class="code-fn">App</span> = () =&gt; {
   <span class="code-keyword">const</span> [bootComplete, setBootComplete] = useState(<span class="code-keyword">false</span>);
 
@@ -446,7 +618,7 @@
     <h3>2. Window Management System</h3>
     <p>
       The <code>WindowContext</code> is the core of the OS illusion. It tracks every open
-      window — its position, size, z-index, minimized state, and which app it renders.
+      window - its position, size, z-index, minimized state, and which app it renders.
       Windows can be dragged, resized, minimized to the Dock, and brought to focus.
     </p>
     <pre><code><span class="code-comment">// WindowContext shape</span>
@@ -470,13 +642,13 @@
       Each "app" is just a React component rendered inside the Window chrome. The apps include:
     </p>
     <ul>
-      <li><strong>AboutApp</strong> — bio, animated typewriter role, skills, and social links</li>
-      <li><strong>ProjectsApp</strong> — live GitHub repo cards pulled from the API</li>
-      <li><strong>ResumeApp</strong> — interactive resume with print-to-PDF support</li>
-      <li><strong>ContactApp</strong> — contact form with email integration</li>
-      <li><strong>TerminalApp</strong> — functional terminal with custom commands</li>
-      <li><strong>MusicApp</strong> — ambient music player with visualizer</li>
-      <li><strong>BrowserApp</strong> — mini in-OS browser window</li>
+      <li><strong>AboutApp</strong> - bio, animated typewriter role, skills, and social links</li>
+      <li><strong>ProjectsApp</strong> - live GitHub repo cards pulled from the API</li>
+      <li><strong>ResumeApp</strong> - interactive resume with print-to-PDF support</li>
+      <li><strong>ContactApp</strong> - contact form with email integration</li>
+      <li><strong>TerminalApp</strong> - functional terminal with custom commands</li>
+      <li><strong>MusicApp</strong> - ambient music player with visualizer</li>
+      <li><strong>BrowserApp</strong> - mini in-OS browser window</li>
     </ul>
 
     <h2>Animation Strategy</h2>
@@ -509,9 +681,9 @@ transition={SPRING}</code></pre>
       Typography uses three complementary fonts:
     </p>
     <ul>
-      <li><strong>Space Grotesk</strong> for display headings — bold, geometric</li>
-      <li><strong>Inter</strong> for body text — clean and readable</li>
-      <li><strong>JetBrains Mono</strong> for labels, tags, and code — tech authenticity</li>
+      <li><strong>Space Grotesk</strong> for display headings - bold, geometric</li>
+      <li><strong>Inter</strong> for body text - clean and readable</li>
+      <li><strong>JetBrains Mono</strong> for labels, tags, and code - tech authenticity</li>
     </ul>
 
     <h2>The SEO Challenge</h2>
@@ -525,14 +697,14 @@ transition={SPRING}</code></pre>
     <p>
       These static pages (<a href="/about">/about</a>, <a href="/projects">/projects</a>,
       <a href="/blog">/blog</a>) live in the <code>public/</code> directory, served
-      directly by GitHub Pages without any JavaScript — giving Google real, crawlable
+      directly by GitHub Pages without any JavaScript - giving Google real, crawlable
       topical depth beyond the SPA root.
     </p>
 
     <h2>Key Lessons</h2>
     <ul>
       <li>
-        <strong>Context API scales well</strong> for this kind of orchestrated state —
+        <strong>Context API scales well</strong> for this kind of orchestrated state -
         window management, theme switching, and music playback each got their own context
         without Redux overhead.
       </li>
@@ -543,7 +715,7 @@ transition={SPRING}</code></pre>
       </li>
       <li>
         <strong>OS aesthetics need constraint</strong>. Every pixel matters when your UI
-        is imitating a real operating system — inconsistency breaks the illusion.
+        is imitating a real operating system - inconsistency breaks the illusion.
       </li>
       <li>
         <strong>Static HTML wins for SEO</strong> even inside an SPA project.
@@ -583,4 +755,5 @@ transition={SPRING}</code></pre>
   </footer>
 
 </body>
+
 </html>
