@@ -53,7 +53,7 @@ neofetch  - System info
 date      - Current time
 fortune   - Get wisdom
 cowsay    - Moo!
-rick      - ???
+rickroll      - ???
 ls        - List files
 pwd       - Current path
 cd <dir>  - Change directory
@@ -95,7 +95,7 @@ YouTube   : https://youtube.com/@MT_yt`,echo:U=>U.join(" ").replace("$USER","gue
              (__)\\       )\\/\\
                  ||----w |
                  ||     ||
-      `},fortune:()=>{const U=Math.floor(Math.random()*ig.length);return ig[U]},rick:()=>(window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ","_blank"),"Never gonna give you up, never gonna let you down..."),cat:U=>{if(U.length===0)return"cat: missing operand";const B=U[0];return B==="README.md"?"Checkpoint OS - A high-fidelity portfolio operating system.":B==="secret.txt"?"Easter egg found! Use 'matrix' for more.":`cat: ${B}: No such file or directory`}}),[f,w]),H=C.useCallback(async U=>{const B=U.trim();if(!B){r(et=>[...et,{type:"input",text:`${f} $ `}]);return}r(et=>[...et,{type:"input",text:`${f} $ ${U}`}]),p(et=>[U,...et]),A.current=-1;const[$,...dt]=B.split(" ");if($==="clear"){r([]);return}if($==="exit"){s("terminal");return}if($==="cd"){const et=dt[0];if(!et||et==="~"||et==="/")y("~"),r(rt=>[...rt,{type:"output",text:`
+      `},fortune:()=>{const U=Math.floor(Math.random()*ig.length);return ig[U]},rickroll:()=>(window.open("https://www.youtube.com/watch?v=dQw4w9WgXcQ","_blank"),"Never gonna give you up, never gonna let you down..."),cat:U=>{if(U.length===0)return"cat: missing operand";const B=U[0];return B==="README.md"?"Checkpoint OS - A high-fidelity portfolio operating system.":B==="secret.txt"?"Easter egg found! Use 'matrix' for more.":`cat: ${B}: No such file or directory`}}),[f,w]),H=C.useCallback(async U=>{const B=U.trim();if(!B){r(et=>[...et,{type:"input",text:`${f} $ `}]);return}r(et=>[...et,{type:"input",text:`${f} $ ${U}`}]),p(et=>[U,...et]),A.current=-1;const[$,...dt]=B.split(" ");if($==="clear"){r([]);return}if($==="exit"){s("terminal");return}if($==="cd"){const et=dt[0];if(!et||et==="~"||et==="/")y("~"),r(rt=>[...rt,{type:"output",text:`
 `}]);else if(et===".."){const rt=f.split("/");rt.length>1&&y(rt.slice(0,-1).join("/")),r(jt=>[...jt,{type:"output",text:`
 `}])}else{const rt=f==="~"?`~/${et.replace(/\/$/,"")}`:`${f}/${et.replace(/\/$/,"")}`;w[rt]?(y(rt),r(jt=>[...jt,{type:"output",text:`
 `}])):r(jt=>[...jt,{type:"error",text:`cd: no such directory: ${et}
