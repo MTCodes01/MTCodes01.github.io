@@ -27,6 +27,9 @@ const POWERUP_DEFS: Record<PowerUpType, { color: string; letter: string }> = {
   life: { color: '#ff00ff', letter: '❤' },
 };
 const POWERUP_TYPES = Object.keys(POWERUP_DEFS) as PowerUpType[];
+const POWERUP_WEIGHTS: Record<PowerUpType, number> = {
+  spread: 20, rapid: 20, homing: 15, shield: 15, wingman: 12, bomb: 10, life: 8
+};
 
 const ENEMY_DEFS: Record<number, { hp: number, width: number, height: number, speedMod: number, pts: number, minWave: number, color: string, name: string }> = {
   1: { name: 'Scout', hp: 1, width: 22, height: 22, speedMod: 1.0, pts: 10, minWave: 1, color: '#ff003c' },
@@ -89,6 +92,7 @@ const NebulaOverride: React.FC = () => {
   const [_showGameOver, setShowGameOver] = useState(false);
   const highScoreRef = useRef(highScore);
   const activeBuffsRef = useRef({ spread: 0, rapid: 0, wingman: 0, homing: 0, shield: 0 });
+  const powerUpPityRef = useRef(0);
 
   // Sync high score to ref to avoid triggering the main game loop useEffect
   useEffect(() => {
@@ -629,9 +633,27 @@ const NebulaOverride: React.FC = () => {
               setScore(scoreRef.current);
               createExplosion(enemy.x, enemy.y, eColor, 16);
               
-              const dropChance = 0.03 + (def.hp * 0.01);
+              // Wave-based drop chance + Pity system
+              powerUpPityRef.current++;
+              let dropChance = (0.05 + (waveRef.current * 0.01)) + (def.hp * 0.01);
+              if (powerUpPityRef.current >= 25) dropChance *= 2; // Double chance if 25+ kills without drop
+              dropChance = Math.min(0.25, dropChance); // Cap at 25%
+
               if (Math.random() < dropChance) {
-                const pType = POWERUP_TYPES[Math.floor(Math.random() * POWERUP_TYPES.length)];
+                powerUpPityRef.current = 0; // Reset pity
+                
+                // Weighted selection
+                const totalWeight = Object.values(POWERUP_WEIGHTS).reduce((a, b) => a + b, 0);
+                let r = Math.random() * totalWeight;
+                let pType: PowerUpType = 'spread';
+                for (const type of POWERUP_TYPES) {
+                  if (r < POWERUP_WEIGHTS[type]) {
+                    pType = type;
+                    break;
+                  }
+                  r -= POWERUP_WEIGHTS[type];
+                }
+
                 powerupsRef.current.push({
                    x: enemy.x, y: enemy.y, speed: 1.5, type: pType, 
                    color: POWERUP_DEFS[pType].color, radius: 10 
@@ -699,8 +721,10 @@ const NebulaOverride: React.FC = () => {
             livesRef.current++;
             setLives(livesRef.current);
           } else {
-            const duration = p.type === 'shield' ? 5000 : p.type === 'wingman' ? 12000 : p.type === 'spread' ? 8000 : p.type === 'homing' ? 7000 : 6000;
-            activeBuffsRef.current[p.type] = timestamp + duration;
+            const baseDuration = p.type === 'shield' ? 5000 : p.type === 'wingman' ? 12000 : p.type === 'spread' ? 8000 : p.type === 'homing' ? 7000 : 7000;
+            // Progressive duration: +10% per wave after wave 1
+            const durationMod = 1 + (waveRef.current - 1) * 0.1;
+            activeBuffsRef.current[p.type as keyof typeof activeBuffsRef.current] = timestamp + (baseDuration * durationMod);
           }
           createExplosion(p.x, p.y, p.color, 8);
           return false;
