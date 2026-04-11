@@ -83,8 +83,21 @@ export const WindowProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       const defaults = DEFAULT_WINDOWS[id] || { size: { width: 600, height: 500 }, position: { x: 100, y: 100 } };
       
       const isMobile = window.innerWidth <= 768;
-      const initialPos = isMobile ? { x: 0, y: 32 } : defaults.position!;
-      const initialSize = isMobile ? { width: window.innerWidth, height: window.innerHeight - 32 - 80 } : defaults.size!;
+      
+      const defaultW = defaults.size?.width || 600;
+      const defaultH = defaults.size?.height || 500;
+      const defaultX = defaults.position?.x || 100;
+      const defaultY = defaults.position?.y || 100;
+      
+      // Calculate max bounds allowing room for topbar (32px) and dock (~80px)
+      const safeWidth = Math.min(defaultW, Math.max(300, window.innerWidth - 40));
+      const safeHeight = Math.min(defaultH, Math.max(200, window.innerHeight - 32 - 80 - 20));
+      
+      const safeX = Math.max(10, Math.min(defaultX, window.innerWidth - safeWidth - 10));
+      const safeY = Math.max(42, Math.min(defaultY, window.innerHeight - safeHeight - 85));
+
+      const initialPos = isMobile ? { x: 0, y: 32 } : { x: safeX, y: safeY };
+      const initialSize = isMobile ? { width: window.innerWidth, height: window.innerHeight - 32 - 80 } : { width: safeWidth, height: safeHeight };
 
       const newWindow: WindowState = {
         id,
