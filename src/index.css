@@ -627,8 +627,9 @@ body.window-dragging iframe {
     size: A4;
   }
 
-  body {
+  html, body {
     background: white !important;
+    background-color: white !important;
     color: #111111 !important;
     overflow: visible !important;
     height: auto !important;
@@ -647,21 +648,37 @@ body.window-dragging iframe {
     left: 0;
     width: 100%;
     background: white !important;
+    background-color: white !important;
     color: #111111 !important;
     z-index: 999999;
     padding: 1.5cm !important;
     box-sizing: border-box !important;
+
+    /* Override all OS theme CSS vars to light equivalents */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-desktop: #ffffff;
+    --bg-window: #ffffff;
+    --bg-surface: #f9f9f9;
+    --bg-element: #ffffff;
+    --glass-bg: #ffffff;
+    --border-color: rgba(0, 0, 0, 0.15);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --text-main: #111111;
+    --text-muted: #555555;
   }
 
-  /* Reset overflow and height constraints on the cloned resume area to prevent 1-page truncation */
+  /* Force complete white background on all descendants */
   #print-mount,
-  #print-mount>div,
-  #print-mount>div>div {
+  #print-mount > *,
+  #print-mount > div,
+  #print-mount > div > div {
     height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
     overflow: visible !important;
     background: white !important;
+    background-color: white !important;
   }
 
   /* Remove glow effects */
