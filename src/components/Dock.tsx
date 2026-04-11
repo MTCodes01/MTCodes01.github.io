@@ -50,6 +50,24 @@ const Dock: React.FC = () => {
   const { toggleTheme, toggleBatterySaver, batterySaver } = useTheme();
   const { registerBatterySaverClick } = useNebulaOverride();
 
+  const [showTutorial, setShowTutorial] = React.useState(false);
+
+  React.useEffect(() => {
+    const hasSeen = localStorage.getItem('sys_live_tutorial_seen');
+    if (!hasSeen) {
+      localStorage.setItem('sys_live_tutorial_seen', 'true');
+      setTimeout(() => setShowTutorial(true), 2500);
+    }
+  }, []);
+
+  const dismissTutorial = (e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    setShowTutorial(false);
+  };
+
   const pressTimer = React.useRef<NodeJS.Timeout | null>(null);
   const isLongPress = React.useRef(false);
 
@@ -73,6 +91,9 @@ const Dock: React.FC = () => {
     e.preventDefault();
     if (!isLongPress.current) {
       openWindow(id, title, icon);
+      if (id === 'about' && showTutorial) {
+        dismissTutorial();
+      }
     }
     isLongPress.current = false;
   };
@@ -144,6 +165,34 @@ const Dock: React.FC = () => {
                     style={{ boxShadow: isMinimized ? '0 0 4px rgba(255,189,46,0.9)' : '0 0 4px rgba(255,0,60,0.9)' }}
                   />
                 )}
+
+                {/* Tutorial Popup */}
+                {app.id === 'about' && showTutorial && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10, scale: 0.9, x: "-50%" }}
+                    animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
+                    exit={{ opacity: 0, scale: 0.9, x: "-50%" }}
+                    className="absolute bottom-16 left-1/2 w-[180px] sm:w-[220px] px-3 py-3 sm:px-4 sm:py-3 box-border bg-os-surface/95 backdrop-blur-xl border border-[#ff003c]/30 text-os-main shadow-[0_0_30px_rgba(255,0,60,0.15)] z-[100] cursor-default"
+                    onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
+                  >
+                    <button 
+                      onClick={dismissTutorial}
+                      className="absolute top-1.5 right-1.5 text-os-muted hover:text-[#ff003c] transition-colors p-1"
+                    >
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                    </button>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#ff003c] animate-pulse" />
+                      <span className="text-[10px] uppercase font-jetbrains tracking-widest text-[#ff003c]">Welcome</span>
+                    </div>
+                    <p className="text-[11px] leading-relaxed text-os-muted m-0">
+                      Click here to open the <strong className="text-os-main font-medium">About Me</strong> app and explore!
+                    </p>
+                    
+                    {/* Triangle pointer */}
+                    <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-[10px] h-[10px] bg-os-surface border-b border-r border-[#ff003c]/30 rotate-45" />
+                  </motion.div>
+                )}
               </motion.div>
             );
           })}
@@ -158,6 +207,7 @@ const Dock: React.FC = () => {
             whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleTheme}
+            aria-label="Toggle theme"
             className="w-9 h-9 flex items-center justify-center border border-transparent hover:border-white/10 bg-transparent hover:bg-white/5 transition-all text-os-muted hover:text-os-main"
           >
             <Icons.theme size={15} />
@@ -167,6 +217,7 @@ const Dock: React.FC = () => {
             whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             onClick={handleBatterySaverClick}
+            aria-label="Toggle battery saver"
             className={`w-9 h-9 flex items-center justify-center border transition-all ${
               batterySaver
                 ? 'bg-[#33ff00]/10 text-[#33ff00] border-[#33ff00]/30 shadow-[0_0_15px_rgba(51,255,0,0.1)]'
