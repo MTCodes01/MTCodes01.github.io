@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
+const PROFILE_PIC_URL = 'https://github.com/MTCodes01.png'; // Change this to your local path like '/profile.jpg' or a URL
+
 const ROLES = ['Developer', 'Designer', 'Editor'];
 
 const SKILLS = [
@@ -113,8 +115,12 @@ const AboutApp: React.FC = () => {
             <div role="img" aria-label="Sreedev SS avatar" className="relative w-36 h-36 border border-[#ff003c]/40 bg-gradient-to-br from-[#1a0008] to-[#0a0a0f] flex items-center justify-center overflow-hidden group">
               {/* Scan line */}
               <div className="absolute inset-x-0 h-12 bg-gradient-to-b from-transparent via-[#ff003c]/15 to-transparent animate-scan pointer-events-none" />
-              {/* Initials */}
-              <span className="font-space-grotesk font-bold text-4xl text-os-muted tracking-tight select-none z-10">MT</span>
+              {/* Profile Image or Initials */}
+              {PROFILE_PIC_URL ? (
+                <img src={PROFILE_PIC_URL} alt="Profile" className="absolute inset-0 w-full h-full object-cover z-10" />
+              ) : (
+                <span className="font-space-grotesk font-bold text-4xl text-os-muted tracking-tight select-none z-10">MT</span>
+              )}
               {/* Corner marks */}
               <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-[#ff003c]" />
               <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-[#ff003c]" />
