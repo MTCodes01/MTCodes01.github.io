@@ -12,8 +12,8 @@ const EXPERIENCE = [
   {
     role: 'Deputy CFA',
     org: 'FOSS CEAL',
-    period: 'Jul 2025 - Present',
-    primary: true,
+    period: 'Jul 2025 - May 2026',
+    primary: false,
     bullets: ['Promoted open-source culture through workshops and events', 'Coordinated with the team to organise events', 'Part of planning most of the events'],
   },
   {
@@ -33,8 +33,8 @@ const EXPERIENCE = [
   {
     role: 'DEPLOY505 Lead',
     org: 'Chambers of FOSS CEAL',
-    period: 'Dec 2025 - Present',
-    primary: true,
+    period: 'Dec 2025 - May 2026',
+    primary: false,
     bullets: ['Deployed a lot of websites for Clubs, Events, and other purposes', 'Gained experience in server deployment and cloud fundamentals', 'Maintained all the domains and hosting for most of the websites'],
   },
   {
