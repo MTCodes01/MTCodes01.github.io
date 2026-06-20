@@ -78,55 +78,90 @@ const ResumeApp: React.FC = () => {
     printMount.className = 'font-inter';
     printMount.innerHTML = originalNode.innerHTML;
 
-    // Inject a style tag to remap neon/dark-theme colors to professional equivalents.
-    // We do this in JS because Tailwind JIT class names with special chars (e.g. text-[#00f0ff])
-    // can't be reliably targeted via escaped CSS selectors in @media print.
-    const overrideStyle = document.createElement('style');
-    overrideStyle.textContent = `
-      /* Walk all elements and override inline color properties */
-      #print-mount [style*="color: rgb(0, 240, 255)"],
-      #print-mount [style*="color:#00f0ff"] { color: #0056b3 !important; }
-      #print-mount [style*="border-left-color: rgb(0, 240, 255)"] { border-left-color: #0056b3 !important; }
-      #print-mount [style*="background-color: rgb(0, 240, 255)"] { background-color: #0056b3 !important; }
-    `;
-    printMount.appendChild(overrideStyle);
-
-    // Walk text nodes to re-map colors applied via Tailwind utility classes.
-    // Tailwind generates CSS vars on :root - override them in print mount.
+    // Aggressively override all CSS variables and backgrounds so no dark theme bleeds through.
+    // The :root vars (--bg-element, --bg-surface etc.) are inherited even in cloned nodes,
+    // so we must re-declare them to white-mode equivalents inside #print-mount.
     const varOverride = document.createElement('style');
     varOverride.textContent = `
+      /* Re-declare all OS theme variables to white/light equivalents */
       #print-mount {
-        --tw-text-opacity: 1;
-        /* Remap the specific cyan shades used throughout the resume */
+        --bg-primary: #ffffff;
+        --bg-secondary: #f5f5f5;
+        --bg-desktop: #ffffff;
+        --bg-window: #ffffff;
+        --bg-surface: #f9f9f9;
+        --bg-element: #ffffff;
+        --glass-bg: #ffffff;
+        --border-color: rgba(0,0,0,0.15);
+        --glass-border: rgba(0,0,0,0.1);
+        --text-main: #111111;
+        --text-muted: #555555;
+        background: white !important;
         color: #111 !important;
       }
-      /* Catch all remaining neon-tinted utility elements via attribute hack */
+
+      /* Blanket force: every element gets white background */
+      #print-mount * {
+        background-color: transparent !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      /* Restore white where a filled background is genuinely needed */
+      #print-mount > * {
+        background-color: white !important;
+      }
+
+      /* Neon cyan → professional blue */
       #print-mount *[class*="00f0ff"] {
         color: #0056b3 !important;
         border-color: #0056b3 !important;
-        background-color: transparent !important;
       }
-      #print-mount *[class*="os-muted"] { color: #555555 !important; }
-      #print-mount *[class*="os-main"]  { color: #111111 !important; }
-      #print-mount *[class*="os-surface"] { background: transparent !important; }
-      #print-mount *[class*="os-element"] { background: white !important; }
-      #print-mount *[class*="border-os"] { border-color: #cccccc !important; }
+      #print-mount *[class*="ff003c"] {
+        color: #cc0030 !important;
+        border-color: #cc0030 !important;
+      }
+      #print-mount *[class*="ffaa00"] {
+        color: #996600 !important;
+        border-color: #996600 !important;
+      }
 
-      /* Keep each experience entry on the same page - break between roles, not within them */
+      /* OS semantic color classes */
+      #print-mount *[class*="text-os-main"]   { color: #111111 !important; }
+      #print-mount *[class*="text-os-muted"]  { color: #555555 !important; }
+      #print-mount *[class*="bg-os-surface"]  { background: #f9f9f9 !important; }
+      #print-mount *[class*="bg-os-element"]  { background: white !important; }
+      #print-mount *[class*="border-os-muted"]{ border-color: #cccccc !important; }
+      #print-mount *[class*="border-os"]      { border-color: #cccccc !important; }
+
+      /* Inline style overrides for neon colors set directly on elements */
+      #print-mount [style*="color: rgb(0, 240, 255)"]            { color: #0056b3 !important; }
+      #print-mount [style*="border-left-color: rgb(0, 240, 255)"]{ border-left-color: #0056b3 !important; }
+      #print-mount [style*="background-color: rgb(0, 240, 255)"] { background-color: transparent !important; }
+
+      /* Page breaking: never cut an experience entry in half */
       #print-mount .relative.group {
         break-inside: avoid;
         page-break-inside: avoid;
       }
+
+      /* Hide print button in cloned node */
+      #print-mount .no-print { display: none !important; }
     `;
     document.head.appendChild(varOverride);
-
     document.body.appendChild(printMount);
+
+    const cleanup = () => {
+      if (document.body.contains(printMount)) document.body.removeChild(printMount);
+      if (document.head.contains(varOverride)) document.head.removeChild(varOverride);
+      window.removeEventListener('afterprint', cleanup);
+    };
+
+    window.addEventListener('afterprint', cleanup);
     window.print();
 
-    setTimeout(() => {
-      document.body.removeChild(printMount);
-      document.head.removeChild(varOverride);
-    }, 100);
+    // Safety fallback in case afterprint never fires
+    setTimeout(cleanup, 10000);
   };
 
   return (
