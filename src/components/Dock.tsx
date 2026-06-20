@@ -110,7 +110,7 @@ const Dock: React.FC = () => {
       variants={containerVariants}
       initial="hidden"
       animate="visible"
-      className="dock-container flex items-center justify-between gap-1 px-3 py-2.5 relative max-w-3xl w-full mx-4"
+      className="dock-container flex items-center justify-between gap-1 px-3 py-2.5 relative max-w-3xl w-full"
     >
         {/* Brand tag */}
         <motion.div 

@@ -120,9 +120,9 @@ const Desktop: React.FC = () => {
       <Visualizer />
 
       <motion.div 
-        className="fixed bottom-5 left-0 right-0 z-[10000] flex justify-center pointer-events-none"
+        className="fixed bottom-5 left-0 right-0 z-[10000] flex justify-center pointer-events-none px-4"
       >
-        <div className="pointer-events-auto">
+        <div className="pointer-events-auto w-full flex justify-center">
           <Dock />
         </div>
       </motion.div>
