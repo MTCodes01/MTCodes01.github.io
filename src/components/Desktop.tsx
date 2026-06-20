@@ -8,6 +8,7 @@ import Visualizer from './Visualizer';
 import Dock from './Dock';
 import TopBar from './TopBar';
 import NebulaOverride from './NebulaOverride';
+import DesktopIcons from './DesktopIcons';
 
 import AboutApp from './apps/AboutApp';
 import ProjectsApp from './apps/ProjectsApp';
@@ -95,6 +96,9 @@ const Desktop: React.FC = () => {
       >
         <TopBar />
       </motion.div>
+
+      {/* Desktop Icons */}
+      <DesktopIcons />
 
       {/* Windows - Smooth middle fade */}
       <motion.div 
