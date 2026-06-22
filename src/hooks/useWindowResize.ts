@@ -23,7 +23,23 @@ export const useWindowResize = (
   useEffect(() => {
     if (!isResizing) return;
 
+    // Create overlay to block all events on other windows/iframes
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.zIndex = '99999';
+    overlay.style.cursor = 'se-resize';
+    overlay.style.backgroundColor = 'transparent';
+    overlay.style.touchAction = 'none'; // Prevents mobile scrolling while dragging
+    overlay.style.pointerEvents = 'all';
+    document.body.appendChild(overlay);
+
     const handlePointerMove = (e: PointerEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
       const deltaX = e.clientX - resizeStart.x;
       const deltaY = e.clientY - resizeStart.y;
       
@@ -33,18 +49,25 @@ export const useWindowResize = (
       updateSize(windowId, newWidth, newHeight);
     };
 
-    const handlePointerUp = () => {
+    const handlePointerUp = (e: PointerEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
       setIsResizing(false);
     };
 
-    document.addEventListener('pointermove', handlePointerMove);
-    document.addEventListener('pointerup', handlePointerUp);
-    document.addEventListener('pointercancel', handlePointerUp);
+    overlay.addEventListener('pointermove', handlePointerMove);
+    overlay.addEventListener('pointerup', handlePointerUp);
+    overlay.addEventListener('pointercancel', handlePointerUp);
+    overlay.addEventListener('pointerleave', handlePointerUp);
 
     return () => {
-      document.removeEventListener('pointermove', handlePointerMove);
-      document.removeEventListener('pointerup', handlePointerUp);
-      document.removeEventListener('pointercancel', handlePointerUp);
+      overlay.removeEventListener('pointermove', handlePointerMove);
+      overlay.removeEventListener('pointerup', handlePointerUp);
+      overlay.removeEventListener('pointercancel', handlePointerUp);
+      overlay.removeEventListener('pointerleave', handlePointerUp);
+      if (document.body.contains(overlay)) {
+        document.body.removeChild(overlay);
+      }
     };
   }, [isResizing, resizeStart, windowId, updateSize, minSize]);
 

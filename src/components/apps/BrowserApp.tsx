@@ -369,7 +369,7 @@ const BrowserApp: React.FC = () => {
                     src={tab.url} 
                     className="w-full h-full border-0 relative z-10" 
                     title="Browser Original Content" 
-                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms" 
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads" 
                     onLoad={() => updateTab(tab.id, { loading: false })}
                   />
                 </motion.div>
@@ -383,7 +383,7 @@ const BrowserApp: React.FC = () => {
                     srcDoc={tab.proxiedContent}
                     className="w-full h-full border-0 relative z-10" 
                     title="Browser Proxied Content" 
-                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                    sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads"
                     onLoad={() => updateTab(tab.id, { loading: false })}
                   />
                 </motion.div>

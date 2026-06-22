@@ -25,7 +25,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
   'Ruby': '#701516',
 };
 
-const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, index }) => {
+const ProjectCard: React.FC<{ repo: ProjectData; index: number; onRunClick: (url: string) => void }> = ({ repo, index, onRunClick }) => {
   const [languages, setLanguages] = React.useState<Language[] | null>(null);
   const [loading, setLoading] = React.useState(true);
 
@@ -96,9 +96,9 @@ const ProjectCard: React.FC<{ repo: ProjectData; index: number }> = ({ repo, ind
               <span className="text-xs font-mono">[CODE]</span>
             </a>
             {demoUrl && (
-              <a href={demoUrl} target="_blank" rel="noopener noreferrer" aria-label={`Live demo for ${title}`} className="p-1.5 border border-[#ffaa00]/50 bg-[#ffaa00]/10 hover:bg-[#ffaa00]/20 text-[#ffaa00] transition-colors" title="Live Demo">
+              <button onClick={() => onRunClick(demoUrl)} aria-label={`Live demo for ${title}`} className="p-1.5 border border-[#ffaa00]/50 bg-[#ffaa00]/10 hover:bg-[#ffaa00]/20 text-[#ffaa00] transition-colors" title="Live Demo">
                 <span className="text-xs font-mono">[RUN]</span>
-              </a>
+              </button>
             )}
           </div>
         </div>
@@ -167,6 +167,7 @@ const ProjectsApp: React.FC = () => {
   const [loading, setLoading] = React.useState(true);
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [columns, setColumns] = React.useState(2);
+  const [activeDemo, setActiveDemo] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     if (!containerRef.current) return;
@@ -213,8 +214,29 @@ const ProjectsApp: React.FC = () => {
   const containerMaxWidth = columns >= 4 ? 'max-w-[1600px]' : columns === 3 ? 'max-w-7xl' : 'max-w-6xl';
 
   return (
-    <div ref={containerRef} className="p-8 h-full overflow-auto bg-grid-pattern bg-fixed">
-      <div className={`${containerMaxWidth} mx-auto transition-all duration-500`}>
+    <div className="h-full bg-grid-pattern bg-fixed relative">
+      {/* Full-view Demo Overlay */}
+      {activeDemo && (
+        <div className="absolute inset-0 z-50 bg-os-window flex flex-col">
+          <div className="h-10 border-b border-os-muted/30 bg-os-surface flex items-center px-4 gap-4 shrink-0">
+            <button onClick={() => setActiveDemo(null)} className="text-os-muted hover:text-[#ffaa00] flex items-center gap-2 font-mono text-xs transition-colors">
+              <span>←</span> BACK_TO_MODULES
+            </button>
+            <div className="text-os-muted text-xs font-mono truncate flex-1 opacity-50">{activeDemo}</div>
+            <a href={activeDemo} target="_blank" rel="noopener noreferrer" className="text-os-muted hover:text-[#00f0ff] transition-colors" title="Open Externally">
+               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
+            </a>
+          </div>
+          <iframe src={activeDemo} className="flex-1 w-full border-0 bg-white" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-downloads" />
+        </div>
+      )}
+
+      {/* Main Grid */}
+      <div 
+        ref={containerRef} 
+        className={`p-8 h-full overflow-auto ${activeDemo ? 'hidden' : 'block'}`}
+      >
+        <div className={`${containerMaxWidth} mx-auto transition-all duration-500`}>
         <header className="mb-12 border-b border-os-muted pb-6 flex items-end justify-between gap-4 flex-wrap">
           <div>
             <h2 className="text-4xl font-space-grotesk font-bold text-os-main mb-2 uppercase tracking-tight">
@@ -254,10 +276,11 @@ const ProjectsApp: React.FC = () => {
         ) : (
           <div className={`grid ${gridColsClass} gap-6`}>
             {repos.map((repo, index) => (
-              <ProjectCard key={repo.id} repo={repo} index={index} />
+              <ProjectCard key={repo.id} repo={repo} index={index} onRunClick={setActiveDemo} />
             ))}
           </div>
         )}
+        </div>
       </div>
     </div>
   );
