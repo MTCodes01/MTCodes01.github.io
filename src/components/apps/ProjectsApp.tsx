@@ -168,6 +168,12 @@ const ProjectsApp: React.FC = () => {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [columns, setColumns] = React.useState(2);
   const [activeDemo, setActiveDemo] = React.useState<string | null>(null);
+  const [showOnlyLive, setShowOnlyLive] = React.useState(false);
+
+  const filteredRepos = React.useMemo(() => {
+    if (!showOnlyLive) return repos;
+    return repos.filter(repo => repo.homepage && repo.homepage.trim() !== "");
+  }, [repos, showOnlyLive]);
 
   React.useEffect(() => {
     if (!containerRef.current) return;
@@ -244,7 +250,19 @@ const ProjectsApp: React.FC = () => {
             </h2>
             <p className="text-os-muted font-mono text-sm">Select a module to view details</p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-wrap">
+            <label className="flex items-center gap-2 cursor-pointer group" title="Only show projects with a live demo">
+              <input 
+                type="checkbox" 
+                className="hidden" 
+                checked={showOnlyLive} 
+                onChange={(e) => setShowOnlyLive(e.target.checked)} 
+              />
+              <div className="relative flex items-center justify-center w-3.5 h-3.5 border border-os-muted group-hover:border-[#ffaa00] transition-colors bg-os-window">
+                {showOnlyLive && <div className="w-2 h-2 bg-[#ffaa00]" />}
+              </div>
+              <span className="text-[10px] font-mono text-os-muted group-hover:text-os-main uppercase tracking-wider select-none">Live Only</span>
+            </label>
             <button 
               onClick={() => loadRepos(true)}
               disabled={loading}
@@ -262,7 +280,7 @@ const ProjectsApp: React.FC = () => {
               <span className="text-[10px] font-mono text-os-muted group-hover:text-os-main uppercase tracking-wider">Refresh</span>
             </button>
             <div className="text-[#ffaa00] font-mono text-xs border border-[#ffaa00]/30 px-2 py-1 bg-[#ffaa00]/10 h-fit">
-              {loading ? 'ANALYZING...' : `${repos.length} MODULES DETECTED`}
+              {loading ? 'ANALYZING...' : `${filteredRepos.length} MODULES DETECTED`}
             </div>
           </div>
         </header>
@@ -275,7 +293,7 @@ const ProjectsApp: React.FC = () => {
           </div>
         ) : (
           <div className={`grid ${gridColsClass} gap-6`}>
-            {repos.map((repo, index) => (
+            {filteredRepos.map((repo, index) => (
               <ProjectCard key={repo.id} repo={repo} index={index} onRunClick={setActiveDemo} />
             ))}
           </div>
