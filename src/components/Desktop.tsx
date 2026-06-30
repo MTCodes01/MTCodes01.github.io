@@ -16,7 +16,7 @@ import TerminalApp from './apps/TerminalApp';
 import MusicApp from './apps/MusicApp';
 import ResumeApp from './apps/ResumeApp';
 import ContactApp from './apps/ContactApp';
-import BrowserApp from './apps/BrowserApp';
+// import BrowserApp from './apps/BrowserApp';
 import VSCodeApp from './apps/VSCodeApp';
 
 const APP_COMPONENTS: Record<string, React.FC> = {
@@ -26,7 +26,7 @@ const APP_COMPONENTS: Record<string, React.FC> = {
   music: MusicApp,
   resume: ResumeApp,
   contact: ContactApp,
-  browser: BrowserApp,
+  // browser: BrowserApp, // Disabled to avoid mis-use
   vscode: VSCodeApp,
 };
 

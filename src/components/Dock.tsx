@@ -41,7 +41,7 @@ const DOCK_APPS = [
   { id: 'music',    title: 'Music',     icon: 'music'},
   { id: 'resume',   title: 'Resume',    icon: 'resume'},
   { id: 'contact',  title: 'Contact',   icon: 'contact'},
-  { id: 'browser',  title: 'Browser',   icon: 'browser'},
+  // { id: 'browser',  title: 'Browser',   icon: 'browser'},
   { id: 'vscode',   title: 'VS Code',   icon: 'vscode'},
 ];
 

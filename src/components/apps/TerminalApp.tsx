@@ -8,14 +8,14 @@ const APPS_METADATA: Record<string, { title: string; icon: string }> = {
   music: { title: 'Music Player', icon: 'music' },
   resume: { title: 'Resume', icon: 'resume' },
   contact: { title: 'Contact', icon: 'contact' },
-  browser: { title: 'Web Browser', icon: 'browser' },
+  // browser: { title: 'Web Browser', icon: 'browser' },
   vscode: { title: 'VS Code', icon: 'vscode' },
   terminal: { title: 'Terminal', icon: 'terminal' },
 };
 
 const INITIAL_FS: Record<string, string[]> = {
   '~': ['about/', 'projects/', 'apps/', 'contact/', 'resume/', 'README.md', 'secret.txt'],
-  '~/apps': ['browser.app', 'music.app', 'vscode.app', 'terminal.app'],
+  '~/apps': ['music.app', 'vscode.app', 'terminal.app'],
   '~/projects': ['MTCodes01.github.io', 'Portfolio-V1', 'Music-Visualizer', 'Checkpoint-OS'],
 };
 
