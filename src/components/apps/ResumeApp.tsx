@@ -5,7 +5,7 @@ const EXPERIENCE = [
   {
     role: 'Intern',
     org: 'Logixmotion Pvt Ltd',
-    period: 'Nov 2024 - Present',
+    period: 'Nov 2024 - July 2026',
     primary: false,
     bullets: ['Worked on Initial UI/UX design', 'Frontend Development', 'Gained real-world experience in software development'],
   },
