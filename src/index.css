@@ -830,6 +830,27 @@ body.window-dragging iframe {
     page-break-inside: avoid;
   }
 
+  /* Force desktop multi-column layout on print even when triggered on mobile viewports */
+  #print-mount .grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 2.5rem !important;
+  }
+  #print-mount .md\:col-span-2 {
+    grid-column: span 2 / span 2 !important;
+  }
+  #print-mount header.flex {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+  }
+  #print-mount .sm\:flex-row {
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+  }
+
   /* Note: neon color overrides (e.g. text-[#00f0ff]) are applied via
      injected <style> tag in the handlePrint JS function in ResumeApp.tsx */
 }

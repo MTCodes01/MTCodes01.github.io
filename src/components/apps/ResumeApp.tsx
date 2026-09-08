@@ -3,10 +3,20 @@ import { motion } from 'framer-motion';
 
 const EXPERIENCE = [
   {
+    role: 'Mentor (Tech)',
+    org: 'FOSS CEAL',
+    period: 'Jul 2026 - Present',
+    primary: true,
+    bullets: [
+      'Guiding the new execom members for their various roles',
+      'Assisting in technical decision-making'
+    ],
+  },
+  {
     role: 'Intern',
     org: 'Logixmotion Pvt Ltd',
     period: 'Nov 2024 - July 2026',
-    primary: true,
+    primary: false,
     bullets: ['Worked on Initial UI/UX design', 'Frontend Development', 'Gained real-world experience in software development'],
   },
   {
@@ -61,11 +71,12 @@ const EXPERIENCE = [
 ];
 
 const SKILLS_MAP: Record<string, { items: string[]; accent: string }> = {
-  'Designing':  { items: ['Figma', 'Photoshop'], accent: '#ff003c' },
-  'Frontend':    { items: ['HTML', 'CSS', 'JavaScript', 'React', 'TypeScript'], accent: '#00f0ff' },
-  'Backend':     { items: ['Python', 'Django', 'Flask'], accent: '#ffaa00' },
-  'Video Edit':  { items: ['After Effects', 'DaVinci Resolve'], accent: '#9333ea' },
-  'Database':    { items: ['MySQL', 'PostgreSQL', 'SQLite'], accent: '#00f0ff' },
+  'Languages':              { items: ['Python', 'C', 'HTML', 'CSS', 'JavaScript', 'TypeScript'], accent: '#00f0ff' },
+  'Frameworks & Libraries': { items: ['React', 'Django', 'Flask'], accent: '#ffaa00' },
+  'Databases':              { items: ['MySQL', 'PostgreSQL', 'SQLite', 'Supabase'], accent: '#00f0ff' },
+  'DevOps / Hosting':       { items: ['Docker', 'Docker Compose', 'Cloudflare', 'Linux / Debian', 'SSH', 'DNS', 'Vercel', 'Netlify', 'Render', 'GitHub Actions', 'Self-hosting', 'Portainer'], accent: '#22c55e' },
+  'Development Tools':      { items: ['Git', 'GitHub', 'GitLab', 'VS Code', 'Antigravity', 'Android Studio', 'Hoppscotch'], accent: '#9333ea' },
+  'Creative Tools':         { items: ['Figma', 'Blender', 'Photoshop', 'After Effects', 'DaVinci Resolve', 'FL Studio', 'Cavalry', 'Affinity', 'OBS'], accent: '#ff003c' },
 };
 
 const ResumeApp: React.FC = () => {
@@ -143,6 +154,27 @@ const ResumeApp: React.FC = () => {
       #print-mount .relative.group {
         break-inside: avoid;
         page-break-inside: avoid;
+      }
+
+      /* Force desktop multi-column layout regardless of mobile/screen viewport */
+      #print-mount .grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 2.5rem !important;
+      }
+      #print-mount .md\\:col-span-2 {
+        grid-column: span 2 / span 2 !important;
+      }
+      #print-mount header.flex {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+      }
+      #print-mount .sm\\:flex-row {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
       }
 
       /* Hide print button in cloned node */
