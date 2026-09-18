@@ -86,97 +86,218 @@ const SKILLS_MAP: Record<string, { items: string[]; accent: string }> = {
 
 const ResumeApp: React.FC = () => {
   const handlePrint = () => {
-    const originalNode = document.getElementById('resume-print-area');
-    if (!originalNode) return;
+    const iframe = document.createElement('iframe');
+    iframe.style.position = 'fixed';
+    iframe.style.right = '0';
+    iframe.style.bottom = '0';
+    iframe.style.width = '0';
+    iframe.style.height = '0';
+    iframe.style.border = '0';
+    document.body.appendChild(iframe);
 
-    const printMount = document.createElement('div');
-    printMount.id = 'print-mount';
-    printMount.className = 'font-inter';
-    printMount.innerHTML = originalNode.innerHTML;
+    const doc = iframe.contentWindow?.document;
+    if (!doc) return;
 
-    const varOverride = document.createElement('style');
-    varOverride.textContent = `
-      #print-mount {
-        --bg-primary: #ffffff;
-        --bg-secondary: #f5f5f5;
-        --bg-desktop: #ffffff;
-        --bg-window: #ffffff;
-        --bg-surface: #f9f9f9;
-        --bg-element: #ffffff;
-        --glass-bg: #ffffff;
-        --border-color: rgba(0,0,0,0.15);
-        --glass-border: rgba(0,0,0,0.1);
-        --text-main: #111111;
-        --text-muted: #555555;
-        background: white !important;
-        color: #111 !important;
-      }
-      #print-mount * {
-        background-color: transparent !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-      }
-      #print-mount > * {
-        background-color: white !important;
-      }
-      #print-mount *[class*="00f0ff"] {
-        color: #0056b3 !important;
-        border-color: #0056b3 !important;
-      }
-      #print-mount *[class*="ff003c"] {
-        color: #cc0030 !important;
-        border-color: #cc0030 !important;
-      }
-      #print-mount *[class*="ffaa00"] {
-        color: #996600 !important;
-        border-color: #996600 !important;
-      }
-      #print-mount *[class*="text-os-main"]   { color: #111111 !important; }
-      #print-mount *[class*="text-os-muted"]  { color: #555555 !important; }
-      #print-mount *[class*="bg-os-surface"]  { background: #f9f9f9 !important; }
-      #print-mount *[class*="bg-os-element"]  { background: white !important; }
-      #print-mount *[class*="border-os-muted"]{ border-color: #cccccc !important; }
-      #print-mount *[class*="border-os"]      { border-color: #cccccc !important; }
-      #print-mount [style*="color: rgb(0, 240, 255)"]            { color: #0056b3 !important; }
-      #print-mount [style*="border-left-color: rgb(0, 240, 255)"]{ border-left-color: #0056b3 !important; }
-      #print-mount [style*="background-color: rgb(0, 240, 255)"] { background-color: transparent !important; }
-      #print-mount .relative.group {
-        break-inside: avoid;
-        page-break-inside: avoid;
-      }
-      #print-mount .grid {
-        display: grid !important;
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-        gap: 2.5rem !important;
-      }
-      #print-mount .md\\:col-span-2 {
-        grid-column: span 2 / span 2 !important;
-      }
-      #print-mount header.flex {
-        display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: flex-start !important;
-      }
-      #print-mount .sm\\:flex-row {
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: flex-start !important;
-      }
-      #print-mount .no-print { display: none !important; }
-    `;
-    document.head.appendChild(varOverride);
-    document.body.appendChild(printMount);
+    doc.open();
+    doc.write(`
+      <html>
+        <head>
+          <title>Sreedev_Resume</title>
+          <style>
+            @page {
+              margin: 0.35in 0.5in;
+            }
+            body {
+              font-family: "Computer Modern", "Times New Roman", Times, serif;
+              font-size: 10pt;
+              line-height: 1.15;
+              color: #000;
+              margin: 0;
+              padding: 0;
+            }
+            a { color: #2563EB; text-decoration: none; }
+            .center { text-align: center; }
+            .large { font-size: 22pt; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
+            .subtitle { font-size: 10pt; margin-bottom: 4px; }
+            .contact { font-size: 9pt; margin-bottom: 1px; }
+            
+            .section-title {
+              font-size: 12.5pt;
+              font-weight: bold;
+              border-bottom: 1px solid #000;
+              margin-top: 10px;
+              margin-bottom: 4px;
+              padding-bottom: 1px;
+            }
+            
+            .flex-between {
+              display: flex;
+              justify-content: space-between;
+              align-items: baseline;
+            }
+            
+            .bold { font-weight: bold; }
+            .italic { font-style: italic; }
+            .small { font-size: 9.5pt; text-align: justify; }
+            
+            .entry-title { margin-top: 5px; }
+            .entry-subtitle { margin-top: 1px; margin-bottom: 2px;}
+            
+            ul {
+              margin-top: 3px;
+              margin-bottom: 3px;
+              padding-left: 1.2em;
+            }
+            li {
+              margin-bottom: 2px;
+              font-size: 9.5pt;
+              text-align: justify;
+            }
+            
+            p { margin: 2px 0; }
+          </style>
+        </head>
+        <body>
+          <div class="center">
+            <div class="large">SREEDEV S S</div>
+            <div class="subtitle">Full-Stack Developer &bull; Designer &bull; Editor</div>
+            <div class="contact">
+              <a href="mailto:sreedevss05@gmail.com">sreedevss05@gmail.com</a> &nbsp;&nbsp;&nbsp;
+              +91 89219 30800 &nbsp;&nbsp;&nbsp;
+              Kerala, India
+            </div>
+            <div class="contact">
+              <a href="https://github.com/MTCodes01">github.com/MTCodes01</a> &nbsp;&nbsp;&nbsp;
+              <a href="https://linkedin.com/in/sreedevss">linkedin.com/in/sreedevss</a> &nbsp;&nbsp;&nbsp;
+              <a href="https://sreedevss.in">sreedevss.in</a>
+            </div>
+          </div>
 
-    const cleanup = () => {
-      if (document.body.contains(printMount)) document.body.removeChild(printMount);
-      if (document.head.contains(varOverride)) document.head.removeChild(varOverride);
-      window.removeEventListener('afterprint', cleanup);
-    };
+          <div class="section-title">Summary</div>
+          <div class="small">
+            B.Tech Computer Science student focused on full-stack web development, open-source software, and application deployment. Experienced in building applications with React, Django, Go, PostgreSQL, and Docker, with hands-on experience developing both frontend and backend systems.
+          </div>
 
-    window.addEventListener('afterprint', cleanup);
-    window.print();
-    setTimeout(cleanup, 10000);
+          <div class="section-title">Education</div>
+          <div class="entry-title flex-between">
+            <span class="bold">College of Engineering Attingal (CEAL)</span>
+            <span class="small">Sep 2023 - Present</span>
+          </div>
+          <div class="entry-subtitle flex-between">
+            <span class="italic small">B.Tech in Computer Science &amp; Engineering</span>
+            <span class="small">Kerala, India</span>
+          </div>
+
+          <div class="section-title">Technical Skills</div>
+          <div class="small">
+            <div><span class="bold">Languages:</span> Python, C, JavaScript, TypeScript, HTML, CSS</div>
+            <div><span class="bold">Frameworks &amp; Libraries:</span> React, Django, Flask, Three.js</div>
+            <div><span class="bold">Databases:</span> PostgreSQL, MySQL, SQLite, Supabase</div>
+            <div><span class="bold">DevOps &amp; Infrastructure:</span> Docker, Docker Compose, Linux/Debian, GitHub Actions, Cloudflare, SSH, DNS</div>
+            <div><span class="bold">Development Tools:</span> Git, GitHub, GitLab, VS Code, Figma</div>
+            <div><span class="bold">AI Tools:</span> Antigravity, ChatGPT, Claude, Gemini</div>
+          </div>
+
+          <div class="section-title">Experience</div>
+          <div class="entry-title flex-between">
+            <span class="bold">Software Development Intern</span>
+            <span class="small">Nov 2024 - Jul 2026</span>
+          </div>
+          <div class="entry-subtitle flex-between">
+            <span class="italic small"><a href="https://logixmotion.com/">LogixMotion Pvt. Ltd.</a></span>
+            <span class="small">Remote</span>
+          </div>
+          <ul>
+            <li>Contributed from product ideation through development, helping validate the feasibility of a proposed mapping-based product and participating in architecture and technology decisions.</li>
+            <li>Designed the initial UI/UX in Figma and built the first functional web prototype using HTML, CSS, JavaScript, Leaflet, and Geoman for interactive mapping and geometry-based workflows.</li>
+            <li>Migrated the validated prototype to Ionic, React, and Capacitor for web, Android, and iOS compatibility, while developing core functionality and implementing customer-driven product requirements.</li>
+            <li>Migrated the mapping system from Leaflet to MapLibre to support 3D mapping capabilities while retaining Geoman for map interactions and editing.</li>
+            <li>Implemented UI/UX improvements including light/dark mode, contributed to core application logic, and supported teammates throughout development.</li>
+          </ul>
+
+          <div class="section-title">Projects</div>
+          
+          <div class="entry-title flex-between" style="margin-bottom: 2px;">
+            <span class="bold"><a href="https://github.com/MTCodes01/CEAL-Calendar">CEAL Calendar</a> <span style="font-weight: normal; font-size: 9pt;">(Used by 5+ Clubs &amp; 40+ Students)</span> &nbsp;</span>
+            <span class="small">Django, React, PostgreSQL, Docker, Celery</span>
+          </div>
+          <div class="small">Full-stack event and calendar management platform for college communities. Implements event management, club hierarchy, role-based access control, REST APIs, and automated email notifications using Celery.</div>
+
+          <div class="entry-title flex-between" style="margin-bottom: 2px;">
+            <span class="bold"><a href="https://github.com/MTCodes01/commit_overflow">Commit Overflow</a> <span style="font-weight: normal; font-size: 9pt;">(20+ participants across the program)</span> &nbsp;</span>
+            <span class="small">React, Go, SQLite, Docker</span>
+          </div>
+          <div class="small">Full-stack platform for a month-long beginner-friendly FOSS contribution program. Developed frontend and Maintained backend components, including REST APIs, database operations, dynamic tag statistics, GitHub &amp; GitLab Integrations and Docker-based deployment.</div>
+
+          <div class="entry-title flex-between" style="margin-bottom: 2px;">
+            <span class="bold"><a href="https://github.com/MTCodes01/FlowTrack">FlowTrack</a> <span style="font-weight: normal; font-size: 9pt;">(Supports 3 platforms)</span> &nbsp;</span>
+            <span class="small">Tauri, React, TypeScript, Vite</span>
+          </div>
+          <div class="small" style="margin-bottom: 8px;">Open-source cross-platform desktop application for tracking software usage across Windows, macOS, and Linux. Includes background usage tracking, analytics, yearly activity heatmaps, application categorization, aliases, and configurable backend integration.</div>
+
+          <div class="section-title">Leadership</div>
+          
+          <div class="entry-title flex-between">
+            <span class="bold"><a href="https://foss.ceal.in">FOSS CEAL</a></span>
+            <span class="small">Jul 2025 - Present</span>
+          </div>
+          <div class="entry-subtitle flex-between">
+            <span class="italic small">Mentor (Tech) &bull; Former Deputy CFA</span>
+            <span class="small">College of Engineering Attingal</span>
+          </div>
+          <ul>
+            <li>Currently mentor executive committee members in technical responsibilities and assist with technical decision-making.</li>
+            <li>Previously served as Deputy CFA, promoting open-source culture through workshops and events while contributing to planning and coordination.</li>
+          </ul>
+
+          <div class="entry-title flex-between">
+            <span class="bold"><a href="https://ieee.ceal.in">IEEE SB CEAL</a></span>
+            <span class="small">Feb 2025 - Mar 2026</span>
+          </div>
+          <div class="entry-subtitle flex-between">
+            <span class="italic small">Web Master</span>
+            <span class="small">College of Engineering Attingal</span>
+          </div>
+          <ul>
+            <li>Designed and developed the IEEE Student Branch CEAL website and provided technical support for events.</li>
+          </ul>
+
+          <div class="entry-title flex-between">
+            <span class="bold"><a href="https://iedc.ceal.in">Alchemy IEDC CEAL</a></span>
+            <span class="small">Feb 2025 - Mar 2026</span>
+          </div>
+          <div class="entry-subtitle flex-between">
+            <span class="italic small">Technical Team Lead</span>
+            <span class="small">College of Engineering Attingal</span>
+          </div>
+          <ul>
+            <li>Maintained the organization's website and provided technical support during events.</li>
+          </ul>
+
+          <div class="entry-title flex-between">
+            <span class="bold"><a href="https://iste.ceal.in">ISTE CEAL</a></span>
+            <span class="small">Apr 2025 - Mar 2026</span>
+          </div>
+          <div class="entry-subtitle flex-between">
+            <span class="italic small">Design Lead</span>
+            <span class="small">College of Engineering Attingal</span>
+          </div>
+          <ul>
+            <li>Guided the design team in creating posters and other visual materials.</li>
+          </ul>
+
+        </body>
+      </html>
+    `);
+    doc.close();
+
+    setTimeout(() => {
+      iframe.contentWindow?.focus();
+      iframe.contentWindow?.print();
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 1000);
+    }, 100);
   };
 
   return (
