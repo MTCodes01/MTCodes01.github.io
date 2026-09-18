@@ -115,12 +115,12 @@ Type "help" for available commands.
           <title>Sreedev_Resume</title>
           <style>
             @page {
-              margin: 0.4in 0.55in;
+              margin: 0.35in 0.5in;
             }
             body {
               font-family: "Computer Modern", "Times New Roman", Times, serif;
               font-size: 10pt;
-              line-height: 1.25;
+              line-height: 1.15;
               color: #000;
               margin: 0;
               padding: 0;
@@ -129,7 +129,7 @@ Type "help" for available commands.
             .center { text-align: center; }
             .large { font-size: 22pt; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
             .subtitle { font-size: 10pt; margin-bottom: 4px; }
-            .contact { font-size: 9.5pt; margin-bottom: 1px; }
+            .contact { font-size: 9pt; margin-bottom: 1px; }
             
             .section-title {
               font-size: 12.5pt;
@@ -148,7 +148,7 @@ Type "help" for available commands.
             
             .bold { font-weight: bold; }
             .italic { font-style: italic; }
-            .small { font-size: 9.5pt; }
+            .small { font-size: 9.5pt; text-align: justify; }
             
             .entry-title { margin-top: 5px; }
             .entry-subtitle { margin-top: 1px; margin-bottom: 2px;}
@@ -161,6 +161,7 @@ Type "help" for available commands.
             li {
               margin-bottom: 2px;
               font-size: 9.5pt;
+              text-align: justify;
             }
             
             p { margin: 2px 0; }
