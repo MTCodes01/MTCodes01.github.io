@@ -115,29 +115,29 @@ Type "help" for available commands.
           <title>Sreedev_Resume</title>
           <style>
             @page {
-              margin: 0.45in 0.62in;
+              margin: 0.35in 0.5in;
             }
             body {
               font-family: "Computer Modern", "Times New Roman", Times, serif;
-              font-size: 10.5pt;
-              line-height: 1.2;
+              font-size: 10pt;
+              line-height: 1.15;
               color: #000;
               margin: 0;
               padding: 0;
             }
             .center { text-align: center; }
-            .large { font-size: 24pt; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
-            .subtitle { font-size: 10.5pt; margin-bottom: 6px; }
-            .contact { font-size: 9.5pt; margin-bottom: 3px; }
+            .large { font-size: 22pt; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
+            .subtitle { font-size: 10pt; margin-bottom: 4px; }
+            .contact { font-size: 9pt; margin-bottom: 1px; }
             .contact a { color: #2563EB; text-decoration: none; }
             
             .section-title {
-              font-size: 13pt;
+              font-size: 12pt;
               font-weight: bold;
               border-bottom: 1px solid #000;
-              margin-top: 14px;
-              margin-bottom: 4px;
-              padding-bottom: 2px;
+              margin-top: 8px;
+              margin-bottom: 3px;
+              padding-bottom: 1px;
             }
             
             .flex-between {
@@ -148,22 +148,22 @@ Type "help" for available commands.
             
             .bold { font-weight: bold; }
             .italic { font-style: italic; }
-            .small { font-size: 9.5pt; }
+            .small { font-size: 9pt; }
             
-            .entry-title { margin-top: 6px; }
-            .entry-subtitle { margin-top: 1px; margin-bottom: 3px;}
+            .entry-title { margin-top: 4px; }
+            .entry-subtitle { margin-top: 1px; margin-bottom: 2px;}
             
             ul {
-              margin-top: 3px;
-              margin-bottom: 3px;
+              margin-top: 2px;
+              margin-bottom: 2px;
               padding-left: 1.2em;
             }
             li {
-              margin-bottom: 2px;
-              font-size: 9.5pt;
+              margin-bottom: 1px;
+              font-size: 9pt;
             }
             
-            p { margin: 4px 0; }
+            p { margin: 2px 0; }
           </style>
         </head>
         <body>
