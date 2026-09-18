@@ -172,7 +172,7 @@ const Dock: React.FC = () => {
                     initial={{ opacity: 0, y: 10, scale: 0.9, x: "-50%" }}
                     animate={{ opacity: 1, y: 0, scale: 1, x: "-50%" }}
                     exit={{ opacity: 0, scale: 0.9, x: "-50%" }}
-                    className="absolute bottom-16 left-1/2 w-[180px] sm:w-[220px] px-3 py-3 sm:px-4 sm:py-3 box-border bg-os-surface/95 backdrop-blur-xl border border-[#ff003c]/30 text-os-main shadow-[0_0_30px_rgba(255,0,60,0.15)] z-[100] cursor-default"
+                    className="absolute bottom-16 left-1/2 w-[180px] sm:w-[220px] px-3 py-3 sm:px-4 sm:py-3 box-border bg-os-surface border border-[#ff003c]/30 text-os-main shadow-[0_0_30px_rgba(255,0,60,0.15)] z-[100] cursor-default"
                     onClick={(e) => { e.stopPropagation(); e.preventDefault(); }}
                   >
                     <button 
