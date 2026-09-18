@@ -115,28 +115,28 @@ Type "help" for available commands.
           <title>Sreedev_Resume</title>
           <style>
             @page {
-              margin: 0.35in 0.5in;
+              margin: 0.4in 0.55in;
             }
             body {
               font-family: "Computer Modern", "Times New Roman", Times, serif;
               font-size: 10pt;
-              line-height: 1.15;
+              line-height: 1.25;
               color: #000;
               margin: 0;
               padding: 0;
             }
+            a { color: #2563EB; text-decoration: none; }
             .center { text-align: center; }
             .large { font-size: 22pt; font-weight: bold; margin-bottom: 2px; text-transform: uppercase; }
             .subtitle { font-size: 10pt; margin-bottom: 4px; }
-            .contact { font-size: 9pt; margin-bottom: 1px; }
-            .contact a { color: #2563EB; text-decoration: none; }
+            .contact { font-size: 9.5pt; margin-bottom: 1px; }
             
             .section-title {
-              font-size: 12pt;
+              font-size: 12.5pt;
               font-weight: bold;
               border-bottom: 1px solid #000;
-              margin-top: 8px;
-              margin-bottom: 3px;
+              margin-top: 10px;
+              margin-bottom: 4px;
               padding-bottom: 1px;
             }
             
@@ -148,19 +148,19 @@ Type "help" for available commands.
             
             .bold { font-weight: bold; }
             .italic { font-style: italic; }
-            .small { font-size: 9pt; }
+            .small { font-size: 9.5pt; }
             
-            .entry-title { margin-top: 4px; }
+            .entry-title { margin-top: 5px; }
             .entry-subtitle { margin-top: 1px; margin-bottom: 2px;}
             
             ul {
-              margin-top: 2px;
-              margin-bottom: 2px;
+              margin-top: 3px;
+              margin-bottom: 3px;
               padding-left: 1.2em;
             }
             li {
-              margin-bottom: 1px;
-              font-size: 9pt;
+              margin-bottom: 2px;
+              font-size: 9.5pt;
             }
             
             p { margin: 2px 0; }
