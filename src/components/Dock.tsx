@@ -115,10 +115,10 @@ const Dock: React.FC = () => {
         {/* Brand tag */}
         <motion.div 
           variants={itemVariants}
-          className="hidden md:flex items-center gap-2.5 pr-4 border-r border-white/10"
+          className="hidden md:flex items-center gap-2.5 pr-4 border-r border-white/50"
         >
           <div className="w-1 h-1 rounded-full bg-[#ff003c] animate-pulse shadow-[0_0_8px_#ff003c]" />
-          <span className="font-jetbrains text-[9px] text-os-muted uppercase tracking-[0.2em]">
+          <span className="font-jetbrains text-[9px] text-white uppercase tracking-[0.2em]">
             SYS.LIVE
           </span>
         </motion.div>
@@ -142,15 +142,15 @@ const Dock: React.FC = () => {
                 <motion.button
                   whileHover={{ y: -5, scale: 1.15 }}
                   whileTap={{ scale: 0.9 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   onPointerDown={() => handlePointerDown(app.id)}
                   onPointerUp={cancelPress}
                   onPointerLeave={cancelPress}
                   onClick={(e) => handleClick(e, app.id, app.title, app.icon)}
                   className={`relative w-9 h-9 flex-shrink-0 sm:w-11 sm:h-11 flex items-center justify-center transition-colors duration-200 ${
                     isOpen && !isMinimized
-                      ? 'text-os-main bg-os-element border border-os-muted'
-                      : 'text-os-muted hover:text-os-main border border-transparent hover:border-os-muted hover:bg-os-element'
+                      ? 'text-os-main bg-os-element border border-white/50'
+                      : 'text-os-muted hover:text-os-main border border-transparent hover:border-white/50 hover:bg-os-element'
                   }`}
                   title={app.title}
                 >
@@ -201,7 +201,7 @@ const Dock: React.FC = () => {
         {/* Controls */}
         <motion.div 
           variants={itemVariants}
-          className="hidden md:flex items-center gap-1.5 pl-4 border-l border-white/10"
+          className="hidden md:flex items-center gap-1.5 pl-4 border-l border-white/50"
         >
           <motion.button
             whileHover={{ scale: 1.1, y: -2 }}
