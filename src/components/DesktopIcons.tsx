@@ -66,8 +66,7 @@ const DesktopIcons: React.FC = () => {
   } | null>(null);
 
   // Click/double-click state
-  const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const clickCount = useRef(0);
+  // We no longer need clickCount/clickTimer since a single click opens the app.
 
   // Persist to localStorage whenever positions change
   useEffect(() => {
@@ -128,21 +127,9 @@ const DesktopIcons: React.FC = () => {
         document.removeEventListener('mouseup', onMouseUp);
 
         if (!hasMoved) {
-          // Count clicks for single/double detection
-          clickCount.current += 1;
-          if (clickCount.current === 1) {
-            clickTimer.current = setTimeout(() => {
-              // Single click → select
-              clickCount.current = 0;
-              setSelected(dragId);
-            }, 220);
-          } else if (clickCount.current === 2) {
-            // Double click → open
-            if (clickTimer.current) clearTimeout(clickTimer.current);
-            clickCount.current = 0;
-            const app = DESKTOP_APPS.find(a => a.id === dragId);
-            if (app) openWindow(app.id, app.title, app.icon);
-          }
+          setSelected(dragId);
+          const app = DESKTOP_APPS.find(a => a.id === dragId);
+          if (app) openWindow(app.id, app.title, app.icon);
         }
       };
 
@@ -191,18 +178,9 @@ const DesktopIcons: React.FC = () => {
         document.removeEventListener('touchend', onTouchEnd);
 
         if (!hasMoved) {
-          clickCount.current += 1;
-          if (clickCount.current === 1) {
-            clickTimer.current = setTimeout(() => {
-              clickCount.current = 0;
-              setSelected(dragId);
-            }, 300);
-          } else {
-            if (clickTimer.current) clearTimeout(clickTimer.current);
-            clickCount.current = 0;
-            const app = DESKTOP_APPS.find(a => a.id === dragId);
-            if (app) openWindow(app.id, app.title, app.icon);
-          }
+          setSelected(dragId);
+          const app = DESKTOP_APPS.find(a => a.id === dragId);
+          if (app) openWindow(app.id, app.title, app.icon);
         }
       };
 
